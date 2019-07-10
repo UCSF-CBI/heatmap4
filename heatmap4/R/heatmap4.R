@@ -1,3 +1,8 @@
+#' heatmap4
+#'
+#' Takes in data matrix and returns a heatmap with a two category dendogram
+#' @export
+
 library("devtools")
 library("roxygen2")
 
