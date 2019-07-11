@@ -1,8 +1,3 @@
-#' heatmap4
-#'
-#' Takes in data matrix and returns a heatmap with a two category dendogram
-#' @export
-
 library("devtools")
 library("roxygen2")
 
@@ -31,8 +26,6 @@ countDat[2, 1:4] <- NA
 ## Calls Libraries
 library(RColorBrewer)
 library(marray)
-#library(sma)
-#library(aCGH)
 
 ## Calls Files
 source("heatmap4.R")
@@ -96,11 +89,13 @@ pdf("heatmap.pdf", paper = "letter") # creates letter paper size pdf document wi
 ## If Rowv=NA, ordering of rows (probes) will remain as is
 ## If Rowv=NULL, rows (probes) will be reordered by applying heirarchical clustering
 ## Similarly for Colv, which represents samples
-try10 <- heatmap4(x = genomDat[probeId, ], Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust,  symm = FALSE,
+heatmap4 <- function(){
+  heatmap4(x = genomDat[probeId, ], Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust,  symm = FALSE,
                   ColSideColors = samCol, RowSideColors = chrCol[probeId], labCol = colnames(genomDat), labRow = NA,
                   scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
                   high = cols[1], low = cols[2], mid = cols[3], addamps = amplifDat[probeId,], colamps = "yellow",
                   addText = countDat)
+}
 
 #try10=heatmap4(x=genomDat[probeId,], Rowv=NA, Colv=NULL, distfun = dist, hclustfun = hclust,  methodR = "ward.D2", methodC = "ward.D2", symm=F, ColSideColors = samCol, RowSideColors=chrCol[probeId], labCol=colnames(genomDat), labRow=NA, scale="none", na.rm = F, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm=limit, high=cols[1], low=cols[2], mid=cols[3], addamps=amplifDat[probeId,], colamps="yellow",addText=countDat)
 #try10=heatmap4(x=genomDat[probeId,], Rowv=NA, Colv=NULL, distfun = dist, hclustfun = hclust,  methodR = "ward.D", methodC = "ward.D", symm=F, ColSideColors = samCol, RowSideColors=chrCol[probeId], labCol=colnames(genomDat), labRow=NA, scale="none", na.rm = F, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm=limit, high=cols[1], low=cols[2], mid=cols[3], addamps=amplifDat[probeId,], colamps="yellow",addText=countDat)
@@ -114,3 +109,5 @@ heatmapColorBar(limit = limit, cols = cols)
 ## Creates Legends for Annotations
 sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
 sampleColorLegend(tls = c("F", "M"), col = samColUniq[1:2], lty = NULL, legendTitle = "Sex", cex = NULL)
+
+
