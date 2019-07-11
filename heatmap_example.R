@@ -102,7 +102,6 @@ try10 <- heatmap(x = genomDat[probeId, ], Rowv = NA, Colv = NULL, distfun = dist
                  scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
                  high = cols[1], low = cols[2], mid = cols[3], addamps = amplifDat[probeId,], colamps = "yellow",
                  addText = countDat)
-
 #try10=heatmap4(x=genomDat[probeId,], Rowv=NA, Colv=NULL, distfun = dist, hclustfun = hclust,  methodR = "ward.D2", methodC = "ward.D2", symm=F, ColSideColors = samCol, RowSideColors=chrCol[probeId], labCol=colnames(genomDat), labRow=NA, scale="none", na.rm = F, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm=limit, high=cols[1], low=cols[2], mid=cols[3], addamps=amplifDat[probeId,], colamps="yellow",addText=countDat)
 #try10=heatmap4(x=genomDat[probeId,], Rowv=NA, Colv=NULL, distfun = dist, hclustfun = hclust,  methodR = "ward.D", methodC = "ward.D", symm=F, ColSideColors = samCol, RowSideColors=chrCol[probeId], labCol=colnames(genomDat), labRow=NA, scale="none", na.rm = F, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm=limit, high=cols[1], low=cols[2], mid=cols[3], addamps=amplifDat[probeId,], colamps="yellow",addText=countDat)
 
