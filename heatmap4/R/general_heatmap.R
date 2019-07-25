@@ -40,6 +40,7 @@ as.data.frame(row_info)
 col_info <- NULL
 as.data.frame(col_info)
 
+probeId
 ## Wrapped heatmap function
 generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), col_anno = c(TRUE, FALSE), row_lab = c(TRUE, FALSE),
                             col_lab = c(TRUE, FALSE), row_clust = c(TRUE, FALSE), col_clust = c(TRUE, FALSE),
@@ -53,12 +54,13 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
   x <- x[i, j]
   row_info <- row_info[i, ]
   col_info <- col_info[, j]
+  amplifDat <- amplifDat[i, j]
 
   ## Random sample matrix that is the same size as genomDat
-  #countDat <- matrix(as.character(sample(1:10, nrow(x) * ncol(x), replace = TRUE)),
-                     #nrow = nrow(x), ncol = ncol(x))
+  countDat <- matrix(as.character(sample(1:10, nrow(x) * ncol(x), replace = TRUE)),
+                     nrow = nrow(x), ncol = ncol(x))
 
-  #countDat[2, 1:4] <- NA
+  countDat[2, 1:4] <- NA
 
   ## Annotations
   row_anno <- row_anno[1]
@@ -69,13 +71,13 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
     color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
     if (is.null(row_var)) {
       row_color <- color_vec
+    } else {
+      for (anno in row_var) {
+        a <- 1
+        row_color <- c(color_vec[a])
+        a <- a + 1
+      }
     }
-    for (anno in row_var) {
-      a <- 1
-      row_color <- c(color_vec[a])
-      a <- a + 1
-    }
-
     RowSideColors <- row_color
   }
   else {
@@ -85,11 +87,20 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
   col_anno <- col_anno[1]
 
   if(col_anno) {
-    col_info <- colnames(anno_table)
     col_var <- as.vector(col_info)
 
+    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    if (is.null(col_var)) {
+      col_color <- color_vec
+    } else {
+      for (anno in col_var) {
+        a <- 1
+        col_color <- c(color_vec[a])
+        a <- a + 1
+      }
+    }
 
-    ColSideColors <- samCol
+    ColSideColors <- col_color
   }
   else {
     ColSideColors <- NA
@@ -152,7 +163,10 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
     Colv <- NA
   }
 
-    ## clusters need to be set
+  ## clusters need to be set
+
+  ## Reverse the order of probes
+  probeId = nrow(row_info):1
 
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = hclust,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
