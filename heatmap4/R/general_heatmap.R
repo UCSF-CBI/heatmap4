@@ -54,7 +54,7 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
   x <- x[i, j]
   row_info <- row_info[i, ]
   col_info <- col_info[, j]
-  amplifDat <- amplifDat[i, j]
+  #amplifDat <- amplifDat[i, j]
 
   ## Random sample matrix that is the same size as genomDat
   countDat <- matrix(as.character(sample(1:10, nrow(x) * ncol(x), replace = TRUE)),
@@ -129,19 +129,19 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
   row_clust <- row_clust[1]
 
   if(row_clust) {
-    #arguement
+    cluster <- hclust()
   }
   else {
-    #arguement
+    cluster <-  NA
   }
 
   col_clust <- col_clust[1]
 
   if(col_clust) {
-    #arguement
+    cluster <- hclust()
   }
   else {
-    #arguement
+    cluster <- NA
   }
 
   ## Dendograms
@@ -163,15 +163,13 @@ generate_heatmap <- function(x, row_info, col_info, row_anno = c(TRUE, FALSE), c
     Colv <- NA
   }
 
-  ## clusters need to be set
-
   ## Reverse the order of probes
-  probeId = nrow(row_info):1
+  #probeId = nrow(row_info):1
 
-  heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = hclust,  symm = FALSE,
+  heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = cluster,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
             scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
-            high = cols[1], low = cols[2], mid = cols[3], addamps = amplifDat[probeId, ], colamps = "yellow",
-            addText = countDat)
+            high = cols[1], low = cols[2], mid = cols[3])
+  #addamps = amplifDat[probeId, ], colamps = "yellow", addText = countDat
   }
 
