@@ -150,9 +150,6 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
     Colv <- NA
   }
 
-  ## Reverse the order of probes
-  #probeId = nrow(row_info):1
-
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = cluster,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
             scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
@@ -160,4 +157,4 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   }
 
 generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
-                 col_lab = TRUE, row_dend = FALSE)
+                 col_lab = TRUE, row_dend = FALSE, test_scenario = TRUE)
