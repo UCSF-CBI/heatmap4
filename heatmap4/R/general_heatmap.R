@@ -52,7 +52,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   ## Annotations
   row_anno <- row_anno[2]
 
-  if(row_anno) {
+  if (row_anno) {
     row_var <- colnames(row_info)
 
     color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
@@ -73,7 +73,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 
   col_anno <- col_anno[2]
 
-  if(col_anno) {
+  if (col_anno) {
     col_var <- as.vector(col_info)
 
     color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
@@ -96,7 +96,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   ## Labels
   row_lab <- row_lab[1]
 
-  if(row_lab) {
+  if (row_lab) {
     labRow <- row_lab_vtr
   }
   else {
@@ -105,7 +105,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 
   col_lab <- col_lab[1]
 
-  if(col_lab) {
+  if (col_lab) {
     labCol <- col_lab_vtr
   }
   else {
@@ -115,7 +115,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   ## Clusters
   row_clust <- row_clust[1]
 
-  if(row_clust) {
+  if (row_clust) {
     cluster <- hclust(dist(as.matrix(x)), method = "complete", members = NULL)
   }
   else {
@@ -124,7 +124,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 
   col_clust <- col_clust[1]
 
-  if(col_clust) {
+  if (col_clust) {
     cluster <- hclust(dist(as.matrix(x)), method = "complete", members = NULL)
   }
   else {
@@ -134,7 +134,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   ## Dendograms
   row_dend <- row_dend[1]
 
-  if(row_dend) {
+  if (row_dend) {
     Rowv <- NULL
   }
   else {
@@ -143,7 +143,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 
   col_dend <- col_dend[1]
 
-  if(col_dend) {
+  if (col_dend) {
     Colv <- NULL
   }
   else {
