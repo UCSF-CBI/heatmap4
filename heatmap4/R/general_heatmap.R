@@ -18,7 +18,7 @@ source("heatmapRelated.R")
 generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(TRUE, FALSE), col_anno = c(TRUE, FALSE),
                              row_lab = c(TRUE, FALSE), col_lab = c(TRUE, FALSE), row_clust = c(TRUE, FALSE),
                              col_clust = c(TRUE, FALSE), row_dend = c(TRUE, FALSE), col_dend = c(TRUE, FALSE),
-                             col_var_info = list(NULL), row_var_info = list(NULL), test_scenario = c(TRUE, FALSE))
+                             col_var_info = list(NULL), row_var_info = list(NULL), test_scenario = c(TRUE, FALSE), ...)
   {
 
   #NEED TO FIND PURPOSE, or delete
@@ -211,7 +211,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 }
 
 
-generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
+generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = TRUE, col_anno = FALSE, row_lab = TRUE,
                  col_lab = TRUE, row_dend = FALSE, test_scenario = FALSE)
 
 dev.off()
