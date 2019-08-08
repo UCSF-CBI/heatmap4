@@ -24,17 +24,17 @@ color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", 
 
 for (v in col_var) {
 
-  if (nrow(unique(col_info[v])) > 3) {
-    print("Needs to be scales")
+  if (length(unique(col_info[,v])) > 3) {
+    #print("Needs to be scales")
   }
-  else if (nrow(unique(col_info[v])) == 2){
+  else if (length(unique(col_info[,v])) == 2){
     if (w > 10) {
       w <- 1
     }
     col_color <- append(col_color, color_vec[w:(w + 1)])
     w = w + 2
   }
-  else if (nrow(unique(col_info[v])) == 1) {
+  else if (length(unique(col_info[,v])) == 1) {
     if (w > 10) {
       w <- 1
     }

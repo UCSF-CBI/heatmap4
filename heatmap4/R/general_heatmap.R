@@ -40,8 +40,8 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   test_scenario <- test_scenario[1]
   if (test_scenario) {
   ## Reducing Matrices
-  i <- 1:20
-  j <- 1:10
+  i <- 1:10
+  j <- 1:5
 
   ## Simplifying Data Matrices
   x <- x[i, j]
@@ -50,47 +50,101 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   }
 
   ## Annotations
-  row_anno <- row_anno[2]
+  row_anno <- row_anno[1]
 
   if (row_anno) {
-    row_var <- colnames(row_info)
+    r <- 1
 
-    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    if (is.null(row_var)) {
-      row_color <- color_vec
-    } else {
-      for (anno in row_var) {
-        a <- 1
-        row_color <- c(color_vec[a])
-        a <- a + 1
+    while (r <= length(row_info)) {
+
+      if (nrow(unique(row_info[r])) == nrow(row_info)) {
+        #print(colnames(row_info[r]))
+        r = r + 1
       }
+      else {
+        #print(colnames(row_info[r]))
+        row_var <- append(row_var, c(colnames(row_info[r])))
+        r = r + 1
+      }
+    }
+
+    w <- 1
+    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+
+    for (v in row_var) {
+
+      if (length(unique(row_info[ ,v])) > 3) {
+        #print("Needs to be scales")
+      }
+      else if (length(unique(row_info[ ,v])) == 2){
+        if (w > 10) {
+          w <- 1
+        }
+        row_color <- append(row_color, color_vec[w:(w + 1)])
+        w = w + 2
+      }
+      else if (length(unique(row_info[ ,v])) == 1) {
+        if (w > 10) {
+          w <- 1
+        }
+        row_color <- append(row_color, color_vec[w])
+        w = w + 1
+      }
+
     }
     RowSideColors <- row_color
   }
   else {
-    RowSideColors <- NA
+    RowSideColors <- NULL
   }
 
-  col_anno <- col_anno[2]
+  col_anno <- col_anno[1]
 
   if (col_anno) {
-    col_var <- as.vector(col_info)
+    r <- 1
 
-    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    if (is.null(col_var)) {
-      col_color <- color_vec
-    } else {
-      for (anno in col_var) {
-        a <- 1
-        col_color <- c(color_vec[a])
-        a <- a + 1
+    while (r <= length(col_info)) {
+
+      if (nrow(unique(col_info[r])) == nrow(col_info)) {
+        #print(colnames(col_info[r]))
+        r = r + 1
       }
-    }
+      else {
+        #print(colnames(col_info[r]))
+        col_var <- append(col_var, c(colnames(col_info[r])))
+        r = r + 1
+      }
 
+    }
+    w <- 1
+    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+
+    for (v in col_var) {
+
+      if (length(unique(col_info[ ,v])) > 3) {
+        #print("Needs to be scales")
+
+      }
+      else if (length(unique(col_info[ ,v])) == 2){
+        if (w > 10) {
+          w <- 1
+        }
+        col_color <- append(col_color, color_vec[w:(w + 1)])
+        w = w + 2
+      }
+      else if (length(unique(col_info[ ,v])) == 1) {
+        if (w > 10) {
+          w <- 1
+        }
+        col_color <- append(col_color, color_vec[w])
+        w = w + 1
+      }
+
+    }
     ColSideColors <- col_color
   }
   else {
-    ColSideColors <- NA
+    ColSideColors <- NULL
   }
 
   ## Labels
@@ -150,11 +204,14 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
     Colv <- NA
   }
 
-  heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = cluster,  symm = FALSE,
+  heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = hclust,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
             scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
             high = cols[1], low = cols[2], mid = cols[3])
-  }
+}
+
 
 generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
-                 col_lab = TRUE, row_dend = FALSE, test_scenario = TRUE)
+                 col_lab = TRUE, row_dend = FALSE, test_scenario = FALSE)
+
+dev.off()
