@@ -69,6 +69,12 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
       }
     }
 
+  if (length(row_var) == 0) {
+    stop("Row annotation matrix did not identify any unique annotations,\n
+         row annotions will be turned off until issue is resolved")
+    row_anno <- row_anno[2]
+  }
+
     w <- 1
     color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
@@ -115,8 +121,14 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
         col_var <- append(col_var, c(colnames(col_info[r])))
         r = r + 1
       }
-
     }
+
+    if (length(col_var) == 0) {
+      stop("Column annotation matrix did not identify any unique annotations,\n
+         column annotions will be turned off until issue is resolved")
+      col_anno <- col_anno[2]
+    }
+
     w <- 1
     color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
@@ -126,7 +138,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
         #print("Needs to be scales")
 
       }
-      else if (length(unique(col_info[ ,v])) == 2){
+      else if (length(unique(col_info[ ,v])) == 2) {
         if (w > 10) {
           w <- 1
         }
@@ -206,33 +218,26 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   }
 
   ## Output Files
-  element = strsplit(file_name, ".", fixed = TRUE)
+  if (!is.null(file_name)){
 
-  if (element[[1]][2] == "pdf") {
-    pdf(file_name, paper = "letter")
-    cat(file_name)
-    print("pdf")
-  }
-  else if (element[[1]][2] == "jpeg") {
+    element <- strsplit(file_name, ".", fixed = TRUE)
+
+    if (element[[1]][2] == "pdf") {
+      pdf(file_name, paper = "letter")
+    }
+    else if (element[[1]][2] == "jpeg") {
     jpeg(filename = file_name)
-    cat(file_name)
-    print("jpeg")
+    }
+    else if (element[[1]][2] == "png") {
+      png(filename = file_name)
+    }
+    else if (element[[1]][2] == "tiff") {
+      tiff(filename = file_name)
+    }
+    else {
+      stop("File name not in valid format: filename.type")
+    }
   }
-  else if (element[[1]][2] == "png") {
-    png(filename = file_name)
-    cat(file_name)
-    print("png")
-  }
-  else if (element[[1]][2] == "tiff") {
-    tiff(filename = file_name)
-    cat(file_name)
-    print("tiff")
-  }
-  else {
-    stop("File name not in valid format: filename.type")
-    print("why you no work")
-  }
-
   ## Heatmap Output
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = hclust,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
@@ -244,7 +249,5 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
 
 
 generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
-                 col_lab = TRUE, row_dend = FALSE, file_name = "heatmaptest.jpeg", test_scenario = FALSE)
-
-dev.off()
+                 col_lab = TRUE, row_dend = FALSE, file_name = "test1.pdf", test_scenario = FALSE)
 
