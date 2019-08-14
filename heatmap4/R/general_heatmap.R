@@ -18,7 +18,8 @@ source("heatmapRelated.R")
 generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(TRUE, FALSE), col_anno = c(TRUE, FALSE),
                              row_lab = c(TRUE, FALSE), col_lab = c(TRUE, FALSE), row_clust = c(TRUE, FALSE),
                              col_clust = c(TRUE, FALSE), row_dend = c(TRUE, FALSE), col_dend = c(TRUE, FALSE),
-                             col_var_info = list(NULL), row_var_info = list(NULL), test_scenario = c(TRUE, FALSE), ...)
+                             col_var_info = list(NULL), row_var_info = list(NULL), file_name = NULL,
+                             test_scenario = c(TRUE, FALSE), ...)
   {
 
   #NEED TO FIND PURPOSE, or delete
@@ -204,14 +205,46 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
     Colv <- NA
   }
 
+  ## Output Files
+  element = strsplit(file_name, ".", fixed = TRUE)
+
+  if (element[[1]][2] == "pdf") {
+    pdf(file_name, paper = "letter")
+    cat(file_name)
+    print("pdf")
+  }
+  else if (element[[1]][2] == "jpeg") {
+    jpeg(filename = file_name)
+    cat(file_name)
+    print("jpeg")
+  }
+  else if (element[[1]][2] == "png") {
+    png(filename = file_name)
+    cat(file_name)
+    print("png")
+  }
+  else if (element[[1]][2] == "tiff") {
+    tiff(filename = file_name)
+    cat(file_name)
+    print("tiff")
+  }
+  else {
+    stop("File name not in valid format: filename.type")
+    print("why you no work")
+  }
+
+  ## Heatmap Output
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist, hclustfun = hclust,  symm = FALSE,
             ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
             scale = "none", na.rm = FALSE, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm = limit,
             high = cols[1], low = cols[2], mid = cols[3])
+
+  dev.off()
 }
 
 
-generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = TRUE, col_anno = FALSE, row_lab = TRUE,
-                 col_lab = TRUE, row_dend = FALSE, test_scenario = FALSE)
+generate_heatmap(genomDat, row_info = chrInfo, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
+                 col_lab = TRUE, row_dend = FALSE, file_name = "heatmaptest.jpeg", test_scenario = FALSE)
 
 dev.off()
+
