@@ -20,7 +20,7 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
                              row_lab = c(TRUE, FALSE), col_lab = c(TRUE, FALSE), row_lab_vtr = NULL, col_lab_vtr = NULL,
                              row_clust = c(TRUE, FALSE), col_clust = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
                              col_dend = c(TRUE, FALSE), col_var_info = NULL, row_var_info = NULL,
-                             file_name = NULL, ...)
+                             file_name = NULL, col_anno_var = NULL, row_anno_var = NULL, ...)
   {
 
   # ## Row and Column Names
@@ -32,108 +32,146 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   row_anno <- row_anno[1]
 
   if (row_anno) {
-    r <- 1
 
-    while (r <= length(row_info)) {
-
-      if (nrow(unique(row_info[r])) == nrow(row_info)) {
-        #print(colnames(row_info[r]))
-        r = r + 1
-      }
-      else {
-        #print(colnames(row_info[r]))
-        row_var <- append(row_var, c(colnames(row_info[r])))
-        r = r + 1
-      }
+    # Checks to see if row_info is a valid input
+    if (class(row_info) != 'data.frame'){
+      stop("row_info is meant to be a data.frame")
     }
+    # Defining row annotation variable selection
+    row_var <- c()
 
-  # Checking row annotation variable list for valid data
-  if (length(row_var) == 0) {
-    stop("Row annotation matrix did not identify any unique annotations,\n
-         row annotions will be turned off until issue is resolved")
-    row_anno <- row_anno[2]
-  }
-
-    w <- 1
-    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-
-    for (v in row_var) {
-
-      if (length(unique(row_info[ ,v])) > 3) {
-        #print("Needs to be scales")
-      }
-      else if (length(unique(row_info[ ,v])) == 2){
-        if (w > 10) {
-          w <- 1
+    # Looping through row annotation data frame
+    if (is.null(row_anno_var)) {
+      for (o in 1:ncol(row_info)) {
+        if (sum(!duplicated(row_info[ , o])) < nrow(row_info)) {
+          row_var <- c(row_var, colnames(row_info)[o])
         }
-        row_color <- append(row_color, color_vec[w:(w + 1)])
-        w = w + 2
       }
-      else if (length(unique(row_info[ ,v])) == 1) {
-        if (w > 10) {
-          w <- 1
+    } else {
+      row_var <- row_anno_var
+      row_check <- 0
+      # Stop function to check to see if variables in list exist in the original anno matrix
+      for (h in colnames(row_info)) {
+        for (hh in row_var) {
+          if (h == hh) {
+            row_check = row_check + 1
+          }
         }
-        row_color <- append(row_color, color_vec[w])
-        w = w + 1
+      }
+     }
+      if (row_check != length(row_var)){
+        stop("Selection of row annotation variables does not match column names in original data frame \n
+             for row annotations.")
       }
 
+      color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+
+      row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
+      rownames(row_color) <- row_var
+
+      for (v in 1:length(row_var)) {
+        if (is.null(row_var_info)) {
+          color_vec <- color_vec_default
+        } else {
+          if (row_var[v] %in% names(row_var_info)) {
+            if ("color" %in% names(row_var_info[[row_var[v]]])){
+              color_vec <-  row_var_info[[row_var[v]]]$color
+            }
+          }
+        }
+
+        if (length(unique(row_info[ ,v])) > 10) {
+          #print("Needs to be scales")
+
+        } else {
+          dat <- row_info[ , row_var[v]]
+          datUniq <- sort(unique(dat))
+          for (v2 in 1:length(datUniq)) {
+            j <- which(dat == datUniq[v2])
+            row_color[v, j] <- color_vec[v2]
+          }
+        }
     }
     RowSideColors <- row_color
-  }
-  else {
+  } else {
     RowSideColors <- NULL
   }
   #------------------------------------------
   col_anno <- col_anno[1]
 
   if (col_anno) {
+
+    # Checks to see if col_info is a valid input
+    if (class(col_info) != 'data.frame') {
+      stop("col_info is meant to be a data.frame")
+    }
+
     # Defining column annotation variable selection
     col_var <- c()
+
     # Looping through column annotation data frame
-    if (is.null(col_var_info)) {
+    if (is.null(col_anno_var)) {
       for (r in 1:ncol(col_info)) {
-        if (sum(!duplicated(col_info[,r])) < nrow(col_info)) {
+        if (sum(!duplicated(col_info[ ,r])) < nrow(col_info)) {
           col_var <- c(col_var, colnames(col_info)[r])
         }
       }
     } else {
-      col_var=names(col_var_info)
+      col_var <- col_anno_var
+      col_check <- 0
+      # Stop function to check to see if variables in list exist in the original anno matrix
+      for (n in colnames(col_info)) {
+        for (nn in col_var) {
+          if (n == nn) {
+            col_check = col_check + 1
+          }
+        }
+      }
+
+      if (col_check != length(col_var)){
+        stop("Selection of column annotation variables does not match column names in original data frame.")
+      }
+
     }
-    # Checking column annotation variable list for valid data
+
     if (length(col_var) == 0) {
       stop("Column annotation matrix did not identify any unique annotations,\n
          column annotions will be turned off until issue is resolved")
       col_anno <- col_anno[2]
     }
 
-    # Colors we want to use
-    color_vec <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
-    # Foundation for the color matrix
-    col_color = matrix(nrow = length(col_var), ncol = nrow(col_info))
-    rownames(col_color) = col_var
+    color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
-    # Filling the color matrix
+    col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
+    rownames(col_color) <- col_var
+
     for (v in 1:length(col_var)) {
+      if (is.null(col_var_info)) {
+        color_vec <- color_vec_default
+      } else {
+        if (col_var[v] %in% names(col_var_info)) {
+          if ("color" %in% names(col_var_info[[col_var[v]]])){
+            color_vec <-  col_var_info[[col_var[v]]]$color
+          }
+        }
+      }
 
       if (length(unique(col_info[ ,v])) > 10) {
-        # Needs to be scales
+        #print("Needs to be scales")
 
       } else {
         dat <- col_info[ ,col_var[v]]
         datUniq <- sort(unique(dat))
-
         for (v2 in 1:length(datUniq)) {
-          j = which(dat == datUniq[v2])
-          col_color[v, j] <- color_vec[v2]
+          j <-  which(dat == datUniq[v2])
+          col_color[v,j] <- color_vec[v2]
 
         }
       }
-
     }
     ColSideColors <- col_color
-  }
-  else {
+  } else {
     ColSideColors <- NULL
   }
   #--------------------------------------------------------------------------------------------
@@ -235,6 +273,24 @@ generate_heatmap <- function(x, row_info = NULL, col_info = NULL, row_anno = c(T
   dev.off()
 }
 
+test_list <-  list(STAGE = list(color = c("red", "blue", "green")))
 
-generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE,
-                 col_lab = TRUE, row_dend = FALSE, file_name = "test2.pdf")
+row_test <- NULL
+
+# working example
+# generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+#                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
+#                  file_name = "test2.pdf", col_anno_var = c("sex", "STAGE"),
+#                  col_var_info = test_list)
+
+# col_anno_var error
+generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+                 col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
+                 file_name = "test2.pdf", col_anno_var = c("sex", "stage"),
+                 col_var_info = test_list)
+
+# file name error
+# generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+#                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
+#                  file_name = "test2.pd", col_anno_var = c("sex", "STAGE"),
+#                  col_var_info = test_list)
