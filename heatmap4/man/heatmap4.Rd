@@ -1,5 +1,5 @@
 \name{heatmap4}
-\alias{heatmap4}
+\alias{generate_heatmap4}
 \title{Simpler Heatmap function for datasets}
 \description{This package takes the original heatmap function and reduces the number of arguements while modifing arguement defaults. This makes it quicker to analyze data.}
 \usage{heatmap4(x, Rowv = NULL, Colv = NULL, distfun = dist, hclustfun = hclust, symm = FALSE, ColSideColors, RowSideColors, labCol, labRow, scale = c("row", "column", "none"), na.rm = TRUE, margins = c(5, 5)), main = NULL, xlab = NULL, ylab = NULL, zlm, high, low, mid, addamps, colamps, addText}
