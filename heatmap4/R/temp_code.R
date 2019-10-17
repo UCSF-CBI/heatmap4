@@ -25,7 +25,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              # ---
                              col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
                              # ---
-                             col_clust = c(TRUE, FALSE), row_clust = c(TRUE, FALSE), file_name = NULL, ...)
+                             col_clust = c(TRUE, FALSE), row_clust = c(TRUE, FALSE),
+                             plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexCol" = NULL, "cexRow" = NULL),
+                             file_name = NULL, ...)
 {
 
   # ## Row and Column Names
@@ -216,6 +218,32 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     ColSideColors <- NULL
   }
   #--------------------------------------------------------------------------------------------
+  # Global Plot Info
+  nc <- ncol(x)
+  nr <- nrow(x)
+
+  cexColSide <-  1
+  cexRowSide <-  1
+  cexCol <- 0.2 + 1 / log10(nc)
+  cexRow <- 0.2 + 1 / log10(nr)
+
+  if (!(is.null(plot_info))) {
+
+    if ("cexRowSide" %in% names(plot_info)) {
+      cexRowSide <- plot_info$cexRowSide
+    }
+    if ("cexColSide" %in% names(plot_info)) {
+      cexColSide <- plot_info$cexColSide
+    }
+    if ("cexCol" %in% names(plot_info)) {
+      cexCol <- plot_info$cexCol
+    }
+    if ("cexRow" %in% names(plot_info)){
+      cexRow <- plot_info$cexRow
+    }
+  }
+
+  #--------------------------------------------------------------------------------------------
   ## Labels
   row_lab <- row_lab[1]
 
@@ -287,8 +315,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   ## Heatmap Output
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
-           scale = "none", na.rm = FALSE, margins = c(5, 5), main = "Decimal Anno Range Testing", xlab = NULL, ylab = NULL, zlm = limit,
-           high = cols[1], low = cols[2], mid = cols[3], ...)
+           scale = "none", na.rm = FALSE, margins = c(5, 5), main = "Plot Info Test - Anno Large", xlab = NULL, ylab = NULL, zlm = limit,
+           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
+           cexCol = cexCol, ...)
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
@@ -311,13 +340,14 @@ rbz <- matrix(data = dat, nrow = rbz_rows, ncol = rbz_columns)
 colnames(rbz) <- c('R1', 'R2', 'R3')
 rbz <- as.data.frame(rbz)
 
+global_test = list("cexRowSide" = 3, "cexColSide" = 3)
 #
 
 # working example - all dend and row
 generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = TRUE,
-                 file_name = "Decimal Anno Range Testing.pdf", col_anno_var = c("sex", "STAGE", "age"),
-                 row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE)
+                 file_name = "plot_info Testing 2.pdf", col_anno_var = c("sex", "STAGE", "age"),
+                 row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE, plot_info = global_test)
 
 # working example - only row dend and annos
 # generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
@@ -342,3 +372,4 @@ generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
 #                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = TRUE,
 #                  file_name = "Decimal Anno Range Testing.pdf", col_anno_var = c("sex", "STAGE", "age"),
 #                  row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE)
+
