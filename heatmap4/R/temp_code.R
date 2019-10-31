@@ -21,7 +21,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              row_info = NULL, col_anno_var = NULL, row_anno_var = NULL, col_var_info = NULL,
                              row_var_info = NULL, col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
                              # review col/row_clust and _dend
-                             col_clust = c(TRUE, FALSE), row_clust = c(TRUE, FALSE),
+                             col_clust = NULL, row_clust = NULL,
                              plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
                              file_name = NULL, ...)
 {
@@ -280,7 +280,12 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   col_dend <- col_dend[1]
 
   if (col_dend) {
-    Colv <- col_clust
+    if (is.null(col_clust) | class(col_clust %in% c("dendogram", "hclust"))){
+      Colv <- col_clust
+    }
+    else {
+      stop("Error in column clustering class.")
+    }
   }
   else {
     Colv <- NA

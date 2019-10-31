@@ -21,10 +21,10 @@ NULL), file_name = NULL, ...)}
   \item{row_anno_var}{character vector; with specific row annotation variables to see in row annotations; defaults to colnames(row_info)}
   \item{col_var_info}{nested list; of column annotation variables that need specific colors and placement; default is NULL}
   \item{row_var_info}{nested list; of row annotation variables that need specific colors and placement; default is NULL}
-  \item{col_dend}{boolean (T, F); to display column dendogram; default in TRUE}
-  \item{row_dend}{boolean (T, F); to display row dendogram; default in TRUE}
-  \item{col_clust}{boolean (T, F); to cluster by the column; }
-  \item{row_clust}{}
+  \item{col_dend}{boolean (T, F); to display column dendrogram; default in TRUE}
+  \item{row_dend}{boolean (T, F); to display row dendrogram; default in TRUE}
+  \item{col_clust}{variable of hclust or dendrogram class; to cluster by the column; default NULL when col_dend is TRUE}
+  \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is TRUE}
   \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size; default is c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'sideLab': heatmap labels and 'cex': annotation labels}
   \item{file_name}{string; denotes the name of the file, must contain one of the following file types: .pdf, .jpeg, .png, .tiff; default is NULL}
   \item{...}{additional arguments}
