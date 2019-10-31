@@ -9,22 +9,64 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## 1. Introduction
+This package takes the original heatmap function and reduces the arguement complexity. 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+One package that is used is Bioconductor. 
+The simplest way to install it is:
 
-```{r cars}
-summary(cars)
+```{r}
+if (F) {
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+  BiocManager::install("marray")
+  load("data.RData")
+}
 ```
 
-## Including Plots
+## 2. Loading Libraries
 
-You can also embed plots, for example:
+The libraries to call are the following:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+library(RColorBrewer)
+library(marray)
 ```
+
+## 3. Example Data
+
+We will use the preloaded mtcars data set to map and randonly generate column and row annotations.
+```{r}
+# Main numeric matrix to heatmap
+x <- as.matrix(mtcars)
+
+# Column annotation df
+set.seed(827)
+
+anno_rows <- ncol(mtcars)
+anno_columns <- 3
+
+random_data <- rnorm(anno_rows * anno_columns)
+annotation_df <- matrix(data = random_data, nrow = anno_rows, ncol = anno_columns)
+colnames(annotation_df) <- c('C1', 'C2', 'C3')
+annotation_df <- as.data.frame(annotation_df)
+
+
+
+```
+
+## 4. Use Cases
+
+### 4.1 Basic 
+
+
+
+
+
+
+
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
