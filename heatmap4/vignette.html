@@ -392,25 +392,38 @@ library(marray)</code></pre>
 </div>
 <div id="example-data" class="section level2">
 <h2>3. Example Data</h2>
-<p>We will use the mtcars data set to map and randonly generate column and row annotations.</p>
+<p>We will use the preloaded mtcars data set to map and randonly generate column and row annotations.</p>
 <pre class="r"><code># Main numeric matrix to heatmap
 x &lt;- as.matrix(mtcars)
 
 # Column annotation df
 set.seed(827)
 
-anno_rows &lt;- ncol(mtcars)
-anno_columns &lt;- 3
+col_rows &lt;- ncol(mtcars)
+col_columns &lt;- 3
 
-random_data &lt;- rnorm(anno_rows * anno_columns)
-annotation_df &lt;- matrix(data = random_data, nrow = anno_rows, ncol = anno_columns)
-colnames(annotation_df) &lt;- c('C1', 'C2', 'C3')
-annotation_df &lt;- as.data.frame(annotation_df)</code></pre>
+column_data &lt;- rnorm(col_rows * col_columns)
+column_df &lt;- matrix(data = column_data, nrow = col_rows, ncol = col_columns)
+colnames(column_df) &lt;- c('C1', 'C2', 'C3')
+column_df &lt;- as.data.frame(column_df)
+
+# Row annotation df
+set.seed(957)
+
+row_rows &lt;- nrow(mtcars)
+row_columns &lt;- 2
+
+row_data &lt;- rnorm(row_rows * row_columns)
+row_df &lt;- matrix(data = row_data, nrow = row_rows, ncol = row_columns)
+colnames(row_df) &lt;- c('R1', 'R2')
+row_df &lt;- as.data.frame(row_df)</code></pre>
 </div>
 <div id="use-cases" class="section level2">
 <h2>4. Use Cases</h2>
-<div id="basic" class="section level3">
-<h3>4.1 Basic</h3>
+<div id="annotations-and-dendrograms" class="section level3">
+<h3>4.1 Annotations and Dendrograms</h3>
+<p>To display the heatmap with just column annotations and dendrograms: * NOTE: This is the simplest way to call the heatmap4 function. Defaults are accounted for, see documentation for full list of defualt options for each arguement.</p>
+<pre class="r"><code># generate_heatmap(x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)</code></pre>
 <p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
 </div>
 </div>

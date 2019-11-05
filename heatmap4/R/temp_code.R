@@ -23,7 +23,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
                              plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
-                             file_name = NULL, ...)
+                             file_name = NULL, h_title = NULL, ...)
 {
 
   # ## Row and Column Names
@@ -63,12 +63,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
 
 
-    }
-
-    if (length(row_var) == 0) {
-      stop("Column annotation matrix did not identify any unique annotations,\n
-         column annotations will be turned off until issue is resolved")
-      row_anno <- row_anno[2]
     }
 
 
@@ -150,12 +144,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     }
 
-    if (length(col_var) == 0) {
-      stop("Column annotation matrix did not identify any unique annotations,\n
-         column annotions will be turned off until issue is resolved")
-      col_anno <- col_anno[2]
-    }
-
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
@@ -178,9 +166,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
 
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
-
-        #varib=c(0,sample(0:100,size=50),0)
-        #x=varib+1
 
         varib <- col_info[ ,col_var[v]]
         varib = varib - min(varib, na.rm=T) + 1
@@ -280,7 +265,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   col_dend <- col_dend[1]
 
   if (col_dend) {
-    if (is.null(col_clust) | class(col_clust %in% c("dendogram", "hclust"))){
+    if (is.null(col_clust)) { # | class(col_clust %in% c("dendogram", "hclust"))
       Colv <- col_clust
     }
     else {
@@ -316,7 +301,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   ## Heatmap Output
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
-           scale = "none", na.rm = FALSE, margins = c(5, 5), main = "Plot Info Test - Anno Large", xlab = NULL, ylab = NULL, zlm = limit,
+           scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL, zlm = limit,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
 
@@ -347,8 +332,8 @@ global_test = list("cexRowSide" = 3, "cexColSide" = 3)
 # working example - all dend and row
 generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = TRUE,
-                 file_name = "plot_info Testing 2.pdf", col_anno_var = c("sex", "STAGE", "age"),
-                 row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE, plot_info = global_test)
+                 h_title = "title test", col_anno_var = c("sex", "STAGE", "age"), file_name = "title_test.pdf",
+                 row_anno_var = c("R1"), col_var_info = test_list, plot_info = global_test)
 
 # working example - only row dend and annos
 # generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
