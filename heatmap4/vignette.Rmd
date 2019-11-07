@@ -14,17 +14,15 @@ This package takes the original heatmap function and reduces the arguement compl
 
 A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
 
-One package that is used is Bioconductor. 
-The simplest way to install it is:
 
-```{r}
+```{r, echo=FALSE}
 if (F) {
   ## Calling Bioconductor
   if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
   BiocManager::install("marray")
-  load("data.RData")
+  load("../data.RData")
 }
 ```
 
@@ -38,6 +36,7 @@ library(marray)
 ```
 
 ```{r include=FALSE}
+source("../heatmap4.R")
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
                              row_lab_vtr = NULL, col_anno = c(TRUE, FALSE), row_anno = c(TRUE, FALSE), col_info = NULL,
@@ -48,10 +47,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
                              file_name = NULL, h_title = NULL, ...)
 {
-
-  # ## Row and Column Names
-  # row_new_lab <- rownames(x)
-  # col_new_lab <- colnames(x)
 
   #--------------------------------------------------------------------------------------------
   ## Annotations
@@ -88,7 +83,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     }
 
+
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    colList2 <- c("white", "black")
 
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     rownames(row_color) <- row_var
@@ -122,6 +119,10 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       } else {
         dat <- row_info[ ,row_var[v]]
         datUniq <- sort(unique(dat))
+        if (length(datUniq) > length(color_vec)) {
+          color_vec <- rainbow(length(datUniq))
+          cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
+        }
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           row_color[v, j] <- color_vec[v2]
@@ -149,7 +150,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     # Looping through column annotation data frame
     if (is.null(col_anno_var)) {
       for (r in 1:ncol(col_info)) {
-        if (sum(!duplicated(col_info[ ,r])) < nrow(col_info)) {
+        if (is.numeric(col_info[ ,r]) | sum(!duplicated(col_info[ ,r])) < nrow(col_info)) {
           col_var <- c(col_var, colnames(col_info)[r])
         }
       }
@@ -167,6 +168,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     }
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    colList2 <- c("white", "black")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     rownames(col_color) <- col_var
@@ -208,6 +210,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           color_vec <- rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
+        
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
@@ -277,7 +280,12 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   row_dend <- row_dend[1]
 
   if (row_dend) {
-    Rowv <- row_clust
+    if (is.null(row_clust) || class(row_clust %in% c("dendogram", "hclust"))) { 
+      Rowv <- row_clust
+    }
+    else {
+      stop("Error in column clustering class.")
+    }
   }
   else {
     Rowv <- NA
@@ -286,7 +294,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   col_dend <- col_dend[1]
 
   if (col_dend) {
-    if (is.null(col_clust)) { # | class(col_clust %in% c("dendogram", "hclust"))
+    if (is.null(col_clust) || class(col_clust %in% c("dendogram", "hclust"))) { 
       Colv <- col_clust
     }
     else {
@@ -319,16 +327,19 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     }
   }
   #--------------------------------------------------------------------------------------------
+  cols <- c("red", "blue", "grey")
   ## Heatmap Output
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
-           scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL, zlm = limit,
+           scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
-  dev.off()
+  if (!is.null(file_name)){
+    dev.off()
+  }
 }
 ```
 
