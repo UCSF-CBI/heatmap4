@@ -26,10 +26,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              file_name = NULL, h_title = NULL, ...)
 {
 
-  # ## Row and Column Names
-  # row_new_lab <- rownames(x)
-  # col_new_lab <- colnames(x)
-
   #--------------------------------------------------------------------------------------------
   ## Annotations
   row_anno <- row_anno[1]
@@ -67,6 +63,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    colList2 <- c("white", "black")
 
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     rownames(row_color) <- row_var
@@ -100,6 +97,10 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       } else {
         dat <- row_info[ ,row_var[v]]
         datUniq <- sort(unique(dat))
+        if (length(datUniq) > length(color_vec)) {
+          color_vec <- rainbow(length(datUniq))
+          cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
+        }
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           row_color[v, j] <- color_vec[v2]
@@ -146,6 +147,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    colList2 <- c("white", "black")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     rownames(col_color) <- col_var
