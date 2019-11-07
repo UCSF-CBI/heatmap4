@@ -65,7 +65,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     # Looping through row annotation data frame
     if (is.null(row_anno_var)) {
       for (r in 1:ncol(row_info)) {
-        if (sum(!duplicated(row_info[ ,r])) < nrow(row_info)) {
+        if (is.numeric(row_info[ ,r]) | sum(!duplicated(row_info[ ,r])) < nrow(row_info)) {
           row_var <- c(row_var, colnames(row_info)[r])
         }
       }
@@ -85,14 +85,17 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    colList2 <- c("white", "black")
 
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     rownames(row_color) <- row_var
 
     for (v in 1:length(row_var)) {
       if (is.null(row_var_info)) {
-        color_vec <- color_vec_default
+        if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
+          color_vec <- c("white","black")
+        } else {
+          color_vec <- color_vec_default
+        }
       } else {
         if (row_var[v] %in% names(row_var_info)) {
           if ("color" %in% names(row_var_info[[row_var[v]]])){
@@ -100,7 +103,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           }
         }
       }
-
+      
     if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5) {
 
         varib <- row_info[ ,row_var[v]]
@@ -111,7 +114,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         lim <- range(varib,na.rm=T)
 
         grpUniq <- lim[1]:lim[2]
-        rowColUniq <- maPalette(high=colList2[2], low=colList2[1], k=length(grpUniq))
+        rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
 
         row_color[v, ] <- rowColUniq[varib]
@@ -167,8 +170,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     }
 
+
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    colList2 <- c("white", "black")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     rownames(col_color) <- col_var
@@ -187,7 +190,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           }
         }
       }
-
+      
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
 
         varib <- col_info[ ,col_var[v]]
@@ -198,7 +201,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         lim = range(varib,na.rm=T)
 
         grpUniq=lim[1]:lim[2]
-        colColUniq=maPalette(high=colList2[2],low=colList2[1],k=length(grpUniq))
+        colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
 
         col_color[v, ] <- colColUniq[varib]
@@ -210,7 +213,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           color_vec <- rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
-        
+        cat("datUniq: \n")
+        print(datUniq)
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
@@ -280,7 +284,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   row_dend <- row_dend[1]
 
   if (row_dend) {
-    if (is.null(row_clust) || class(row_clust %in% c("dendogram", "hclust"))) { 
+    if (is.null(row_clust) || class(row_clust %in% c("dendogram", "hclust"))) {
       Rowv <- row_clust
     }
     else {
@@ -294,7 +298,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   col_dend <- col_dend[1]
 
   if (col_dend) {
-    if (is.null(col_clust) || class(col_clust %in% c("dendogram", "hclust"))) { 
+    if (is.null(col_clust) || class(col_clust %in% c("dendogram", "hclust"))) {
       Colv <- col_clust
     }
     else {
@@ -365,21 +369,22 @@ column_df <- as.data.frame(column_df)
 set.seed(957)
 
 row_rows <- nrow(mtcars)
-row_columns <- 2
+row_columns <- 4
 
 row_data <- rnorm(row_rows * row_columns)
 row_df <- matrix(data = row_data, nrow = row_rows, ncol = row_columns)
-colnames(row_df) <- c('R1', 'R2')
+colnames(row_df) <- c('R1', 'R2', 'R3', 'R4')
 row_df <- as.data.frame(row_df)
 
 ```
 
 ## 4. Use Cases
 
+> __NOTE__: This is the simplest way to call the heatmap4 function. Defaults are accounted for, see documentation for full list of   defualt options for each arguement.
+
 ### 4.1 Annotations and Dendrograms
 
 To display the heatmap with just column annotations and dendrograms:
-* NOTE: This is the simplest way to call the heatmap4 function. Defaults are accounted for, see documentation for full list of   defualt options for each arguement.
 
 ```{r}
 
@@ -387,11 +392,53 @@ generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FAL
 
 ```
 
+The opposite display of just row annotations and dendrograms:
+
+```{r}
+# Needs to be fixed to allow for more than one row annotation -- margins error
+generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
+
+```
 
 
+To display heatmap with _both_ column and row annotations and dendrograms:
 
+```{r}
 
+generate_heatmap(test_x, col_info = column_df, row_info = row_df)
 
+```
 
+If the column or row annotation matrixes contain too many columns to display or there is a need to select only a few, the attribute `col_anno_var` (for column annotation limitations) or `row_anno_var` (for row annotation limitations).
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The column names for the column annotaion data.frame is: 
+```{r, echo=FALSE}
+print(colnames(column_df))
+```
+
+The column names for the row annotaion data.frame is: 
+```{r, echo=FALSE}
+print(colnames(row_df))
+```
+
+If we only want to display the first column in each data.frame, we would set:
+
+* `col_anno_var = colnames(column_df)[1]`
+* `row_anno_var = colnames(row_df)[1]`
+
+_OR_
+```{r}
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"))
+
+```
+
+To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`.
+
+```{r}
+
+change <- list(C2 = list(color = c("orange", "blue")))
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), col_var_info = change)
+
+```
+

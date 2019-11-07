@@ -43,7 +43,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     # Looping through row annotation data frame
     if (is.null(row_anno_var)) {
       for (r in 1:ncol(row_info)) {
-        if (sum(!duplicated(row_info[ ,r])) < nrow(row_info)) {
+        if (is.numeric(row_info[ ,r]) | sum(!duplicated(row_info[ ,r])) < nrow(row_info)) {
           row_var <- c(row_var, colnames(row_info)[r])
         }
       }
@@ -63,14 +63,17 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    colList2 <- c("white", "black")
 
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     rownames(row_color) <- row_var
 
     for (v in 1:length(row_var)) {
       if (is.null(row_var_info)) {
-        color_vec <- color_vec_default
+        if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
+          color_vec <- c("white","black")
+        } else {
+          color_vec <- color_vec_default
+        }
       } else {
         if (row_var[v] %in% names(row_var_info)) {
           if ("color" %in% names(row_var_info[[row_var[v]]])){
@@ -89,7 +92,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         lim <- range(varib,na.rm=T)
 
         grpUniq <- lim[1]:lim[2]
-        rowColUniq <- maPalette(high=colList2[2], low=colList2[1], k=length(grpUniq))
+        rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
 
         row_color[v, ] <- rowColUniq[varib]
@@ -144,12 +147,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
 
     }
-    cat("col_info columns:", colnames(col_info), "\n")
-    cat("col_var assignment:", col_var, "\n")
 
 
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    colList2 <- c("white", "black")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     rownames(col_color) <- col_var
@@ -179,7 +179,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         lim = range(varib,na.rm=T)
 
         grpUniq=lim[1]:lim[2]
-        colColUniq=maPalette(high=colList2[2],low=colList2[1],k=length(grpUniq))
+        colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
 
         col_color[v, ] <- colColUniq[varib]
@@ -367,8 +367,9 @@ row_df <- matrix(data = row_data, nrow = row_rows, ncol = row_columns)
 colnames(row_df) <- c('R1', 'R2')
 row_df <- as.data.frame(row_df)
 
-generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
-
+change <- list(C1 = list(color = c("yellow", "green")), C2 = list(color = c("orange", "blue")))
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"),
+                 col_var_info = change)
 
 # working example - all dend and row
 # generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
