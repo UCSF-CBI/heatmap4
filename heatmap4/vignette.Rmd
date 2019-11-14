@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 1. Introduction
-This package takes the original heatmap function and reduces the arguement complexity. 
+This package takes the original heatmap function and reduces the argument complexity. 
 
 A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
 
@@ -349,7 +349,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
 ## 3. Example Data
 
-We will use the preloaded mtcars data set to map and randonly generate column and row annotations.
+We will use the preloaded mtcars data set to map and randomly generate column and row annotations.
 ```{r}
 # Main numeric matrix to heatmap
 test_x <- as.matrix(mtcars)
@@ -364,6 +364,9 @@ column_data <- rnorm(col_rows * col_columns)
 column_df <- matrix(data = column_data, nrow = col_rows, ncol = col_columns)
 colnames(column_df) <- c('C1', 'C2', 'C3')
 column_df <- as.data.frame(column_df)
+
+random3 <- sample(1:3, col_rows, replace = TRUE)
+column_df$C4 <- random3
 
 # Row annotation df
 set.seed(957)
@@ -438,7 +441,28 @@ To get even more specific, there is the ability to alter annotation specificatio
 ```{r}
 
 change <- list(C2 = list(color = c("orange", "blue")))
+
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), col_var_info = change)
 
 ```
+
+The same can be done with row annotations:
+
+```{r}
+
+change <- list(R1 = list(color = c("orange", "blue")))
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), row_var_info = change)
+
+```
+
+If the annotation is not continuous, instead, categorical (like column annotation C4), It will be displayed with distinct colors for each category, the default being:
+
+```{r}
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"))
+
+```
+
+
 
