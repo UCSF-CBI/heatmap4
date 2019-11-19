@@ -211,8 +211,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
   cexColSide <-  1
   cexRowSide <-  1
-  cexCol <- 0.2 + 1 / log10(nc)
-  cexRow <- 0.2 + 1 / log10(nr)
+  sideLabCol <- 0.2 + 1 / log10(nc)
+  sideLabRow <- 0.2 + 1 / log10(nr)
 
   if (!(is.null(plot_info))) {
 
@@ -222,11 +222,11 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     if ("cexColSide" %in% names(plot_info)) {
       cexColSide <- plot_info$cexColSide
     }
-    if ("cexCol" %in% names(plot_info)) {
-      cexCol <- plot_info$cexCol
+    if ("sideLabCol" %in% names(plot_info)) {
+      cexCol <- plot_info$sideLabCol
     }
-    if ("cexRow" %in% names(plot_info)){
-      cexRow <- plot_info$cexRow
+    if ("sideLabRow" %in% names(plot_info)){
+      cexRow <- plot_info$sideLabRow
     }
   }
 
@@ -314,8 +314,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
            scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
-           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
-           cexCol = cexCol, ...)
+           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = sideLabRow,
+           cexCol = sideLabCol, ...)
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device

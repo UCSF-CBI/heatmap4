@@ -213,8 +213,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           color_vec <- rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
-        cat("datUniq: \n")
-        print(datUniq)
+        
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
@@ -233,8 +232,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
   cexColSide <-  1
   cexRowSide <-  1
-  cexCol <- 0.2 + 1 / log10(nc)
-  cexRow <- 0.2 + 1 / log10(nr)
+  sideLabCol <- 0.2 + 1 / log10(nc)
+  sideLabRow <- 0.2 + 1 / log10(nr)
 
   if (!(is.null(plot_info))) {
 
@@ -244,11 +243,11 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     if ("cexColSide" %in% names(plot_info)) {
       cexColSide <- plot_info$cexColSide
     }
-    if ("cexCol" %in% names(plot_info)) {
-      cexCol <- plot_info$cexCol
+    if ("sideLabCol" %in% names(plot_info)) {
+      cexCol <- plot_info$sideLabCol
     }
-    if ("cexRow" %in% names(plot_info)){
-      cexRow <- plot_info$cexRow
+    if ("sideLabRow" %in% names(plot_info)){
+      cexRow <- plot_info$sideLabRow
     }
   }
 
@@ -336,8 +335,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
            scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
-           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
-           cexCol = cexCol, ...)
+           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, sideLabRow = sideLabRow, sideLabCol = sideLabCol, ...)
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
@@ -436,7 +434,7 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 ```
 
-To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`.
+To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`. When specifying the color of a continuous variable, please note that the first color will represent the "lows" and the second color represents the "highs".
 
 ```{r}
 
@@ -456,7 +454,7 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 ```
 
-If the annotation is not continuous, instead, categorical (like column annotation C4), It will be displayed with distinct colors for each category, the default being:
+If the annotation is not continuous, instead, categorical (like column annotation C4), It will be displayed with distinct colors for each category, the default being: `column_df$C1` versus `column_df$C4`
 
 ```{r}
 
@@ -464,5 +462,30 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 ```
 
+It is also possible to change the color of categorical variables. The order of the colors will match the order of the variables.
+
+```{r}
+# Color matches this order
+print(unique(column_df$C4))
+
+categorical_color <- list(C4 = list(color = c("blue", "yellow", "green")))
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"), col_var_info = categorical_color)
+
+```
+
+### 4.2 Main Plot
+
+The heatmap will do its best to account for the size of the plot and the labels associated with it. However, there is an option for the user to adjust the main plot's column and row labels as well as column and row annotation labels.
+
+* `sideLabCol and sideLabRow` denote heatmap labels  
+* `cexColSide and cexRowSide` denote annotation labels
 
 
+```{r}
+
+main_plot = list("sideLabCol" = 2, "sideLabRow" = 4, "cexRowSide" = 3, "cexColSide" = 3)
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"), plot_info = main_plot)
+
+```

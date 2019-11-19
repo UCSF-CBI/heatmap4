@@ -25,9 +25,9 @@ NULL), file_name = NULL, ...)}
   \item{row_dend}{boolean (T, F); to display row dendrogram; default in TRUE}
   \item{col_clust}{variable of hclust or dendrogram class; to cluster by the column; default NULL when col_dend is TRUE}
   \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is TRUE}
-  \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size; default is c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'sideLab': heatmap labels and 'cex': annotation labels}
+  \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size (in that order); default is list("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'sideLab': heatmap labels and 'cex': annotation labels}
   \item{file_name}{string; denotes the name of the file, must contain one of the following file types: .pdf, .jpeg, .png, .tiff; default is NULL}
-  \iten{title}{string; gives the heatmap output a title; default is NULL}
+  \iten{h_title}{string; gives the heatmap output a title; default is NULL}
   \item{...}{additional arguments}
 }
 \details{
