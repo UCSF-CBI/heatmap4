@@ -22,7 +22,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              row_var_info = NULL, col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
-                             plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
+                             plot_info = c("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
                              file_name = NULL, h_title = NULL, ...)
 {
 
@@ -191,8 +191,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           color_vec <- rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
-        cat("datUniq: \n")
-        print(datUniq)
+
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
@@ -211,8 +210,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
   cexColSide <-  1
   cexRowSide <-  1
-  sideLabCol <- 0.2 + 1 / log10(nc)
-  sideLabRow <- 0.2 + 1 / log10(nr)
+  cexCol <- 0.2 + 1 / log10(nc)
+  cexRow <- 0.2 + 1 / log10(nr)
 
   if (!(is.null(plot_info))) {
 
@@ -222,11 +221,11 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     if ("cexColSide" %in% names(plot_info)) {
       cexColSide <- plot_info$cexColSide
     }
-    if ("sideLabCol" %in% names(plot_info)) {
-      cexCol <- plot_info$sideLabCol
+    if ("cexCol" %in% names(plot_info)) {
+      cexCol <- plot_info$cexCol
     }
-    if ("sideLabRow" %in% names(plot_info)){
-      cexRow <- plot_info$sideLabRow
+    if ("cexRow" %in% names(plot_info)){
+      cexRow <- plot_info$cexRow
     }
   }
 
@@ -314,8 +313,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
            scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
-           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = sideLabRow,
-           cexCol = sideLabCol, ...)
+           high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
+           cexCol = cexCol, ...)
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
@@ -356,6 +355,9 @@ column_df <- matrix(data = column_data, nrow = col_rows, ncol = col_columns)
 colnames(column_df) <- c('C1', 'C2', 'C3')
 column_df <- as.data.frame(column_df)
 
+random3 <- sample(1:3, col_rows, replace = TRUE)
+column_df$C4 <- random3
+
 # Row annotation df
 set.seed(957)
 
@@ -368,8 +370,15 @@ colnames(row_df) <- c('R1', 'R2')
 row_df <- as.data.frame(row_df)
 
 change <- list(C1 = list(color = c("yellow", "green")), C2 = list(color = c("orange", "blue")))
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"),
-                 col_var_info = change)
+
+main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 3, "cexColSide" = 3)
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"),
+                 plot_info = main_plot)
+
+
+# generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"),
+#                  col_var_info = change)
 
 # working example - all dend and row
 # generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
