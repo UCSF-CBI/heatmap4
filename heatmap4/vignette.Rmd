@@ -475,6 +475,18 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 ```
 
+To change the color of both a categorical and continuous variable:
+In this example, C4 is categorical and C1, C2, R1 are continuous. Only C1 and C4 have been altered.
+
+```{r}
+
+color_change <- list(C4 = list(color = c("blue", "yellow", "green")), C2 = list(color = c("orange", "blue")))
+
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2", "C4"), row_anno_var = c("R1"), col_var_info = color_change)
+
+```
+
+
 ### 4.2 Main Plot
 
 The heatmap will do its best to account for the size of the plot and the labels associated with it. However, there is an option for the user to adjust the main plot's column and row labels as well as column and row annotation labels.

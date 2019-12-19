@@ -277,6 +277,8 @@ test_list <-  list(STAGE = list(color = c("red", "blue", "green")))
 
 row_test <- NULL
 
+generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE)
+
 # working example
 # generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
 #                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
@@ -284,10 +286,10 @@ row_test <- NULL
 #                  col_var_info = test_list)
 
 # col_anno_var error
-generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
-                 col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
-                 file_name = "test2.pdf", col_anno_var = c("sex", "stage"),
-                 col_var_info = test_list)
+#generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+#                 col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
+#                 file_name = "test2.pdf", col_anno_var = c("sex", "stage"),
+#                 col_var_info = test_list)
 
 # file name error
 # generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,

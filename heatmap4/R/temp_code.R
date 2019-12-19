@@ -373,8 +373,8 @@ change <- list(C1 = list(color = c("yellow", "green")), C2 = list(color = c("ora
 
 main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 3, "cexColSide" = 3)
 
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"),
-                 plot_info = main_plot)
+generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE)
+
 
 
 # generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"),
