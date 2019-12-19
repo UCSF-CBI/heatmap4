@@ -286,6 +286,56 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     Colv <- NA
   }
   #--------------------------------------------------------------------------------------------
+  ## Legend
+  sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+    nTypes <- length(tls)
+    if (is.null(col)) {
+      cl <- brewer.pal(8, "Accent")
+      cl <- cl[1:min(nTypes,length(cl))]
+      if (length(cl)<nTypes) {
+        cl=c(brewer.pal(nTypes,"Set3"),brewer.pal(nTypes,"Set2"))[1:nTypes]
+        cl[1] <- "#1F78B4"
+        if (length(cl)>8) {
+          cl[9] <- "#999999"
+        }
+      }
+      cl <- cl[1:nTypes]
+      cl[cl=="#FFFF99"]="#FFFF60"
+    } else {
+      cl <- col
+    }
+    fill=col=NULL
+    if (is.null(lty)) {
+      fill=cl
+    } else {
+      col=cl
+    }
+    n <- length(tls)
+    ii <- 1:length(tls)
+    if (is.null(cex)) {
+      cex=ifelse(max(nchar(tls))>13,1.5,3)
+      if (nTypes>6) {cex=1.5}
+    }
+    plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
+    if (is.null(lty)) {
+      if (is.null(density)) {
+        legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+      } else {
+        ## 6. Ritu
+        legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+        if (F) {
+          text(1,k-1,legendTitle)
+          for (k in 1:length(tls)) {
+            rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
+            text(2,k,tls[k])
+          }
+        }
+      }
+    } else {
+      legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
+    }
+  }
+  #--------------------------------------------------------------------------------------------
   ## Output Files
   if (!is.null(file_name)){
 
@@ -315,6 +365,14 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
            scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
+  ## Legend Output
+  # sampleColorLegend
+  # sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
+  # tls = title, each annotation variable, default: used annotation variables, for loop
+  # col = color, default: annotation default or specified by user
+  # lty = line type, deafault = NULL
+  # legendTitle, default = NULL
+  # cex = text size, default = NULL
 
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
