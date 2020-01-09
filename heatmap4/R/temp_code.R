@@ -23,7 +23,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
                              plot_info = c("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
-                             file_name = NULL, h_title = NULL, ...)
+                             file_name = NULL, h_title = NULL,
+                             input_legend = c(TRUE, FALSE), legend_title = NULL, ...)
 {
 
   #--------------------------------------------------------------------------------------------
@@ -366,7 +367,12 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
   ## Legend Output
-  # sampleColorLegend
+  if (input_legend & row_anno) {
+    sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+  }
+  else if (input_legend & col_anno) {
+    sampleColorLegend(tls = col_var, col = col_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+  }
   # sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
   # tls = title, each annotation variable, default: used annotation variables, for loop
   # col = color, default: annotation default or specified by user
