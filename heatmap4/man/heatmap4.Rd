@@ -27,7 +27,9 @@ NULL), file_name = NULL, ...)}
   \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is TRUE}
   \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size (in that order); default is list("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'cex': heatmap labels and 'cexSide': annotation labels}
   \item{file_name}{string; denotes the name of the file, must contain one of the following file types: .pdf, .jpeg, .png, .tiff; default is NULL}
-  \iten{h_title}{string; gives the heatmap output a title; default is NULL}
+  \item{h_title}{string; gives the heatmap output a title; default is NULL}
+  \item{input_legend}{boolean (T, F); to display annotations legend; row, column or both will be added if selected; default is TRUE}
+  \item{legend_title}{string; denotes the title of the legend; default is NULL}
   \item{...}{additional arguments}
 }
 \details{

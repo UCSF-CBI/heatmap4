@@ -12,8 +12,8 @@ library(RColorBrewer)
 library(marray)
 
 ## Calls Files
-#source("heatmap4.R")
-#source("heatmapRelated.R")
+source("heatmap4.R")
+source("heatmapRelated.R")
 
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
@@ -367,10 +367,10 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
   ## Legend Output
-  if (input_legend & row_anno) {
+  if ((input_legend & row_anno) == TRUE) {
     sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
   }
-  else if (input_legend & col_anno) {
+  else if ((input_legend & col_anno) == TRUE) {
     sampleColorLegend(tls = col_var, col = col_color, lty = NULL, legendTitle = legend_title, cex = NULL)
   }
   # sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
@@ -437,7 +437,10 @@ change <- list(C1 = list(color = c("yellow", "green")), C2 = list(color = c("ora
 
 main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 3, "cexColSide" = 3)
 
-generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE)
+generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"), h_title = "vignette test")
+
+# generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, input_legend = TRUE,
+#                  legend_title = "The man the myth the legend")
 
 
 
