@@ -23,30 +23,33 @@
 ## 23. Ritu 08/28/16 Modified addText to display word instead of character. New option cexText
 ## 24. Ritu 01/27/18 New options lwidRowSide - row side width, lheiColSide - column side height, cexRowSide - row side font size, cexColSide - column side font size, densColor - to shade row/column side missing values
 ## 25. Ritu 03/27/19 New options sideLabRow - row label side, sideLabCol - column label side
+## 26. Ritu 05/12/20 New params layoutRespect, sideColSide, sideRowSide
 
-## 25. Ritu
+## 26. Ritu
 heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,
 hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
 scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,
 cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",
 totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),
 methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",
-addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, ...)
-### 24. Ritu
-#heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, ...)
-#### 23. Ritu
-##heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, ...)
-##### 22. Ritu
-###heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
-###### 21. Ritu
-####heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
-###### 19. Ritu
-#####heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
-####### 17. Ritu
-#####heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
-######## 16. Ritu
-######heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"), methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
-#######heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"), methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
+addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"), ...)
+### 25. Ritu
+#heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, ...)
+#### 24. Ritu
+##heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, ...)
+##### 23. Ritu
+###heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, ...)
+###### 22. Ritu
+####heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
+####### 21. Ritu
+#####heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
+####### 19. Ritu
+######heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, ...)
+######## 17. Ritu
+######heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
+######### 16. Ritu
+#######heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"), methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
+########heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"), methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
 {
 	## 4. Ritu
 	if (!is.matrix(x)) {f
@@ -247,8 +250,10 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
         print(lmat)
     }
 
-    #layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
-    layoutThis=layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
+    ## 26. Ritu
+    ##layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
+    #layoutThis=layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
+    layoutThis=layout(lmat, widths = lwid, heights = lhei, respect = layoutRespect)
     #layout.show(layoutThis)
     #layout.show(n=nfig)
 
@@ -280,9 +285,11 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
                     }
                 }
             }
-            ## 24. Ritu
-            #mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=1)
-            mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
+            ## 26. Ritu
+            ### 24. Ritu
+            ##mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=1)
+            #mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
+            mtext(side=ifelse(sideRowSide=="bottom",1,3), text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
         }
 	}
 	## 2. Ritu
@@ -301,9 +308,10 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
                     }
                 }
             }
+            ## 26. Ritu
             ## 24. Ritu
             #mtext(side=2, text=as.character(rownames(ColSideColors)[i]), las=1, cex=1)
-            mtext(side=2, text=as.character(rownames(ColSideColors)[i]), las=1, cex=cexColSide)
+            mtext(side=ifelse(sideColSide=="left",2,4), text=as.character(rownames(ColSideColors)[i]), las=1, cex=cexColSide)
         }
     }
     par(mar = c(margins[1], 0, 0, margins[2]))
@@ -430,8 +438,15 @@ if (!is.null(addamps)) {
 	} else if (!is.null(main)) {
         frame()
 	}
-    if (!is.null(main)) 
+    if (!is.null(main)) {
         title(main, cex.main = 1.5 * op[["cex.main"]])
+        #title(main, cex.main = 1.5 * op[["cex.main"]],line = margins[1] - 1.25)
+        #plot(1,type="n",xaxt="n",yaxt="n",xlab="",ylab="");
+        #text(x=10+margins[1] - 1.25,y=1,"test",cex=1.5 * op[["cex.main"]],)
+        #text(x=1,y=1,c("test","ok"),cex=1.5 * op[["cex.main"]])
+        #text(x=0.5,y=1,c("tex"),cex=1.5 * op[["cex.main"]])
+        #points(rep(0,10),1:10)
+    }
 	
 	## 13. Ritu
 	#invisible(list(rowInd = rowInd, colInd = colInd))
