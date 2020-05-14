@@ -7,9 +7,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                             col_anno_name=NULL, row_anno_name=NULL,
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
-                             plot_info = list(margins=c(5,5),cexCol= NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL),
+                             plot_info = list(margins=c(5,5),cexCol= NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCol=NULL,colorRow=NULL),
                              file_name = NULL, h_title = NULL,
-                             input_legend = c(TRUE, FALSE), legend_title = NULL, ...)
+                             input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), ...)
 {
 
   #--------------------------------------------------------------------------------------------
@@ -49,20 +49,17 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     }
 
-
+    if ("colorRow"%in%names(plot_info) && !is.null(plot_info$colorRow)) color_vec_default <- plot_info$colorRow else color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
     color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-
     
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     if (is.null(row_anno_name)) rownames(row_color) <- paste(rownames(row_var)," ",sep="") else rownames(row_color) <- row_anno_name
     
-
     for (v in 1:length(row_var)) {
+      color_vec <- color_vec_default
       if (is.null(row_var_info)) {
         if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
           color_vec <- c("white","black")
-        } else {
-          color_vec <- color_vec_default
         }
       } else {
         if (row_var[v] %in% names(row_var_info)) {
@@ -89,7 +86,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
         grpUniq <- lim[1]:lim[2]
         rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
-
 
         row_color[v, ] <- rowColUniq[varib]
 
@@ -143,18 +139,16 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     }
 
-
-    color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    if ("colorCol"%in%names(plot_info) && !is.null(plot_info$colorCol)) color_vec_default <- plot_info$colorCol else color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     if (is.null(col_anno_name)) rownames(col_color) <- paste(rownames(col_color)," ",sep="") else rownames(col_color) <- col_anno_name
 
     for (v in 1:length(col_var)) {
+      color_vec <- color_vec_default
       if (is.null(col_var_info)) {
         if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
           color_vec <- c("white","black")
-        } else {
-          color_vec <- color_vec_default
         }
       } else {
         if (col_var[v] %in% names(col_var_info)) {
@@ -182,7 +176,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         grpUniq=lim[1]:lim[2]
         colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
-
         col_color[v, ] <- colColUniq[varib]
 
       } else {
@@ -192,11 +185,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           color_vec <- rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
-
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
-
         }
       }
     }
@@ -216,7 +207,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   cexRow <- 0.2 + 1 / log10(nr)
 
   if (!(is.null(plot_info))) {
-
     if ("margins" %in% names(plot_info)){
       margins <- plot_info$margins
     }
@@ -364,9 +354,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     }
   }
   #--------------------------------------------------------------------------------------------
-  cols <- c("red", "blue", "grey")
-  cols <- colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100)
-  cols=c(high=cols[100], low=cols[1], mid=cols[50])
+  cols <- heatmap_color
   
   ## Heatmap Output
   clusterObj=heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
