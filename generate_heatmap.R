@@ -7,7 +7,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                             col_anno_name=NULL, row_anno_name=NULL,
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
-                             plot_info = list(margins=c(5,5),cexCol= NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCol=NULL,colorRow=NULL),
+                             plot_info = list(margins=c(5,5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
                              file_name = NULL, h_title = NULL,
                              input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), ...)
 {
@@ -45,23 +45,27 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         row_var <- row_anno_var[k]
         if (length(k) != length(row_anno_var)) cat("Selection of column annotation variables does not match column names in original data frame.\n")
       }
-
-
     }
 
-    if ("colorRow"%in%names(plot_info) && !is.null(plot_info$colorRow)) color_vec_default <- plot_info$colorRow else color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
-    
+    if ("colorCatRow"%in%names(plot_info) && !is.null(plot_info$colorCatRow)) color_vec_cat_default <- plot_info$colorCatRow else color_vec_cat_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    if ("colorContRow"%in%names(plot_info) && !is.null(plot_info$colorContRow)) color_vec_cont_default <- plot_info$colorContRow else color_vec_cont_default <- c("white","black")
+
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
-    if (is.null(row_anno_name)) rownames(row_color) <- paste(rownames(row_var)," ",sep="") else rownames(row_color) <- row_anno_name
+    if (is.null(row_anno_name)) {
+     rownames(row_color) <- paste(rownames(row_var)," ",sep="")
+    } else {
+     k <- match(colnames(row_info), row_anno_var)
+     k <- k[!is.na(k)]
+     rownames(row_color) <- row_anno_name[k]
+    }
     
     for (v in 1:length(row_var)) {
-      color_vec <- color_vec_default
-      if (is.null(row_var_info)) {
-        if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
-          color_vec <- c("white","black")
-        }
+      if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
+        color_vec <- color_vec_cont_default
       } else {
+          color_vec <- color_vec_cat_default
+      }
+      if (!is.null(row_var_info)) {
         if (row_var[v] %in% names(row_var_info)) {
           if ("color" %in% names(row_var_info[[row_var[v]]])){
             color_vec <-  row_var_info[[row_var[v]]]$color
@@ -72,18 +76,22 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5) {
 
         varib <- row_info[ ,row_var[v]]
-        if (F) {
-            varib = varib - min(varib, na.rm=T) + 1
-            varib = varib / min(varib, na.rm=T)
-        }
-        if (T) {
-            x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
-            varib=(100*(varib-min(varib,na.rm=T))/x1)+1
-        }
+        if ("limit" %in% names(row_var_info[[row_var[v]]])){
+            lim <-  row_var_info[[row_var[v]]]$limit
+            varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
+        } else {
+            if (F) {
+                varib = varib - min(varib, na.rm=T) + 1
+                varib = varib / min(varib, na.rm=T)
+            }
+            if (T) {
+                x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
+                varib=(100*(varib-min(varib,na.rm=T))/x1)+1
+            }
 
-        varib <- round(varib)
-        lim <- range(varib,na.rm=T)
-
+            varib <- round(varib)
+            lim <- range(varib,na.rm=T)
+        }
         grpUniq <- lim[1]:lim[2]
         rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
@@ -104,6 +112,16 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
     }
     RowSideColors <- row_color
+      if (!is.null(row_anno_name)) {
+          k=match(row_anno_name,rownames(RowSideColors))
+          k=k[!is.na(k)]
+          nm=rownames(RowSideColors)
+          RowSideColors=RowSideColors[k,]
+          if (!is.matrix(RowSideColors)) {
+              RowSideColors=matrix(RowSideColors,nrow=1)
+              rownames(RowSideColors)=nm
+          }
+      }
   } else {
     RowSideColors <- NULL
   }
@@ -127,8 +145,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         }
       }
     } else {
-      k=match(colnames(col_info),col_anno_var)
-      k=k[!is.na(k)]
+        #k=match(colnames(col_info),col_anno_var)
+        #k=k[!is.na(k)]
+      k=which(col_anno_var%in%colnames(col_info))
       if (length(k)==0) {
         col_var=colnames(col_info)
         cat("Selection of column annotation variables does not match column names in original data frame.\n")
@@ -136,21 +155,28 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         col_var=col_anno_var[k]
         if (length(k)!=length(col_anno_var)) cat("Selection of column annotation variables does not match column names in original data frame.\n")
       }
-
     }
 
-    if ("colorCol"%in%names(plot_info) && !is.null(plot_info$colorCol)) color_vec_default <- plot_info$colorCol else color_vec_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    if ("colorCatCol"%in%names(plot_info) && !is.null(plot_info$colorCatCol)) color_vec_cat_default <- plot_info$colorCatCol else color_vec_cat_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
+    if ("colorContCol"%in%names(plot_info) && !is.null(plot_info$colorContCol)) color_vec_cont_default <- plot_info$colorContCol else color_vec_cont_default <- c("white","black")
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
-    if (is.null(col_anno_name)) rownames(col_color) <- paste(rownames(col_color)," ",sep="") else rownames(col_color) <- col_anno_name
+    if (is.null(col_anno_name)) {
+        rownames(col_color) <- paste(rownames(col_color)," ",sep="")
+    } else {
+        #k=match(colnames(col_info),col_anno_var)
+        #k=k[!is.na(k)]
+        k=which(col_anno_var%in%colnames(col_info))
+        rownames(col_color) <- col_anno_name[k]
+    }
 
     for (v in 1:length(col_var)) {
-      color_vec <- color_vec_default
-      if (is.null(col_var_info)) {
-        if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
-          color_vec <- c("white","black")
-        }
+      if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
+        color_vec <- color_vec_cont_default
       } else {
+          color_vec <- color_vec_cat_default
+      }
+      if (!is.null(col_var_info)) {
         if (col_var[v] %in% names(col_var_info)) {
           if ("color" %in% names(col_var_info[[col_var[v]]])) {
             color_vec <-  col_var_info[[col_var[v]]]$color
@@ -161,18 +187,22 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
 
         varib <- col_info[ ,col_var[v]]
-        if (F) {
-            varib = varib - min(varib, na.rm=T) + 1
-            varib = varib / min(varib, na.rm=T)
-        }
-        if (T) {
-            x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
-            varib=(100*(varib-min(varib,na.rm=T))/x1)+1
-        }
+        if ("limit" %in% names(col_var_info[[col_var[v]]])){
+            lim <-  col_var_info[[col_var[v]]]$limit
+            varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
+        } else {
+            if (F) {
+                varib = varib - min(varib, na.rm=T) + 1
+                varib = varib / min(varib, na.rm=T)
+            }
+            if (T) {
+                x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
+                varib=(100*(varib-min(varib,na.rm=T))/x1)+1
+            }
 
-        varib = round(varib)
-        lim = range(varib,na.rm=T)
-
+            varib <- round(varib)
+            lim <- range(varib,na.rm=T)
+        }
         grpUniq=lim[1]:lim[2]
         colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
@@ -192,6 +222,16 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
     }
     ColSideColors <- col_color
+    if (!is.null(col_anno_name)) {
+        k=match(col_anno_name,rownames(ColSideColors))
+        k=k[!is.na(k)]
+        nm=rownames(ColSideColors)
+        ColSideColors=ColSideColors[k,]
+        if (!is.matrix(ColSideColors)) {
+            ColSideColors=matrix(ColSideColors,nrow=1)
+            rownames(ColSideColors)=nm
+        }
+    }
   } else {
     ColSideColors <- NULL
   }
@@ -257,7 +297,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   row_dend <- row_dend[1]
 
   if (row_dend) {
-    if (is.null(row_clust) || class(row_clust %in% c("dendogram", "hclust"))) {
+    if (is.null(row_clust) || class(row_clust) %in% c("dendogram", "hclust")) {
       Rowv <- row_clust
     }
     else {
@@ -271,7 +311,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   col_dend <- col_dend[1]
 
   if (col_dend) {
-    if (is.null(col_clust) || class(col_clust %in% c("dendogram", "hclust"))) {
+    if (is.null(col_clust) || class(col_clust)%in%c("dendogram", "hclust")) {
       Colv <- col_clust
     }
     else {
@@ -283,6 +323,16 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   }
   #--------------------------------------------------------------------------------------------
   ## Legend
+  heatmapColorBar <- function(zlm=c(-.5,.5),cols=c("green","red","black"),main=NULL) {
+      if (length(cols)==3) {
+          try <- maPalette(high=cols[1], low=cols[2], mid=cols[3])
+      } else {
+          ## 5. Ritu
+          try <- maPalette(high=cols[1], low=cols[2])
+      }
+      maColorBar(try, scale=zlm,main=main)
+  }
+  
   sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
     nTypes <- length(tls)
     if (is.null(col)) {
@@ -307,28 +357,30 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       col=cl
     }
     n <- length(tls)
-    ii <- 1:length(tls)
-    if (is.null(cex)) {
-      cex=ifelse(max(nchar(tls))>13,1.5,3)
-      if (nTypes>6) {cex=1.5}
-    }
-    plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
-    if (is.null(lty)) {
-      if (is.null(density)) {
-        legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
-      } else {
-        ## 6. Ritu
-        legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
-        if (F) {
-          text(1,k-1,legendTitle)
-          for (k in 1:length(tls)) {
-            rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
-            text(2,k,tls[k])
-          }
+    if (n!=0) {
+        ii <- 1:length(tls)
+        if (is.null(cex)) {
+          cex=ifelse(max(nchar(tls))>13,1.5,3)
+          if (nTypes>6) {cex=1.5}
         }
-      }
-    } else {
-      legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
+        plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
+        if (is.null(lty)) {
+          if (is.null(density)) {
+            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+          } else {
+            ## 6. Ritu
+            legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+            if (F) {
+              text(1,k-1,legendTitle)
+              for (k in 1:length(tls)) {
+                rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
+                text(2,k,tls[k])
+              }
+            }
+          }
+        } else {
+          legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
+        }
     }
   }
   #--------------------------------------------------------------------------------------------
@@ -357,21 +409,38 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   cols <- heatmap_color
   
   ## Heatmap Output
-  clusterObj=heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
+  clusterObj=heatmap4(x = x, Rowv = Rowv, Colv = Colv, symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
            scale = "none", na.rm = FALSE, margins = margins, main = h_title, xlab = NULL, ylab = NULL,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
   ## Legend Output
   if (input_legend) {
-      cat("Legends not yet implemented ....")
-      if (F) {
+      #cat("Legends not yet implemented ....")
+      if (T) {
+          heatmapColorBar(cols=cols,zlm=c(-0.5, 0.5))
           if (input_legend & row_anno) {
               for (vId in 1:length(row_var))
             sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
           }
-          else if (input_legend & col_anno) {
-            sampleColorLegend(tls = col_var, col = col_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+          if (input_legend & col_anno) {
+            cat("Legends ....")
+            for (vId in 1:length(col_var)) {
+                nm=sub("^ +","",sub(" +$","",rownames(col_color)[vId]))
+                x=sort(unique(col_info[,col_var[vId]]))
+                color_vec <- color_vec_cat_default
+                if (!is.null(col_var_info)) {
+                  if (col_var[vId] %in% names(col_var_info)) {
+                    if ("color" %in% names(col_var_info[[col_var[vId]]])) {
+                      color_vec <-  col_var_info[[col_var[vId]]]$color
+                    }
+                  if ("level" %in% names(col_var_info[[col_var[vId]]])) {
+                    x <-  col_var_info[[col_var[vId]]]$level
+                  }
+                  }
+                }
+                sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
+            }
           }
           # sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
           # tls = title, each annotation variable, default: used annotation variables, for loop

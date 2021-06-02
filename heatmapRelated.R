@@ -233,7 +233,7 @@ getDist <- function(dat,method="pearson",absolute=FALSE) {
 		#as.dist(1 - cor(t(dat),use="complete.obs"))
 		y=cor(t(dat),use="complete.obs")
 		if (absolute) y=abs(y)
-		as.dist(y)
+		as.dist(1-y)
 	} else {
 		dist(dat, method=method)
 	}
@@ -269,3 +269,56 @@ getCosineDist=function(x) {
     as.dist(1-res)
 }
 
+getCluster=function(dat,distMethod,linkMethod,absFlag=F) {
+    switch(distMethod,
+        "cosine"={
+            if (any(apply(dat,2,sum,na.rm=T)==0)) dat=dat+1
+            distMat=getCosineDist(t(dat))
+            clustThis=hclust(distMat,method=linkMethod)},
+        "pearson"={
+            x=cor(dat,method=distMethod,use="complete.obs")
+            if (absFlag) x=abs(x)
+            distMat=as.dist(1-x)
+            clustThis=hclust(distMat,method=linkMethod)},
+        "spearman"={
+            x=cor(dat,method=distMethod,use="complete.obs")
+            if (absFlag) x=abs(x)
+            distMat=as.dist(1-x)
+            clustThis=hclust(distMat,method=linkMethod)},
+        "kappa"={
+            distMat=getKappaDist(dat,absolute=absFlag)
+            clustThis=hclust(distMat,method=linkMethod)},
+        "euclidean"={
+            distMat=dist(t(dat),method=distMethod)
+            clustThis=hclust(distMat,method=linkMethod)}
+    )
+    invisible(clustThis)
+}
+
+cutCluster=function(clustObj,ann,nClust=2,rev=F) {
+    if (is.na(nClust)) {
+        if (class(clustObj)=="hclust") {
+            tbl=cbind(ann[clustObj$order,],order=1:nrow(ann))
+        } else {
+            tbl=cbind(ann,order=1:nrow(ann))
+        }
+    } else {
+        tbl=matrix(nrow=nrow(ann),ncol=nClust-1)
+        colnames(tbl)=paste("clustId_",1:ncol(tbl)+1,sep="")
+        for (kk in 1:ncol(tbl)) {
+            clustId=cutree(clustObj,k=kk+1)[clustObj$order]
+            k1=which(!duplicated(clustId))
+            for (k in 1:length(k1)) {
+                clustId[which(clustId==clustId[k1[k]])]=paste("cluster",k,sep="")
+            }
+            tbl[,kk]=clustId
+            
+        }
+        tbl=cbind(ann[clustObj$order,],tbl,order=1:nrow(ann))
+    }
+    if (rev) {
+        tbl=tbl[rev(1:nrow(tbl)),]
+        tbl$order=1:nrow(tbl)
+    }
+    invisible(tbl)
+}
