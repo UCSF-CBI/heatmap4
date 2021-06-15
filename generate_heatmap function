@@ -9,4 +9,27 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              file_name = NULL, h_title = NULL,
                              input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), ...)
 ## labels
-col_lab
+col_lab, row_lab, row_var_info, col_var_info, col_anno_name, row_anno_name 
+--- not necessary in order to generate heatmap
+--- put lab in '' 
+
+##annotation
+--- use variable selection
+i.e. col_anno <- c()
+--- colors assigned random if not typed out
+
+##dendograms and anno
+row_anno = FALSE, row_dend = FALSE 
+--- col annotations + dendogram
+--- dendograms shows on top of heatmap 
+col_anno = FALSE, col_dend = FALSE 
+--- row annotations + dendogram
+--- dendrograms show on left of the heatmap
+col_info = column_df, row_info = row_df 
+--- both col+row anno and dendogram
+col_anno_var
+--- limit annotations for columns
+--- use col names -> "C1" - "C4"
+row_anno_var
+--- limits annotations for rows 
+--- ues row names -> "R1"-"R4"
