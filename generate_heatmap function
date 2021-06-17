@@ -10,7 +10,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), ...)
 ## labels
 col_lab, row_lab, row_var_info, col_var_info, col_anno_name, row_anno_name 
---- not necessary in order to generate heatmap
 --- put lab in '' 
 
 ##annotation
