@@ -6,18 +6,21 @@
                            plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" =NULL), file_name = NULL, ...)}
 \arguments{
   \item{x}{numeric matrix of the values to be plotted}
-  \item{col_lab}{column labels -> TRUE}
-  \item{row_lab}{row labels -> TRUE}
-  \item{col_lab_vtr}
-  \item{row_lab_vtr}
-  \item{col_anno}
-  \item{row_anno}
-  \item{row_info}
-  \item{col_info}
-  \item{col_anno_var}
-  \item{row_anno_var}
-  \item{col_var_info}
+  \item{col_lab}{column labels -> TRUE/FALSE}
+  \item{row_lab}{row labels -> TRUE/FALSE}
+  \item{col_lab_vtr}{default = colnames(x), character vector}
+  \item{row_lab_vtr}{default = rownames(x), character vector}
+  \item{col_anno}{column annotations -> TRUE/FALSE}
+  \item{row_anno}{row annotations -> TRUE/FALSE}
+  \item{row_info}{data used in row annotations}
+  \item{col_info}{data used in column annotations}
+  \item{col_anno_var}{limits columns annotations, default = colnames(col_info)}
+  \item{row_anno_var}{limits row annotations, default = rownames(col_info)}
+  \item{col_var_info}{
   \item{row_var_info}
   \item{col_dend}
   \item{row_dend}
-  \item{
+  \item{col_clust}
+  \item{row_clust}
+  \item{plot_info}
+
