@@ -52,7 +52,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     row_color <- matrix(nrow = length(row_var), ncol = nrow(row_info))
     if (is.null(row_anno_name)) {
-     rownames(row_color) <- paste(rownames(row_var)," ",sep="")
+        #rownames(row_color) <- paste(rownames(row_var)," ",sep="")
+        rownames(row_color) <- paste(row_var," ",sep="")
     } else {
      k <- match(colnames(row_info), row_anno_var)
      k <- k[!is.na(k)]
@@ -162,14 +163,19 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 
     col_color <- matrix(nrow = length(col_var), ncol = nrow(col_info))
     if (is.null(col_anno_name)) {
-        rownames(col_color) <- paste(rownames(col_color)," ",sep="")
+        #rownames(col_color) <- paste(rownames(col_color)," ",sep="")
+        rownames(col_color) <- paste(col_var," ",sep="")
     } else {
         #k=match(colnames(col_info),col_anno_var)
+        #if (any(is.na(k))) cat("Mismatched column variables!!!")
         #k=k[!is.na(k)]
+        if (length(col_anno_var)!=length(col_anno_name)) cat("Mismatched column variables!!!")
         k=which(col_anno_var%in%colnames(col_info))
         rownames(col_color) <- col_anno_name[k]
     }
-
+    print(col_anno_name)
+print(rownames(col_color))
+    
     for (v in 1:length(col_var)) {
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
         color_vec <- color_vec_cont_default
@@ -418,7 +424,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   if (input_legend) {
       #cat("Legends not yet implemented ....")
       if (T) {
-          heatmapColorBar(cols=cols,zlm=c(-0.5, 0.5))
+          cat("zlm:",exists("zlm"),"\n")
+          if (!exists("zlm")) zlm=c(-.5,.5)
+          heatmapColorBar(cols=cols,zlm=zlm)
           if (input_legend & row_anno) {
               for (vId in 1:length(row_var))
             sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
