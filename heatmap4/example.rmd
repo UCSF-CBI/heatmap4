@@ -1,0 +1,26 @@
+
+##Example
+Generate_heatmap example using formate from the help file with data set "morley"
+
+
+```{r}
+## Main numeric matrix
+x <- as.matrix(morley)
+
+## Column annotation df
+set.seed(575)
+
+anno_rows <- ncol(morley)
+anno_columns <- 4
+
+random_data <- rnorm(anno_rows*anno_columns)
+annotation_df <- matrix(data = random_data, nrow = anno_rows, ncol = anno_columns)
+colnames(annotation_df) <- c('C1', 'C2', 'C3','C4')
+annotation_df <- as.data.frame(annotation_df)
+```
+
+```{r}
+##heatmap example with column annotations
+generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE, col_dend = TRUE)
+
+```
