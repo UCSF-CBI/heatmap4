@@ -1,3 +1,9 @@
+---
+title: " heatmap4 example"
+author: "Anishka DHar"
+date: "8/29/2021"
+output: html_document
+---
 
 ##Example
 Generate_heatmap example using formate from the help file with data set "morley"
