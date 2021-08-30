@@ -11,9 +11,6 @@ BiocManager::install("marray", force = TRUE)
 library(RColorBrewer)
 library(marray)
 
-## Calls Files
-source("heatmap4.R")
-source("heatmapRelated.R")
 
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
