@@ -5,6 +5,8 @@ date: "8/29/2021"
 output: html_document
 ---
 
+remotes::install_local(..., build_vignettes = TRUE)
+
 ##Introdcution
 Generate_heatmap example using formate from the help file with data set "morley"
 
