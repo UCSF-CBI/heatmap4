@@ -5,6 +5,11 @@ date: "10/31/2019"
 output:rmarkdown::html_vignette
 ---
 
+%\VignetteEngine{knitr::knitr}
+vignette: >
+  %\VignetteIndexEntry{heatmap4}
+  %\VignetteEngine{knitr::rmarkdown}
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
