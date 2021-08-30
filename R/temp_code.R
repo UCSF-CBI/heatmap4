@@ -389,7 +389,6 @@ test_list <-  list(STAGE = list(color = c("red", "blue", "green"), type = "categ
 
 row_test <- NULL
 
-phen$age = phen$age..yrs. + 0.5
 
 
 set.seed(20430)
