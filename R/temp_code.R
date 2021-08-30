@@ -3,7 +3,7 @@ if (F) {
  if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("marray")
+BiocManager::install("marray", force = TRUE)
   load("data.RData")
 }
 
