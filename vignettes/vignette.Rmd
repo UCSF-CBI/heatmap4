@@ -2,13 +2,13 @@
 title: "heatmap4 Vignette"
 author: "Rohan Bhanot"
 date: "10/31/2019"
-output: html_document
+output:rmarkdown::html_vignette
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-remotes::install_local(..., build_vignettes = TRUE)
+
 
 ## 1. Introduction
 This package takes the original heatmap function and reduces the argument complexity. 
