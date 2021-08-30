@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+remotes::install_local(..., build_vignettes = TRUE)
 
 ## 1. Introduction
 This package takes the original heatmap function and reduces the argument complexity. 
