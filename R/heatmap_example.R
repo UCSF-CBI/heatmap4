@@ -12,7 +12,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("marray",  force = TRUE)
-load("data.RData")
+
 
 i <- 1:20
 j <- 1:10
