@@ -448,31 +448,31 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 #                  col_var_info = change)
 
 # working example - all dend and row
-# generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
+# generate_heatmap(test_x, row_info = rbz, col_info = phen, row_anno = TRUE,
 #                 col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = TRUE,
 #                 h_title = "title test", col_anno_var = c("sex", "STAGE", "age"), file_name = "title_test.pdf",
 #                 row_anno_var = c("R1"), col_var_info = test_list, plot_info = global_test)
 
 # working example - only row dend and annos
-# generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
+# generate_heatmap(test_x, row_info = rbz, col_info = phen, row_anno = TRUE,
 #                  col_anno = FALSE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = FALSE,
 #                  file_name = "test2.pdf", col_anno_var = c("sex", "STAGE", "age"),
 #                  row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE)
 
 # col_anno_var error
-# generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+# generate_heatmap(test_x, row_info = phen, col_info = phen, row_anno = FALSE,
 #                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
 #                  file_name = "test2.pdf", col_anno_var = c("sex", "stage"),
 #                  col_var_info = test_list)
 
 # file name error
-# generate_heatmap(genomDat, row_info = phen, col_info = phen, row_anno = FALSE,
+# generate_heatmap(test_x, row_info = phen, col_info = phen, row_anno = FALSE,
 #                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE,
 #                  file_name = "test2.pd", col_anno_var = c("sex", "STAGE"),
 #                  col_var_info = test_list)
 #
 # Decimal Anno Range Testing
-# generate_heatmap(genomDat, row_info = rbz, col_info = phen, row_anno = TRUE,
+# generate_heatmap(test_x, row_info = rbz, col_info = phen, row_anno = TRUE,
 #                  col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = TRUE, col_dend = TRUE,
 #                  file_name = "Decimal Anno Range Testing.pdf", col_anno_var = c("sex", "STAGE", "age"),
 #                  row_anno_var = c("R1"), col_var_info = test_list, col_clust = TRUE)
