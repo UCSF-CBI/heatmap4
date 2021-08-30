@@ -369,6 +369,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   }
   else if ((input_legend & col_anno) == TRUE) {
     sampleColorLegend(tls = col_var, col = col_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+    
+  ifelse(a > 0, a/sum(a), 1)
   }
   # sampleColorLegend(tls = c("N0", "N+"), col = samColUniq[1:2], lty = NULL, legendTitle = "Node", cex = NULL)
   # tls = title, each annotation variable, default: used annotation variables, for loop
