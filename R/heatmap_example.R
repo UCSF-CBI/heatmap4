@@ -11,7 +11,7 @@ setwd("~/") # wd and github repository
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install("marray")
+BiocManager::install("marray",  force = TRUE)
 load("data.RData")
 
 i <- 1:20
