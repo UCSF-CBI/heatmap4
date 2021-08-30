@@ -1,4 +1,4 @@
-setwd("/Users/rohanbhanot/Desktop/UCSF/Repositories") # wd and github repository
+setwd("~/") # wd and github repository
 
 ## ----------------------------------------------
 ######################################################################
