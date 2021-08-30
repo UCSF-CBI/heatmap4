@@ -10,6 +10,7 @@ vignette: >
   %\VignetteIndexEntry{heatmap4}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
