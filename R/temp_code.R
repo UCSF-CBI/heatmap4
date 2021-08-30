@@ -4,7 +4,7 @@ if (F) {
     install.packages("BiocManager")
 
 BiocManager::install("marray", force = TRUE)
-  load("data.RData")
+
 }
 
 ## Calls Libraries
