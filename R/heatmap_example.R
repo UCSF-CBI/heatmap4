@@ -9,7 +9,7 @@ setwd("~/") # wd and github repository
 
 ## Downloads 'marray' package from Bioconductor
 if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
+    install.packages("BiocManager")
 
 BiocManager::install("marray")
 load("data.RData")
