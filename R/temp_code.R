@@ -1,3 +1,11 @@
+if (F) {
+  ## Calling Bioconductor
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+  BiocManager::install("marray")
+  load("data.RData")
+}
 
 ## Calls Libraries
 library(RColorBrewer)
