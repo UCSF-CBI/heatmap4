@@ -17,6 +17,12 @@ BiocManager::install("marray",  force = TRUE)
 i <- 1:20
 j <- 1:10
 
+## Dowloads 'DNAcopy' package from Bioconductor
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("DNAcopy", force = TRUE)
+
 ## Simplifying Data Matrices
 genomDat <- genomDat[i, j]
 anno <- anno[i, ]
