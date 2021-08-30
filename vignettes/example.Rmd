@@ -5,6 +5,10 @@ date: "8/29/2021"
 output:rmarkdown::html_vignette
 ---
 
+%\VignetteEngine{knitr::knitr}
+vignette: >
+  %\VignetteIndexEntry{heatmap4}
+  %\VignetteEngine{knitr::rmarkdown}
 
 ##Introdcution
 Generate_heatmap example using formate from the help file with data set "morley"
