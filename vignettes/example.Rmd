@@ -10,6 +10,7 @@ vignette: >
   %\VignetteIndexEntry{heatmap4}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 
 ##Introdcution
 Generate_heatmap example using formate from the help file with data set "morley"
