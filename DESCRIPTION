@@ -17,3 +17,4 @@ Collate:
   'heatmap4.R'
   'heatmapRelated.R'
 RoxygenNote: 7.1.1
+BuildVignettes: true
