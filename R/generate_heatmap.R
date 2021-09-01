@@ -388,6 +388,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     dev.off()
   }
   
-  invisible(clusterObj)
+  invisible(clusterObj){
 
 }
