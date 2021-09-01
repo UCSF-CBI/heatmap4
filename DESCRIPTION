@@ -16,6 +16,6 @@ Collate:
   'generate_heatmap.R'
   'heatmap4.R'
   'heatmapRelated.R'
-  'hello.R
+  'hello.R'
 RoxygenNote: 7.1.1
 BuildVignettes: true
