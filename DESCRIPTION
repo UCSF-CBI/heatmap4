@@ -14,8 +14,6 @@ VignetteBuilder: knitr
 Depends: R (>= 3.1.0)
 Collate: 
   'generate_heatmap.R'
-  'heatmap4.R'
-  'heatmapRelated.R'
   'hello.R'
 RoxygenNote: 7.1.1
 BuildVignettes: true
