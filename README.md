@@ -14,8 +14,9 @@ install.packages("devtools")
 ## load devtools package 
 ```{r}
 library("devtools")
-Loading required package: usethis
 ```
+Note: R should show that it is loading the required package "usethis"
+
 
 ## use install_github with “author/package”
 ```{r}
