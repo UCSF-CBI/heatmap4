@@ -336,12 +336,13 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   #--------------------------------------------------------------------------------------------
   cols <- c("red", "blue", "grey")
   ## Heatmap Output
+  ```{r}
   heatmap4(x = x, Rowv = Rowv, Colv = Colv, distfun = dist,  symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
            scale = "none", na.rm = FALSE, margins = c(5, 5), main = h_title, xlab = NULL, ylab = NULL,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
            cexCol = cexCol, ...)
-
+```
   #--------------------------------------------------------------------------------------------
   ## Clears graphics on device
   if (!is.null(file_name)){
