@@ -30,7 +30,7 @@ if (F) {
 ```
 
 ``` {r}
-library("marray"
+library("marray")
 ```
 
 
