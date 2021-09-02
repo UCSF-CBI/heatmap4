@@ -1,3 +1,4 @@
+################
 row_info <- chrInfo
 col_info <- phen
 x <- genomDat
