@@ -4,7 +4,7 @@ author: "Rohan Bhanot"
 date: "10/31/2019"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{heatmap vignette }
+  %\VignetteIndexEntry{heatmap vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -26,7 +26,7 @@ if (F) {
     install.packages("BiocManager")
 
   BiocManager::install("marray")
-  load("../data.RData")
+  load("./data.RData")
 }
 ```
 
@@ -386,134 +386,4 @@ row_df <- as.data.frame(row_df)
 ## 4. Use Cases
 
 > __NOTE__: This is the simplest way to call the heatmap4 function. Defaults are accounted for, see documentation for full list of   defualt options for each arguement.
-
-### 4.1 Annotations and Dendrograms
-
-To display the heatmap with just column annotations and dendrograms:
-
-```{r}
-
-generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
-
-```
-
-The opposite display of just row annotations and dendrograms:
-
-```{r}
-# Needs to be fixed to allow for more than one row annotation -- margins error
-generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
-
-```
-
-
-To display heatmap with _both_ column and row annotations and dendrograms:
-
-```{r}
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df)
-
-```
-
-If the column or row annotation matrixes contain too many columns to display or there is a need to select only a few, the attribute `col_anno_var` (for column annotation limitations) or `row_anno_var` (for row annotation limitations).
-
-The column names for the column annotaion data.frame is: 
-```{r, echo=FALSE}
-print(colnames(column_df))
-```
-
-The column names for the row annotaion data.frame is: 
-```{r, echo=FALSE}
-print(colnames(row_df))
-```
-
-If we only want to display the first column in each data.frame, we would set:
-
-* `col_anno_var = colnames(column_df)[1]`
-* `row_anno_var = colnames(row_df)[1]`
-
-_OR_
-```{r}
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"))
-
-```
-
-To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`. When specifying the color of a continuous variable, please note that the first color will represent the "lows" and the second color represents the "highs".
-
-```{r}
-
-change <- list(C2 = list(color = c("orange", "blue")))
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), col_var_info = change)
-
-```
-
-The same can be done with row annotations:
-
-```{r}
-
-change <- list(R1 = list(color = c("orange", "blue")))
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), row_var_info = change)
-
-```
-
-If the annotation is not continuous, instead, categorical (like column annotation C4), It will be displayed with distinct colors for each category, the default being: `column_df$C1` versus `column_df$C4`
-
-```{r}
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"))
-
-```
-
-It is also possible to change the color of categorical variables. The order of the colors will match the order of the variables.
-
-```{r}
-# Color matches this order
-print(unique(column_df$C4))
-
-categorical_color <- list(C4 = list(color = c("blue", "yellow", "green")))
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"), col_var_info = categorical_color)
-
-```
-
-To change the color of both a categorical and continuous variable:
-In this example, C4 is categorical and C1, C2, R1 are continuous. Only C1 and C4 have been altered.
-
-```{r}
-
-color_change <- list(C4 = list(color = c("blue", "yellow", "green")), C2 = list(color = c("orange", "blue")))
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2", "C4"), row_anno_var = c("R1"), col_var_info = color_change)
-
-```
-
-
-### 4.2 Main Plot
-
-The heatmap will do its best to account for the size of the plot and the labels associated with it. However, there is an option for the user to adjust the main plot's column and row labels as well as column and row annotation labels.
-
-* `sideLabCol and sideLabRow` denote heatmap labels  
-* `cexColSide and cexRowSide` denote annotation labels
-
-
-```{r}
-
-main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 3, "cexColSide" = 3)
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"), plot_info = main_plot)
-
-```
-
-
-To add a title to the heatmap, simply call upon `h_title`
-
-```{r}
-
-generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"), h_title = "vignette test")
-
-
-```
-
 
