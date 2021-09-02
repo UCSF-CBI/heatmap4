@@ -30,9 +30,7 @@ if (F) {
 ```
 
 ``` {r}
-library(RColorBrewer)
-library(marray)
-
+library("marray"
 ```
 
 
