@@ -34,14 +34,6 @@ library(RColorBrewer)
 library(marray)
 ```
 ```{r include=FALSE}
-heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,
-hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
-scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,
-cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",
-totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),
-methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",
-addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"), ...)
-## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
                              row_lab_vtr = NULL, col_anno = c(TRUE, FALSE), row_anno = c(TRUE, FALSE), col_info = NULL,
                              row_info = NULL, col_anno_var = NULL, row_anno_var = NULL, col_var_info = NULL,
