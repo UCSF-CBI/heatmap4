@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{additional heatmap4 code}
+-->
+<head>
+<title>HeatmapRelated</title>
+</head>
+
+
+<body>
+
+	
 ## 1. Ritu 01/11/09 Fixed logic for "lty" option & removed param box.lty
 ## 2. Ritu 02/21/14 New function getKappaDist
 ##					New param absolute for getDist
@@ -5,7 +19,8 @@
 ## 4. Ritu 04/14/17 Set row & column names in getCosineDist
 ## 5. Ritu 05/29/17 Set row & column names in getCosineDist
 ## 6. Ritu 01/27/18 New option density in function sampleColorLegend
-
+	
+<!--begin.rcode
 plotHeatmap <- function(dataAcgh, clInfo, distMethod="euclidean",clustCol=T,clustRow=F,numChrom=nAut,resp=NULL,samId=1:ncol(dataAcgh),samName=NULL,amplif=NULL,phenName="",phenColor=NULL, main=NULL, candidateClone=F,cloneInfo=NULL,margins=c(5,5),chrInfo.this=chrInfo,chromCol=c("skyblue","blue","yellowgreen","yellow"),cexCol=NULL) {
 	if (!is.null(resp)) {
 		if (!is.matrix(resp)) {
@@ -322,3 +337,4 @@ cutCluster=function(clustObj,ann,nClust=2,rev=F) {
     }
     invisible(tbl)
 }
+end.rcode-->
