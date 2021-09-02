@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-##Introdcution
+## Introdcution
 Generate_heatmap example using formate from the help file with data set "morley"
 
 
