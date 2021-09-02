@@ -390,7 +390,7 @@ row_df <- as.data.frame(row_df)
 
 ### 4.1 Annotations and Dendrograms
 
-#### To display the heatmap with just column annotations and dendrograms:
+To display the heatmap with just column annotations and dendrograms:
 
 ```{r eval=FALSE}
 generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
@@ -485,7 +485,7 @@ main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 3, "cexColSide" = 3)
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"), plot_info = main_plot)
 ```
 
-### To add a title to the heatmap, simply call upon `h_title`
+To add a title to the heatmap, simply call upon `h_title`
 
 ```{r eval=FALSE}
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"), h_title = "vignette test")
