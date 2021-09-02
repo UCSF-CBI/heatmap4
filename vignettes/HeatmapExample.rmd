@@ -49,5 +49,5 @@ annotation_df <- as.data.frame(annotation_df)
 
 ```{r}
 ##heatmap example with column annotations
-heatmap4(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE, col_dend = TRUE)
+generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE, col_dend = TRUE)
 ```
