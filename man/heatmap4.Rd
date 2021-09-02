@@ -1,5 +1,5 @@
 \name{heatmap4}
-\alias{stats}
+\alias{generateheatmap}
 \title{Generate a Heat Map}
 \description{This package takes the original heatmap function and reduces the arguement complexity. A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.}
 \usage{generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL, row_lab_vtr =
