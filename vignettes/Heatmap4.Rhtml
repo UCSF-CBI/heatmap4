@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html>
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{An R HTML Vignette with knitr}
+-->
+<head>
+<title>Heatmap4</title>
+</head>
+
+
+<body>
+
 ##  2. Ritu 03/28/06 If ColSideColors==NULL, one doesn''t have to specify phenotype color labels
 ##  3. Ritu 04/14/06 If RowSideColors==NULL, one doesn''t have to specify chr color bar
 ##  4. Ritu 04/14/06 Can use 1 col matrix too
@@ -26,6 +39,9 @@
 ## 26. Ritu 05/12/20 New params layoutRespect, sideColSide, sideRowSide
 
 ## 26. Ritu
+	
+<!--begin.rcode
+
 heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,
 hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
 scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,
@@ -33,6 +49,9 @@ cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, la
 totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),
 methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",
 addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"), ...)
+
+end.rcode-->
+	
 ### 25. Ritu
 #heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, ...)
 #### 24. Ritu
@@ -52,12 +71,16 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
 ########heatmap3 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist, hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"), scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors, cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL,totalC=nc, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"), methodR = "ward", methodC = "ward", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",addamps=NULL, colamps=NULL, cexAmp=.25, ...)
 {
 	## 4. Ritu
+<!--begin.rcode
+ 
 	if (!is.matrix(x)) {f
 		x <- matrix(x,ncol=1)
 		if (!is.null(addamps)) {
 			addamps <- matrix(addamps,ncol=1)
 		}
+end.rcode-->
         ## 19. Ritu
+<!--begin.rcode
         if (!is.null(addText)) {
             addText <- matrix(addText,ncol=1)
         }
@@ -68,7 +91,10 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
     if (length(di <- dim(x)) != 2 || !is.numeric(x)) stop("`x' must be a numeric matrix")
     nr <- di[1]
     nc <- di[2]
+end.rcode-->
+	
 	## 4. Ritu
+<!--begin.rcode
     #if (nr <= 1 || nc <= 1) stop("`x' must have at least 2 rows and 2 columns")
     if (nr <= 1 || nc < 1) stop("`x' must have at least 2 rows and 1 column")
     if (!is.numeric(margins) || length(margins) != 2) stop("`margins' must be a numeric vector of length 2")
@@ -122,6 +148,7 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidRowSide=0.2
         x <- sweep(x, 2, sx, "/")
     }
     lmat <- rbind(c(NA, 3), 2:1)
+end.rcode-->
     #lwid <- c(if (doRdend) 1 else 0.05, 4)
     #lhei <- c((if (doCdend) 1 else 0.05) + if (!is.null(main)) 0.2 else 0, 4)
 
@@ -640,3 +667,4 @@ postscript("try.ps", paper="letter")
 try10=heatmap3(x=tmp[,ind.samp], Rowv=NA, Colv=NULL, distfun = dist.cor.func, hclustfun = hclust,  symm=F, ColSideColors = sampCols[,ind.samp], RowSideColors=chromcols[ind.cl][rev(1:length(chromcols[ind.cl]))], labCol=as.character(sampnm1)[ind.samp], labRow=NA, scale="none", na.rm = F, margins = c(5, 5), main = NULL, xlab = NULL, ylab = NULL, zlm=c(-.5,.5), addamps=tmpamp[,ind.samp], colamps="yellow")
 dev.off()
 }
+end.rcode-->
