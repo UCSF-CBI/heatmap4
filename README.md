@@ -41,6 +41,6 @@ generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE,
 
 
 # License
-UCSF
+UCSF-CBI
 
 
