@@ -37,7 +37,7 @@ generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE,
 ```
 
 # Getting Started
-* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/heatmap4%20Vignette.pdf) vignette pdf
+* [Using generate_heatmap](file:///Users/anishkadhar/Downloads/heatmap4-master/heatmap4/vignette.html) vignette pdf
 
 
 # License
