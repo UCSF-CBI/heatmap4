@@ -390,13 +390,13 @@ row_df <- as.data.frame(row_df)
 ### 4.1 Annotations and Dendrograms
 #--------------------------------------------------------------------------------------------
 
-####To display the heatmap with just column annotations and dendrograms:
-
+#### To display the heatmap with just column annotations and dendrograms:
+```{r}
 generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
-
+```
 The opposite display of just row annotations and dendrograms:
 
-###Needs to be fixed to allow for more than one row annotation -- margins error
+### Needs to be fixed to allow for more than one row annotation -- margins error
 generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
 
 
@@ -405,7 +405,7 @@ generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, 
 
 generate_heatmap(test_x, col_info = column_df, row_info = row_df)
 
-####If the column or row annotation matrixes contain too many columns to display or there is a need to select only a few, the attribute `col_anno_var` (for column annotation limitations) or `row_anno_var` (for row annotation limitations). The column names for the column annotaion data.frame is: 
+#### If the column or row annotation matrixes contain too many columns to display or there is a need to select only a few, the attribute `col_anno_var` (for column annotation limitations) or `row_anno_var` (for row annotation limitations). The column names for the column annotaion data.frame is: 
 
 print(colnames(column_df))
 
@@ -425,7 +425,7 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 
 
-####To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`. When specifying the color of a continuous variable, please note that the first color will represent the "lows" and the second color represents the "highs".
+#### To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`. When specifying the color of a continuous variable, please note that the first color will represent the "lows" and the second color represents the "highs".
 
 
 
