@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 Generate_heatmap example using formate from the help file with data set "morley"
 
 ```{r include=FALSE}
-source("./heatmap4.R")
+source("./heatmap4source.Rhtml")
 
 ```
 
