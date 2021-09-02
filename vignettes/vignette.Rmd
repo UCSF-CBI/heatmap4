@@ -391,13 +391,12 @@ row_df <- as.data.frame(row_df)
 
 #### To display the heatmap with just column annotations and dendrograms:
 
-
+```{r, echo=FALSE}
 generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
+```
 
+### The opposite display of just row annotations and dendrograms:
 
-The opposite display of just row annotations and dendrograms:
-
-# Needs to be fixed to allow for more than one row annotation -- margins error
 generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
 
 
