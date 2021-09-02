@@ -2,7 +2,7 @@
 title: "heatmap4 Vignette"
 author: "Rohan Bhanot"
 date: "10/31/2019"
-output:rmarkdown::html_vignette
+output: rmarkdown::html_vignette
 ---
 
 
