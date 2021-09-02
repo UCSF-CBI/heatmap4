@@ -4,7 +4,7 @@ author: "Anishka Dhar"
 date: "9/31/2021"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{HeatmapDemo}
+  %\VignetteIndexEntry{Heatmap Demo}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
