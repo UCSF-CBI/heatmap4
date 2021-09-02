@@ -4,7 +4,7 @@ author: "Anishka Dhar"
 date: "9/1/2021"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Heatmap Demo}
+  %\VignetteIndexEntry{heatmap example demo}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 ## Introduction
-Generate_heatmap example using formate from the help file with data set "morley"
+Generate_heatmap example using the format from the help file with r-data set "morley"
 
 
 ```{r, echo=FALSE}
