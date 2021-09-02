@@ -1,6 +1,6 @@
 ---
 title: "HeatmapExample"
-author: "Anishka Dhar"
+author: "Anishka  Dhar"
 date: "9/1/2021"
 output: rmarkdown::html_vignette
 vignette: >
