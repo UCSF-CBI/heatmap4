@@ -20,7 +20,7 @@ Note: R should show that it is loading the required package "usethis"
 
 ## Use install_github with “author/package”
 ```{r}
- install_github(“UCSF-CBI/heatmap4”,  auth_token = “xyz,” build_vignettes = TRUE)
+ install_github(“UCSF-CBI/heatmap4”,  auth_token = “xyz”, build_vignettes = TRUE)
 ```
 Note: make sure to include the “build_vignettes” argument, otherwise the package vignettes will not download. Also know that the auth_token given to you may be subject to change.
 
