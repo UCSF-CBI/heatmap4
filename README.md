@@ -23,6 +23,10 @@ Loading required package: usethis
 ```
 Note: make sure to include the “build_vignettes” argument, otherwise the package vignettes will not download. Also know that the auth_token given to you may be subject to change.
 
-After downloading the package, you should have access to a heatmap4 help file as well as example the files that are in this repository.  
-## license
+After downloading the package, you should have access to a heatmap4 help file as well as example the files that are in this repository. 
+![alt text]
+
+# license
 UCSF
+
+
