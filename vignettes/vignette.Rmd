@@ -39,7 +39,7 @@ library(RColorBrewer)
 library(marray)
 ```
 
-```{r include=FALSE}
+```{r, echo=FALSE}
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
                              row_lab_vtr = NULL, col_anno = c(TRUE, FALSE), row_anno = c(TRUE, FALSE), col_info = NULL,
@@ -50,8 +50,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              plot_info = c("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL),
                              file_name = NULL, h_title = NULL, ...)
 {
-
+```
   #--------------------------------------------------------------------------------------------
+```{r, include =FALSE}
   ## Annotations
   row_anno <- row_anno[1]
 
