@@ -1,5 +1,5 @@
 ---
-title: "HeatmapExample"
+title: "generate_heatmap"
 author: "Rohan Bhanot"
 date: "2019"
 output: rmarkdown::html_vignette
