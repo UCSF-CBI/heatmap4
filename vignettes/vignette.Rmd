@@ -397,16 +397,17 @@ generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FAL
 ```
 
 ### The opposite display of just row annotations and dendrograms:
-
+```{r eval=FALSE}
 generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
-
+```
 
 
 
 #### To display heatmap with _both_ column and row annotations and dendrograms:
 
-
+```{r eval=FALSE}
 generate_heatmap(test_x, col_info = column_df, row_info = row_df)
+``` 
 
 #### If the column or row annotation matrixes contain too many columns to display or there is a need to select only a few, the attribute `col_anno_var` (for column annotation limitations) or `row_anno_var` (for row annotation limitations).
 
@@ -426,31 +427,29 @@ If we only want to display the first column in each data.frame, we would set:
 * `row_anno_var = colnames(row_df)[1]`
 
 _OR_
-
+```{r eval=FALSE}
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"))
-
+```
 
 #### To get even more specific, there is the ability to alter annotation specifications, such as color. As an example, we will isolate the `"C2"` column in `column_df` (column annotation data.frame) and change the color scale from `"white", "black"` to `"orange", "blue"`. When specifying the color of a continuous variable, please note that the first color will represent the "lows" and the second color represents the "highs".
-
+```{r eval=FALSE}
 change <- list(C2 = list(color = c("orange", "blue")))
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), col_var_info = change)
-
+```
 
 ##### The same can be done with row annotations:
 
 
-
+```{r eval=FALSE}
 change <- list(R1 = list(color = c("orange", "blue")))
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("R1"), row_var_info = change)
-
-
+```
 
 #### If the annotation is not continuous, instead, categorical (like column annotation C4), It will be displayed with distinct colors for each category, the default being: `column_df$C1` versus `column_df$C4`
 
-
-
+```{r eval=FALSE}
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C4"), row_anno_var = c("R1"))
-
+```
 
 It is also possible to change the color of categorical variables. The order of the colors will match the order of the variables.
 
