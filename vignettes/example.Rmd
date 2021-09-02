@@ -32,12 +32,9 @@ if (F) {
 ``` {r}
 library(RColorBrewer)
 library(marray)
-```
-```{r}
-source("heatmap4.R")
-source("heatmapRelated.R")
 
 ```
+
 
 ```{r}
 ## Main numeric matrix
