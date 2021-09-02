@@ -30,7 +30,6 @@ if (F) {
 ```
 
 ``` {r}
-install.packages("marray")
 library("marray")
 ```
 
