@@ -25,6 +25,16 @@ Note: make sure to include the “build_vignettes” argument, otherwise the pac
 
 After downloading the package, you should have access to a heatmap4 help file as well as example the files that are in this repository. 
 
+# usage
+After inputting your data set and assigning variables and values as needed, you can call the generate_heatmap function to build a heatmap based on our data set 
+
+```{r}
+library("heatmap4")
+generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE,
+                 row_dend = FALSE, col_dend = TRUE, file_name = "example")
+
+```
+
 # license
 UCSF
 
