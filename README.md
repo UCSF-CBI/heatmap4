@@ -6,19 +6,19 @@ This section covers installing the heatmap4 package from this UCSF-CBI repositor
 
 Please ensure that you have an access token to this heatmap4 repository before attempting to install the package (contact a owner/contributor to send you a personal access token). 
 
-## install devtools package (this can be done from CRAN)
+## Install devtools package (this can be done from CRAN)
 ```{r}
 install.packages("devtools")
 ```
 
-## load devtools package 
+## Load devtools package 
 ```{r}
 library("devtools")
 ```
 Note: R should show that it is loading the required package "usethis"
 
 
-## use install_github with “author/package”
+## Use install_github with “author/package”
 ```{r}
  install_github(“UCSF-CBI/heatmap4”,  auth_token = “xyz,” build_vignettes = TRUE)
 ```
