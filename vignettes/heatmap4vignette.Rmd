@@ -389,13 +389,14 @@ row_df <- as.data.frame(row_df)
 
 ### 4.1 Annotations and Dendrograms
 #--------------------------------------------------------------------------------------------
+```{r, include = FALSE}
 To display the heatmap with just column annotations and dendrograms:
 
 generate_heatmap(test_x, row_anno = FALSE, col_info = column_df,  row_dend = FALSE)
 
 The opposite display of just row annotations and dendrograms:
 
-# Needs to be fixed to allow for more than one row annotation -- margins error
+###Needs to be fixed to allow for more than one row annotation -- margins error
 generate_heatmap(test_x, col_anno = FALSE, row_info = row_df, col_dend = FALSE, row_anno_var = c("R1"))
 
 
@@ -452,7 +453,7 @@ generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var =
 
 It is also possible to change the color of categorical variables. The order of the colors will match the order of the variables.
 
-# Color matches this order
+###Color matches this order
 print(unique(column_df$C4))
 
 categorical_color <- list(C4 = list(color = c("blue", "yellow", "green")))
@@ -487,7 +488,7 @@ To add a title to the heatmap, simply call upon `h_title`
 
 
 generate_heatmap(test_x, col_info = column_df, row_info = row_df, col_anno_var = c("C1"), row_anno_var = c("R1"), h_title = "vignette test")
-
+```
 #--------------------------------------------------------------------------------------------
 
 
