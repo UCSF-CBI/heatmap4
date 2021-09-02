@@ -26,7 +26,7 @@ if (F) {
     install.packages("BiocManager")
 
   BiocManager::install("marray")
-  load("../data.RData")
+  load("./data.RData")
 }
 ```
 
