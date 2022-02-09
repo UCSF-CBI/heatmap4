@@ -47,5 +47,16 @@ colnames(annotation_df) <- c('C1', 'C2', 'C3','C4')
 annotation_df <- as.data.frame(annotation_df)
 ```
 ```{r eval=FALSE}
-generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE, row_dend = FALSE, col_dend = TRUE)
+generate_heatmap(x, row_anno = FALSE, col_anno = FALSE, col_info = FALSE, row_info = FALSE, row_dend = FALSE, col_dend = FALSE)
 ```
+```{r eval=FALSE}
+generate_heatmap(x, row_anno = FALSE, col_anno = FALSE, col_info = FALSE, row_info = FALSE, row_dend = FALSE, col_dend = TRUE)
+```
+
+```{r eval=FALSE}
+generate_heatmap(x, row_anno = FALSE, col_anno = TRUE, col_info = column_df, row_info = FALSE, col_anno_var = c("C1"), row_anno_var = FALSE, row_dend = FALSE, col_dend = TRUE)
+```
+
+```{r eval=FALSE}
+generate_heatmap(x, row_anno = FALSE, col_anno = TRUE, col_info = column_df, col_anno_var = c("C1", "C2", "C3", "C4"), row_dend = FALSE, col_dend = TRUE)
+``` 
