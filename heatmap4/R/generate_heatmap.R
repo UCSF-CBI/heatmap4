@@ -396,19 +396,18 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       cex=ifelse(max(nchar(tls))>13,1.5,3)		        if (is.null(cex)) {
         if (nTypes>6) {cex=1.5}		          cex=ifelse(max(nchar(tls))>13,1.5,3)
       }		          if (nTypes>6) {cex=1.5}
-      plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")		        }
-      if (is.null(lty)) {		        plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
-        if (is.null(density)) {		        if (is.null(lty)) {
-          legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)		          if (is.null(density)) {
-          } else {		            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
-            ## 6. Ritu		          } else {
-            legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)		            ## 6. Ritu
-            if (F) {		            legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
-              text(1,k-1,legendTitle)		            if (F) {
-                for (k in 1:length(tls)) {		              text(1,k-1,legendTitle)
-                  rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)		              for (k in 1:length(tls)) {
-                    text(2,k,tls[k])		                rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
-                    text(2,k,tls[k])
+      plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
+        if (is.null(lty)) {
+          if (is.null(density)) {
+            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+          } else {
+            ## 6. Ritu
+            legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+            if (F) {
+              text(1,k-1,legendTitle)
+              for (k in 1:length(tls)) {
+                rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
+                text(2,k,tls[k])
                   }
                 }
               }		          }
