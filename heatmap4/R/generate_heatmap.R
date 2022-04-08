@@ -189,57 +189,54 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       if (length(col_anno_var)!=length(col_anno_name)) cat("Mismatched column variables!!!")
       k=which(col_anno_var%in%colnames(col_info))
       rownames(col_color) <- col_anno_name[k]
-    }
     
+    }
     
     for (v in 1:length(col_var)) {
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
-        if (is.null(col_var_info)) {		        color_vec <- color_vec_cont_default
-      
+        color_vec <- color_vec_cont_default
       } else {
-        color_vec <- color_vec_cat_default
+          color_vec <- color_vec_cat_default
       }
-        if (!is.null(col_var_info)) {        
-        
+      if (!is.null(col_var_info)) {
         if (col_var[v] %in% names(col_var_info)) {
           if ("color" %in% names(col_var_info[[col_var[v]]])) {
             color_vec <-  col_var_info[[col_var[v]]]$color
           }
         }
       }
-      
+
       if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
-        
+
         varib <- col_info[ ,col_var[v]]
         if ("limit" %in% names(col_var_info[[col_var[v]]])){
-          varib = varib - min(varib, na.rm=T) + 1		            if (F) {
-            varib = varib / min(varib, na.rm=T)		                x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
-          }		                varib=((varib-min(varib,na.rm=T))/x1)+1
-          if (T) {		                lim <-  col_var_info[[col_var[v]]]$limit+1
-          x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)		            } else {
-            varib=(100*(varib-min(varib,na.rm=T))/x1)+1		                lim <-  col_var_info[[col_var[v]]]$limit
-          }		                varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
-          lim=lim+lim[2]+1
-          varib = round(varib)		            }
-        lim = range(varib,na.rm=T)		        } else {
-          if (F) {
-            varib = varib - min(varib, na.rm=T) + 1
-            varib = varib / min(varib, na.rm=T)
-          }
-          if (T) {
-            x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
-            varib=(100*(varib-min(varib,na.rm=T))/x1)+1
-          }
-          varib <- round(varib)
-          lim <- range(varib,na.rm=T)
+            if (F) {
+                x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
+                varib=((varib-min(varib,na.rm=T))/x1)+1
+                lim <-  col_var_info[[col_var[v]]]$limit+1
+            } else {
+                lim <-  col_var_info[[col_var[v]]]$limit
+                varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
+                lim=lim+lim[2]+1
+            }       
+         } else {
+            if (F) {
+                varib = varib - min(varib, na.rm=T) + 1
+                varib = varib / min(varib, na.rm=T)
+            }
+            if (T) {
+                x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
+                varib=(100*(varib-min(varib,na.rm=T))/x1)+1
+            }
+
+            varib <- round(varib)
+            lim <- range(varib,na.rm=T)
         }
-        
         grpUniq=lim[1]:lim[2]
         colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
-        
+
         j=match(varib,grpUniq);j1=which(!is.na(j)); j2=j[j1]
         col_color[v,j1] <- colColUniq[j2]
-        
       } else {
         dat <- col_info[ ,col_var[v]]
         datUniq <- sort(unique(dat))
@@ -391,12 +388,13 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     }
 
     n <- length(tls)
-    ii <- 1:length(tls)		    if (n!=0) {
-      if (is.null(cex)) {		        ii <- 1:length(tls)
-      cex=ifelse(max(nchar(tls))>13,1.5,3)		        if (is.null(cex)) {
-        if (nTypes>6) {cex=1.5}		          cex=ifelse(max(nchar(tls))>13,1.5,3)
-      }		          if (nTypes>6) {cex=1.5}
-      plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
+    if (n!=0) {
+        ii <- 1:length(tls)
+        if (is.null(cex)) {
+          cex=ifelse(max(nchar(tls))>13,1.5,3)
+          if (nTypes>6) {cex=1.5}
+        }
+        plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
         if (is.null(lty)) {
           if (is.null(density)) {
             legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
@@ -408,13 +406,14 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
               for (k in 1:length(tls)) {
                 rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
                 text(2,k,tls[k])
-                  }
-                }
-              }		          }
-          } else {
-            legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
-          }		        }
-      }
+              }
+            }
+          }
+        } else {
+          legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
+        }
+    }
+  }
   #--------------------------------------------------------------------------------------------
   ## Output Files
   if (!is.null(file_name)){
@@ -447,36 +446,35 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                       high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
                       cexCol = cexCol, zlm=zlm, ...)
   ## Legend Output
-  if (input_legend) {
-    #cat("Legends not yet implemented ....")
-    if (F) {		      if (T) {
-      cat("zlm:",exists("zlm"),"\n")
-      if (!exists("zlm")) zlm=c(-.5,.5)
-      heatmapColorBar(cols=cols,limit=zlm)
-    
-      if (input_legend & row_anno) {
-        for (vId in 1:length(row_var))
-          sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
-      }
-      if (input_legend & row_anno) {
-        sampleColorLegend(tls = col_var, col = col_color, lty = NULL, legendTitle = legend_title, cex = NULL)		            cat("Legends ....")
-        for (vId in 1:length(row_var)) {
-          nm=sub("^ +","",sub(" +$","",rownames(row_color)[vId]))
-          x=sort(unique(row_info[,row_var[vId]]))
-          color_vec <- color_vec_cat_default
-          if (!is.null(row_var_info)) {
-            if (row_var[vId] %in% names(row_var_info)) {
-              if ("color" %in% names(row_var_info[[row_var[vId]]])) {
-                color_vec <-  row_var_info[[row_var[vId]]]$color
-              }
-              if ("level" %in% names(row_var_info[[row_var[vId]]])) {
-                x <-  row_var_info[[row_var[vId]]]$level
-              }
+ if (input_legend) {
+      #cat("Legends not yet implemented ....")
+      if (T) {
+          cat("zlm:",exists("zlm"),"\n")
+          if (!exists("zlm")) zlm=c(-.5,.5)
+          heatmapColorBar(cols=cols,limit=zlm)
+          if (input_legend & row_anno) {
+              for (vId in 1:length(row_var))
+            sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+          }
+          if (input_legend & row_anno) {
+            cat("Legends ....")
+            for (vId in 1:length(row_var)) {
+                nm=sub("^ +","",sub(" +$","",rownames(row_color)[vId]))
+                x=sort(unique(row_info[,row_var[vId]]))
+                color_vec <- color_vec_cat_default
+                if (!is.null(row_var_info)) {
+                  if (row_var[vId] %in% names(row_var_info)) {
+                    if ("color" %in% names(row_var_info[[row_var[vId]]])) {
+                      color_vec <-  row_var_info[[row_var[vId]]]$color
+                    }
+                  if ("level" %in% names(row_var_info[[row_var[vId]]])) {
+                    x <-  row_var_info[[row_var[vId]]]$level
+                  }
+                  }
+                }
+                sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
             }
           }
-          sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
-        }
-      }
       if (input_legend & col_anno) {
         cat("Legends ....")
         for (vId in 1:length(col_var)) {
