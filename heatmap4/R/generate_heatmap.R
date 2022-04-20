@@ -4,11 +4,11 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              row_lab_vtr = NULL, col_anno = c(TRUE, FALSE), row_anno = c(TRUE, FALSE), col_info = NULL,
                              row_info = NULL, col_anno_var = NULL, row_anno_var = NULL, col_var_info = NULL,
                              row_var_info = NULL, col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
-                            col_anno_name=NULL, row_anno_name=NULL,
+                             col_anno_name=NULL, row_anno_name=NULL,
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
                              plot_info = list(margins=c(5,5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
-                             file_name = NULL, h_title = NULL, input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
+                             file_name = NULL, h_title = NULL,input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
 {
 
   #--------------------------------------------------------------------------------------------
@@ -44,6 +44,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         row_var <- row_anno_var[k]
         if (length(k) != length(row_anno_var)) cat("Selection of column annotation variables does not match column names in original data frame.\n")
       }
+
+
     }
 
     color_vec_cat_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
@@ -94,6 +96,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
             varib <- round(varib)
             lim <- range(varib,na.rm=T)
         }
+
         grpUniq <- lim[1]:lim[2]
         rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
@@ -157,6 +160,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         col_var=col_anno_var[k]
         if (length(k)!=length(col_anno_var)) cat("Selection of column annotation variables does not match column names in original data frame.\n")
       }
+
     }
 
     color_vec_cat_default <- c("skyblue", "blue", "yellow", "purple", "black", "red", "orange", "green", "cyan", "darkgreen")
@@ -217,6 +221,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
             varib <- round(varib)
             lim <- range(varib,na.rm=T)
         }
+
         grpUniq=lim[1]:lim[2]
         colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
@@ -288,7 +293,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     } else {
       labRow <- rownames(x)
     }
-  } else {
+  }
+  else {
     labRow <- NA
   }
   #------------------------------------------
@@ -300,7 +306,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
     } else {
       labCol <- colnames(x)
     }
-  } else {
+  }
+  else {
     labCol <- NA
   }
   
@@ -311,10 +318,12 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   if (row_dend) {
     if (is.null(row_clust) || class(row_clust) %in% c("dendogram", "hclust")) {
       Rowv <- row_clust
-    } else {
+    }
+    else {
       stop("Error in column clustering class.")
     }
-  } else {
+  }
+  else {
     Rowv <- NA
   }
   #------------------------------------------
@@ -323,10 +332,12 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   if (col_dend) {
     if (is.null(col_clust) || class(col_clust)%in%c("dendogram", "hclust")) {
       Colv <- col_clust
-    } else {
+    }
+    else {
       stop("Error in column clustering class.")
     }
-  } else {
+  }
+  else {
     Colv <- NA
   }
   #--------------------------------------------------------------------------------------------
