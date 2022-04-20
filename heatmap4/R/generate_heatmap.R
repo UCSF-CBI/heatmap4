@@ -514,4 +514,3 @@ input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue
   invisible(clusterObj)
 
 }
-
