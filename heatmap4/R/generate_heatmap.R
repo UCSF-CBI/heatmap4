@@ -8,8 +8,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
                              plot_info = list(margins=c(5,5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
-                             file_name = NULL, h_title = NULL,
-input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
+                             file_name = NULL, h_title = NULL, input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
 {
 
   #--------------------------------------------------------------------------------------------
@@ -289,8 +288,7 @@ input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue
     } else {
       labRow <- rownames(x)
     }
-  }
-  else {
+  } else {
     labRow <- NA
   }
   #------------------------------------------
@@ -302,8 +300,7 @@ input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue
     } else {
       labCol <- colnames(x)
     }
-  }
-  else {
+  } else {
     labCol <- NA
   }
   
@@ -314,12 +311,10 @@ input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue
   if (row_dend) {
     if (is.null(row_clust) || class(row_clust) %in% c("dendogram", "hclust")) {
       Rowv <- row_clust
-    }
-    else {
+    } else {
       stop("Error in column clustering class.")
     }
-  }
-  else {
+  } else {
     Rowv <- NA
   }
   #------------------------------------------
@@ -328,12 +323,10 @@ input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue
   if (col_dend) {
     if (is.null(col_clust) || class(col_clust)%in%c("dendogram", "hclust")) {
       Colv <- col_clust
-    }
-    else {
+    } else {
       stop("Error in column clustering class.")
     }
-  }
-  else {
+  } else {
     Colv <- NA
   }
   #--------------------------------------------------------------------------------------------
