@@ -217,7 +217,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                 x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
                 varib=(100*(varib-min(varib,na.rm=T))/x1)+1
             }
-
             varib <- round(varib)
             lim <- range(varib,na.rm=T)
         }
@@ -351,7 +350,6 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       }
       maColorBar(try, scale=zlm,main=main)
   }
-  
   sampleColorLegend.my <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
     nTypes <- length(tls)
     if (is.null(col)) {
