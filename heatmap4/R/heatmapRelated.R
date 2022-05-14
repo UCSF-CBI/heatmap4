@@ -5,6 +5,9 @@
 ## 4. Ritu 04/14/17 Set row & column names in getCosineDist
 ## 5. Ritu 05/29/17 Set row & column names in getCosineDist
 ## 6. Ritu 01/27/18 New option density in function sampleColorLegend
+## 7. Ritu 08/25/21 No border for color fill in function sampleColorLegend
+## 8. Ritu 10/12/21 Reverse cluster designation if rev=T
+## 9. Ritu 10/13/21 New options pch, lwd in function sampleColorLegend
 
 plotHeatmap <- function(dataAcgh, clInfo, distMethod="euclidean",clustCol=T,clustRow=F,numChrom=nAut,resp=NULL,samId=1:ncol(dataAcgh),samName=NULL,amplif=NULL,phenName="",phenColor=NULL, main=NULL, candidateClone=F,cloneInfo=NULL,margins=c(5,5),chrInfo.this=chrInfo,chromCol=c("skyblue","blue","yellowgreen","yellow"),cexCol=NULL) {
 	if (!is.null(resp)) {
@@ -162,20 +165,22 @@ plotHeatmap <- function(dataAcgh, clInfo, distMethod="euclidean",clustCol=T,clus
 	invisible(list(clustSamples,clustClones))
 }
 
-heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL) {
+heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,...) {
     if (length(cols)==3) {
         try <- maPalette(high=cols[1], low=cols[2], mid=cols[3])
     } else {
         ## 5. Ritu
         try <- maPalette(high=cols[1], low=cols[2])
     }
-	maColorBar(try, scale=limit,main=main)
+    maColorBar(try, scale=limit,main=main,...)
 }
 
-## 6. Ritu
-### 1. Ritu
-#sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL) {
-sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+## 9. Ritu
+### 6. Ritu
+#### 1. Ritu
+##sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL) {
+#sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
 	nTypes <- length(tls)
 	if (is.null(col)) {
 		cl <- brewer.pal(8, "Accent")
@@ -207,10 +212,14 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,de
 	plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
 	if (is.null(lty)) {
         if (is.null(density)) {
-            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+            ## 7. Ritu
+            #legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=fill,cex=cex,title=legendTitle)
         } else {
-            ## 6. Ritu
-            legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+            ## 7. Ritu
+            ### 6. Ritu
+            #legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+            legend(0,length(tls),tls,col=fill,lty=lty,border=fill,cex=cex,density=density,title=legendTitle)
             if (F) {
                 text(1,k-1,legendTitle)
                 for (k in 1:length(tls)) {
@@ -220,7 +229,7 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,de
             }
         }
 	} else {
-		legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
+		legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle)
 	}
 }
 
@@ -305,14 +314,17 @@ cutCluster=function(clustObj,ann,nClust=2,rev=F) {
     } else {
         tbl=matrix(nrow=nrow(ann),ncol=nClust-1)
         colnames(tbl)=paste("clustId_",1:ncol(tbl)+1,sep="")
+        #for (kk in kVec) {
         for (kk in 1:ncol(tbl)) {
             clustId=cutree(clustObj,k=kk+1)[clustObj$order]
             k1=which(!duplicated(clustId))
             for (k in 1:length(k1)) {
-                clustId[which(clustId==clustId[k1[k]])]=paste("cluster",k,sep="")
+                ## 8. Ritu
+                #clustId[which(clustId==clustId[k1[k]])]=paste("cluster",k,sep="")
+                if (rev) kThis=length(k1)-k+1 else kThis=k
+                clustId[which(clustId==clustId[k1[k]])]=paste("cluster",kThis,sep="")
             }
             tbl[,kk]=clustId
-            
         }
         tbl=cbind(ann[clustObj$order,],tbl,order=1:nrow(ann))
     }

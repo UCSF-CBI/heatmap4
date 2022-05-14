@@ -1,3 +1,5 @@
+## 7. Ritu 04/13/22 - Fix continuous row color bar
+## 8. Ritu 05/13/22 - row_var not col_var for row color bar
 
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
@@ -83,6 +85,8 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         if ("limit" %in% names(row_var_info[[row_var[v]]])){
             lim <-  row_var_info[[row_var[v]]]$limit
             varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
+            ## 7. Ritu
+            lim=lim+lim[2]+1
         } else {
             if (F) {
                 varib = varib - min(varib, na.rm=T) + 1
@@ -100,14 +104,19 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
         grpUniq <- lim[1]:lim[2]
         rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
-        row_color[v, ] <- rowColUniq[varib]
+        ## 7. Ritu
+        #row_color[v, ] <- rowColUniq[varib]
+        j=match(varib,grpUniq); j1=which(!is.na(j)); j2=j[j1]
+        row_color[v,j1] <- rowColUniq[j2]
 
       } else {
         dat <- row_info[ ,row_var[v]]
         datUniq <- sort(unique(dat))
         if (length(datUniq) > length(color_vec)) {
           color_vec <- rainbow(length(datUniq))
-          cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
+          ## 8. Ritu
+          #cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
+          cat("Not enough colors for ,",row_var[v],"; They have been assigned random colors in the meantime.\n")
         }
         for (v2 in 1:length(datUniq)) {
           j <-  which(dat == datUniq[v2])
