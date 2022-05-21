@@ -1,5 +1,5 @@
 ---
-title: "HEATMAPEX.rmd"
+title: "genomeData.rmd"
 author: "Anishka Dhar"
 date: "5/3/2022"
 output: rmarkdown::html_vignette
