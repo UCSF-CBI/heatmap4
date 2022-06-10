@@ -1,5 +1,6 @@
 ## 7. Ritu 04/13/22 - Fix continuous row color bar
 ## 8. Ritu 05/13/22 - row_var not col_var for row color bar
+## 9. Ritu 06/09/22 - Set no. of axis labels to 5 (k=5) in heatmapColorBar
 
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
@@ -446,7 +447,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
       if (T) {
           cat("zlm:",exists("zlm"),"\n")
           if (!exists("zlm")) zlm=c(-.5,.5)
-          heatmapColorBar(cols=cols,limit=zlm)
+          ## 9. Ritu
+          #heatmapColorBar(cols=cols,limit=zlm)
+          heatmapColorBar(cols=cols,limit=zlm,k=5)
           if (input_legend & row_anno) {
               for (vId in 1:length(row_var))
             sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
