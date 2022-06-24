@@ -1241,8 +1241,11 @@ rownames(row_df) <- c('R1', 'R2')
 row_df <- as.data.frame(row_df)
 row_info <- row_df
 
+```
 
-
+```{r}
+#basic heatmap set up; row dend, col dend, row anno, col anno  
+generate_heatmap(test, row_info = row_df, col_info = column_df)
 ```
 
 ```{r}
