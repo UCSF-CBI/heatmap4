@@ -4,7 +4,7 @@ author: "Anishka Dhar"
 date: "5/3/2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{heatmap vignette}
+  %\VignetteIndexEntry{genome vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
