@@ -1265,33 +1265,28 @@ load( file = 'data.rda')
 test <- as.matrix(genomeData)
 
 # Column annotation df
-set.seed(700)
+set.seed(650)
 
 col_rows <- ncol(genomeData)
 col_columns <- 3
 
 column_data <- rnorm(col_rows * col_columns)
 column_df <- matrix(data = column_data, nrow = col_rows, ncol = col_columns)
-colnames(column_df) <- c('C1', 'C2', 'C3')
+colnames(column_df) <- c('C1', 'C2','C3' )
 column_df <- as.data.frame(column_df)
 col_info <- column_df
 
-random3 <- sample(1:2, col_rows, replace = TRUE)
-column_df$C4 <- random3
 
 # Row annotation df
-set.seed(650)
+set.seed(700)
 
 row_rows <- nrow(genomeData)
-row_columns <- 2
+row_columns <- 1
 
 row_data <- rnorm(row_rows * row_columns)
 row_df <- matrix(data = row_data, nrow = row_rows, ncol = row_columns)
-rownames(row_df) <- c('V1', 'V3') 
 row_df <- as.data.frame(row_df)
 row_info <- row_df
-
-
 
 ```
 
