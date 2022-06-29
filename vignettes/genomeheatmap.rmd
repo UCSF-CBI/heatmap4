@@ -1169,7 +1169,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
           if (!exists("zlm")) zlm=c(-.5,.5)
           ## 9. Ritu
           #heatmapColorBar(cols=cols,limit=zlm)
-          heatmapColorBar(cols=cols,limit=zlm,k=5)
+          heatmapColorBar.my(cols=cols,limit=zlm,k=5)
           if (input_legend & row_anno) {
               for (vId in 1:length(row_var))
             sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
@@ -1211,7 +1211,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
                         lim <- round(range(col_info[ ,col_var[vId]],na.rm=T),2)
                     }
                     color_vec=rev(color_vec)
-                    heatmapColorBar(cols=color_vec,limit=lim)
+                    heatmapColorBar.my(cols=color_vec,limit=lim)
 
                 } else {
                     x=sort(unique(col_info[,col_var[vId]]))
