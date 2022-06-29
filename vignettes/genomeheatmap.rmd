@@ -1287,6 +1287,10 @@ row_info <- row_df
 
 ```
 
+```{r}
+#basic heatmap; row dend, col dend, row anno, col anno  
+generate_heatmap(test, row_info = row_df, col_info = column_df)
+```
 
 ```{r}
 #empty, heatmap only 
@@ -1303,3 +1307,12 @@ generate_heatmap(test, col_lab = TRUE, row_lab = FALSE, col_lab_vtr = NULL, row_
 generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = TRUE, row_anno = FALSE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"), col_dend =TRUE, row_dend = FALSE)
 ```
 
+```{r}
+#row anno, row dend only
+generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = FALSE, row_anno = TRUE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"), col_dend = FALSE, row_dend = TRUE)
+```
+
+```{r}
+#col anno, col dend, row anno, row dend 
+generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = TRUE, row_anno = TRUE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"))
+```
