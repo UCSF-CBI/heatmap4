@@ -1257,7 +1257,9 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
 We will use the preloaded data set to map and randomly generate column and row annotations.
 ```{r}
 
-load(file = 'data.rda')
+#load rda file from github package to access genomeData 
+load( file = 'data.rda')
+
 
 # Main numeric matrix to heatmap
 test <- as.matrix(genomeData)
