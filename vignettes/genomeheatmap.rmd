@@ -1068,7 +1068,7 @@ generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALS
   }
   #--------------------------------------------------------------------------------------------
   ## Legend
-  heatmapColorBar <- function(zlm=c(-.5,.5),cols=c("green","red","black"),main=NULL) 
+  heatmapColorBar.my <- function(zlm=c(-.5,.5),cols=c("green","red","black"),main=NULL) 
     
     {
       if (length(cols)==3) {
@@ -1291,7 +1291,7 @@ row_info <- row_df
 ```
 
 ```{r}
-#basic heatmap set up; row dend, col dend, row anno, col anno  
+#basic heatmap; row dend, col dend, row anno, col anno  
 generate_heatmap(test, row_info = row_df, col_info = column_df)
 ```
 
@@ -1306,8 +1306,13 @@ generate_heatmap(test, col_lab = TRUE, row_lab = FALSE, col_lab_vtr = NULL, row_
 ```
 
 ```{r}
-#col anno, col dend, row dend 
-generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = TRUE, row_anno = FALSE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"))
+#col anno, col dend only 
+generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = TRUE, row_anno = FALSE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"), col_dend =TRUE, row_dend = FALSE)
+```
+
+```{r}
+#row anno, row dend only
+generate_heatmap(test, col_lab = TRUE, row_lab = TRUE, col_lab_vtr = NULL, row_lab_vtr = NULL, col_anno = FALSE, row_anno = TRUE, col_info = column_df, row_info = row_df, col_anno_var = c("C1", "C2"), row_anno_var = c("V1"), col_dend = FALSE, row_dend = TRUE)
 ```
 
 ```{r}
