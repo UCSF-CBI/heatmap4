@@ -6,7 +6,7 @@
 generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL,
                              row_lab_vtr = NULL, col_anno = c(FALSE, TRUE), row_anno = c(FALSE,TRUE), col_info = NULL,
                              row_info = NULL, col_anno_var = NULL, row_anno_var = NULL, col_var_info = NULL,
-                             row_var_info = NULL, col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE),
+                             row_var_info = NULL, col_dend = c(FALSE,TRUE), row_dend = c(FALSE,TRUE),
                              col_anno_name=NULL, row_anno_name=NULL,
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
