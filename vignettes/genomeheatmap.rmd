@@ -1610,6 +1610,7 @@ row_info <- row_df
 
 ```
 
+## 4. Plotting 
 
 ```{r}
 #empty, heatmap only
@@ -1626,15 +1627,9 @@ generate_heatmap(test, col_info = column_df, col_anno = TRUE, input_legend = FAL
 generate_heatmap(test, col_lab = TRUE, row_lab = FALSE, col_info = column_df, col_anno = TRUE, input_legend = FALSE )
 ```
 
-
 ```{r}
 #heatmap with column color bar, column label, column dendrogram   
 generate_heatmap(test, col_lab = TRUE, row_lab = FALSE, col_info = column_df, col_anno = TRUE, col_dend = TRUE, input_legend = FALSE)
-```
-
-```{r}
-#heatmap with column color bar, column label, column dendrogram, only col 1 anno       
-generate_heatmap(test, col_lab = TRUE, row_lab = FALSE, col_info = column_df, col_anno = TRUE, col_dend = TRUE, input_legend = FALSE, col_anno_var = "C1")
 ```
 
 ```{r}
