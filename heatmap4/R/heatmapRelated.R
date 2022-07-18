@@ -8,6 +8,7 @@
 ## 7. Ritu 08/25/21 No border for color fill in function sampleColorLegend
 ## 8. Ritu 10/12/21 Reverse cluster designation if rev=T
 ## 9. Ritu 10/13/21 New options pch, lwd in function sampleColorLegend
+## 10. Ritu 10/17/22 New options border, ... in function sampleColorLegend
 
 plotHeatmap <- function(dataAcgh, clInfo, distMethod="euclidean",clustCol=T,clustRow=F,numChrom=nAut,resp=NULL,samId=1:ncol(dataAcgh),samName=NULL,amplif=NULL,phenName="",phenColor=NULL, main=NULL, candidateClone=F,cloneInfo=NULL,margins=c(5,5),chrInfo.this=chrInfo,chromCol=c("skyblue","blue","yellowgreen","yellow"),cexCol=NULL) {
 	if (!is.null(resp)) {
@@ -175,12 +176,14 @@ heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,...) {
     maColorBar(try, scale=limit,main=main,...)
 }
 
-## 9. Ritu
-### 6. Ritu
-#### 1. Ritu
-##sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL) {
-#sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
-sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+## 10. Ritu
+### 9. Ritu
+#### 6. Ritu
+##### 1. Ritu
+###sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL) {
+##sampleColorLegend <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+#sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
+sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NULL,legendTitle=NULL,cex=NULL,density=NULL,...) {
 	nTypes <- length(tls)
 	if (is.null(col)) {
 		cl <- brewer.pal(8, "Accent")
@@ -203,6 +206,8 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitl
 	} else {
 		col=cl
 	}
+    ## 10. Ritu
+    if (is.null(border)) border=fill
 	n <- length(tls)
 	ii <- 1:length(tls)
 	if (is.null(cex)) {
@@ -212,14 +217,18 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitl
 	plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
 	if (is.null(lty)) {
         if (is.null(density)) {
-            ## 7. Ritu
-            #legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
-            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=fill,cex=cex,title=legendTitle)
+            ## 10. Ritu
+            ### 7. Ritu
+            ##legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
+            #legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=fill,cex=cex,title=legendTitle)
+            legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=border,cex=cex,title=legendTitle,...)
         } else {
-            ## 7. Ritu
-            ### 6. Ritu
-            #legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
-            legend(0,length(tls),tls,col=fill,lty=lty,border=fill,cex=cex,density=density,title=legendTitle)
+            ## 10. Ritu
+            ### 7. Ritu
+            #### 6. Ritu
+            ##legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
+            #legend(0,length(tls),tls,col=fill,lty=lty,border=fill,cex=cex,density=density,title=legendTitle)
+            legend(0,length(tls),tls,col=fill,lty=lty,border=border,cex=cex,density=density,title=legendTitle,...)
             if (F) {
                 text(1,k-1,legendTitle)
                 for (k in 1:length(tls)) {
@@ -229,7 +238,9 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,pch=NULL,lwd=NULL,legendTitl
             }
         }
 	} else {
-		legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle)
+        ## 10. Ritu
+        #legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle)
+        legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle,...)
 	}
 }
 
