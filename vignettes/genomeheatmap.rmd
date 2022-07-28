@@ -4,7 +4,7 @@ author: "Anishka Dhar"
 date: "5/3/2022"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{genomeheatmap.rmd}
+  %\VignetteIndexEntry{genome heatmap vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1. Introduction
 This package takes the original heatmap function and reduces the argument complexity. 
 
-A heat map is a false color image (image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
+A heatmap is a false color image (image(t(x))) with a dendrogram added to the top and left side. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
 
 
 ```{r, echo=FALSE}
@@ -31,10 +31,13 @@ if (F) {
 ```
 
 ## 2. Loading Libraries
-The libraries to call are the following:
-```{r}
+
+```{r, include=FALSE}
 library(RColorBrewer)
 library(marray)
+```
+
+```{r}
 library(heatmap4)
 ```
 
@@ -1578,18 +1581,19 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 We will use the data sets genomDat, phen, and anno to map and generate column and row annotations. 
 ```{r, include = FALSE}
 #Load rda file from github package to access data
-setwd("~/Downloads/heatmap4-master-2")
-load(file = 'data.RData')
+setwd("~/Desktop/heatmap4-master-2")
+load(file = 'data_v2.RData')
+
 genomDat <- as.matrix(genomDat[1:20,1:20])
 
 # Column annotation df
 
-col<- select(phen, age..yrs., sex)
+col<- select(phen, age_year, sex)
 col_rows <- ncol(col)
 col_columns <- 2
 column_df <- as.data.frame(col)
 colnames(column_df) <- c("age","sex")
-col_info <- column_df
+
 
 # Row annotation df
 row<-as.matrix(table(anno$Chrom))
@@ -1598,50 +1602,63 @@ row_columns <- 1
 row_df <- matrix(data = row)
 row_df <- as.data.frame(row_df)
 colnames(row_df)<- c("chrom")
-row_info <- row_df
+
 ```
 
 ```{r}
-#Sample portion of genset (heatmap examples will use [1:20,1:20])
+load(file = )
+```
+
+```{r}
+# Sample portion of genomDat (heatmap examples will use [1:20,1:20])
 print(genomDat[1:9,1:6])
+
+# Sample portion of column annotations df (heatmap examples will use [1:39]) 
+print(column_df$age[1:10])
+
+print(column_df$sex[1:8])
+
+# Sample portion of row annotation df (heatmap examples will use [1:22])
+print(row_df$chrom[1:10])
+
 ```
 
 ## 4. Generate Heatmap 
 
 ```{r}
-#Default heatmap 
-generate_heatmap(genset, input_legend = FALSE)
+# Default heatmap 
+generate_heatmap(genomDat, input_legend = FALSE)
 ```
 
 ```{r}
-#Heatmap with column annotations 
-generate_heatmap(genset, col_info = column_df, col_anno = TRUE, input_legend = FALSE)
+# Heatmap with column dendrogram
+generate_heatmap(genomDat, col_info = column_df, col_dend = TRUE, input_legend = FALSE)
 ```
 
 ```{r}
-#Heatmap with column annotations, column label    
-generate_heatmap(genset, col_lab = TRUE, row_lab = FALSE, col_info = column_df, 
-col_anno = TRUE, input_legend = FALSE )
+# Heatmap with column dendrogram, column annotations    
+generate_heatmap(genomDat, col_info = column_df, col_dend = TRUE, col_anno = TRUE, 
+input_legend = FALSE )
 ```
 
 
 ```{r}
-#Heatmap with column annotations, column label, column dendrogram   
-generate_heatmap(genset, col_lab = TRUE, row_lab = FALSE, col_info = column_df, 
+# Heatmap with column dendrogram, column annotations, column label   
+generate_heatmap(genomDat, col_lab = TRUE, col_info = column_df, 
 col_anno = TRUE, col_dend = TRUE, input_legend = FALSE)
 ```
 
 ```{r}
-#Heatmap with all annotations
-generate_heatmap(genset, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
+# Heatmap with all annotations
+generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
 row_anno = TRUE, col_info = column_df, row_info = row_df, col_dend = TRUE, 
 row_dend = TRUE, input_legend = FALSE)
 ```
 
 ## 5. More
 ```{r}
-#Add a title 
-generate_heatmap(genset, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
+# Add a title 
+generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
 row_anno = TRUE, col_info = column_df, row_info = row_df, col_dend = TRUE, 
 row_dend = TRUE, input_legend = FALSE, h_title = "Genome Heatmap")
 ```
@@ -1649,12 +1666,12 @@ row_dend = TRUE, input_legend = FALSE, h_title = "Genome Heatmap")
 
 
 ```{r}
-#Change annotation colors and font size  
+# Change annotation colors and font size  
 main_plot = list("cexCol" = 1.25, "cexRow" = 1.5, "cexRowSide" = 1, "cexColSide" = 1)
 cate_color = list(age = list(color = c("light blue", "blue")), chrom = list(color = c("pink",
 "purple")))
 
-generate_heatmap(genset, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, row_anno = TRUE,
+generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, row_anno = TRUE,
 col_info = column_df, row_info = row_df, col_dend = TRUE, row_dend = TRUE, input_legend = 
 FALSE, col_anno_var = c("age","sex"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
 plot_info = main_plot, col_var_info = cate_color, row_var_info = cate_color)
