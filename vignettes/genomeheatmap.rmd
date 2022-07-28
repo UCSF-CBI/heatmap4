@@ -1,5 +1,5 @@
 ---
-title: "genomeheatmap.rmd"
+title: "Heatmap4 Vignette"
 author: "Anishka Dhar"
 date: "5/3/2022"
 output: rmarkdown::html_vignette
@@ -1579,6 +1579,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 ## 3. Example Data
 
 We will use the data sets genomDat, phen, and anno to map and generate column and row annotations. 
+
+
 ```{r, include = FALSE}
 #Load rda file from github package to access data
 setwd("~/Desktop/heatmap4-master-2")
@@ -1618,6 +1620,7 @@ print(column_df$sex[1:8])
 print(row_df$chrom[1:10])
 
 ```
+
 
 ## 4. Generate Heatmap 
 
