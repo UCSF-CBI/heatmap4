@@ -39,6 +39,10 @@ library(heatmap4)
 ```
 
 ```{r, include = FALSE}
+library(dplyr)
+```
+
+```{r, include = FALSE}
 #heatmap4source
 heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = dist,
 hclustfun = hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
@@ -1571,21 +1575,20 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 
 ## 3. Example Data
 
-We will use the data set genomDat, phen, and anno to map and generate column and row annotations. 
+We will use the data sets genomDat, phen, and anno to map and generate column and row annotations. 
 ```{r, include = FALSE}
 #Load rda file from github package to access data
 setwd("~/Downloads/heatmap4-master-2")
 load(file = 'data.RData')
-genset <- as.matrix(genomDat[1:20,1:20])
+genomDat <- as.matrix(genomDat[1:20,1:20])
 
 # Column annotation df
 
-col<- as.matrix(phen$age..yrs.)
+col<- select(phen, age..yrs., sex)
 col_rows <- ncol(col)
 col_columns <- 2
-column_df <- matrix(data = col)
-column_df<- as.data.frame(column_df)
-colnames(column_df) <- c('age')
+column_df <- as.data.frame(col)
+colnames(column_df) <- c("age","sex")
 col_info <- column_df
 
 # Row annotation df
@@ -1600,8 +1603,7 @@ row_info <- row_df
 
 ```{r}
 #Sample portion of genset (heatmap examples will use [1:20,1:20])
-print(genset[1:9,1:6])
-
+print(genomDat[1:9,1:6])
 ```
 
 ## 4. Generate Heatmap 
@@ -1648,13 +1650,13 @@ row_dend = TRUE, input_legend = FALSE, h_title = "Genome Heatmap")
 
 ```{r}
 #Change annotation colors and font size  
-main_plot = list("cexCol" = 2, "cexRow" = 2, "cexRowSide" = 1, "cexColSide" = 1)
-cate_color = list(age = list(color = c("pink", "white")), chrom = list(color = c("purple",
-"white")))
+main_plot = list("cexCol" = 1.25, "cexRow" = 1.5, "cexRowSide" = 1, "cexColSide" = 1)
+cate_color = list(age = list(color = c("light blue", "blue")), chrom = list(color = c("pink",
+"purple")))
 
 generate_heatmap(genset, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, row_anno = TRUE,
 col_info = column_df, row_info = row_df, col_dend = TRUE, row_dend = TRUE, input_legend = 
-FALSE, col_anno_var = c("age"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
+FALSE, col_anno_var = c("age","sex"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
 plot_info = main_plot, col_var_info = cate_color, row_var_info = cate_color)
 ```
 
