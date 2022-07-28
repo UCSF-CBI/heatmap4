@@ -1582,7 +1582,7 @@ We will use the data sets genomDat, phen, and anno to map and generate column an
 ```{r, include = FALSE}
 #Load rda file from github package to access data
 setwd("~/Desktop/heatmap4-master-2")
-load(file = 'data_v2.RData')
+load(file = 'data.RData')
 
 genomDat <- as.matrix(genomDat[1:20,1:20])
 
@@ -1603,10 +1603,6 @@ row_df <- matrix(data = row)
 row_df <- as.data.frame(row_df)
 colnames(row_df)<- c("chrom")
 
-```
-
-```{r}
-load(file = )
 ```
 
 ```{r}
