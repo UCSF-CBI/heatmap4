@@ -1580,11 +1580,15 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 
 We will use the data sets genomDat, phen, and anno to map and generate column and row annotations. 
 
+The data set genomDat is 2x2 matrix with gene expression data (subjects, genes). The phen (phenotype) data set displays the clinical information of the subjects. The anno data set consists of gene mapping information.
+
+```{r}
+# Set working directory to heatmap4 and load RData file from github package to access data
+setwd("~/Downloads/heatmap4-master-2")
+load(file = 'data.RData')
+```
 
 ```{r, include = FALSE}
-#Load rda file from github package to access data
-setwd("~/Desktop/heatmap4-master-2")
-load(file = 'data.RData')
 
 genomDat <- as.matrix(genomDat[1:20,1:20])
 
@@ -1611,13 +1615,11 @@ colnames(row_df)<- c("chrom")
 # Sample portion of genomDat (heatmap examples will use [1:20,1:20])
 print(genomDat[1:9,1:6])
 
-# Sample portion of column annotations df (heatmap examples will use [1:39]) 
-print(column_df$age[1:10])
+# Sample portion of phen (heatmap examples will use [1:39]) 
+print(phen[1:9,1:6])
 
-print(column_df$sex[1:8])
-
-# Sample portion of row annotation df (heatmap examples will use [1:22])
-print(row_df$chrom[1:10])
+# Sample portion of anno (heatmap examples will use [1:22])
+print(anno[1:2,1:2])
 
 ```
 
