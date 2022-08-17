@@ -248,7 +248,7 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 #getDist <- function(dat,method="pearson") {
 getDist <- function(dat,method="pearson",absolute=FALSE) {
 	if (method=="pearson") {
-		print(method)
+		#print(method)
 		## 2. Ritu
 		#as.dist(1 - cor(t(dat),use="complete.obs"))
 		y=cor(t(dat),use="complete.obs")

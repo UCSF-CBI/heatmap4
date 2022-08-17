@@ -60,8 +60,8 @@ addamps=NULL, colamps=NULL, cexAmp=.25, addText=NULL, cexText=1, lwidHeatmap=4, 
 {
     
     
-    print("heatmap4: zlm")
-    print(zlm)
+    #print("heatmap4: zlm")
+    #print(zlm)
     
     ## 4. Ritu
     if (!is.matrix(x)) {f
