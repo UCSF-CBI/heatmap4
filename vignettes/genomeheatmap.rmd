@@ -2307,10 +2307,14 @@ We will use the data sets genomDat, phen, and anno to map and generate column an
 
 The data set genomDat is 2x2 matrix with gene expression data (subjects, genes). The phen (phenotype) data set displays the clinical information of the subject. The anno data set consists of gene mapping information.
 
-```{r}
-# Set working directory to the heatmap4 package and load the data.RData file to access the data 
+```{r, include = FALSE}
+# Load the data.RData file from the package to access the data 
 setwd("~/Downloads")
-load(file = 'data_v3.RData') 
+```
+
+```{r}
+# Load the data.RData file from the package to access the data 
+load(file = 'data_gen.RData') 
 ```
 
 ```{r, include = FALSE}
