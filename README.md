@@ -20,7 +20,7 @@ Note: R should show that it is loading the required package "usethis"
 
 ## Use install_github with “author/package”
 ```{r}
- install_github(“UCSF-CBI/heatmap4”,  auth_token = “xyz”, build_vignettes = TRUE)
+install_github("UCSF-CBI/heatmap4",  auth_token = "xyz", build_vignettes = TRUE)
 ```
 Note: make sure to include the “build_vignettes” argument, otherwise the package vignettes will not download. Also know that the auth_token given to you may be subject to change.
 
@@ -31,13 +31,12 @@ After inputting your data set and assigning variables and values as needed, you 
 
 ```{r}
 library("heatmap4")
-generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE,
-                 row_dend = FALSE, col_dend = TRUE, file_name = "example")
+generate_heatmap(x, input_legend = FALSE)
 
 ```
 
 # Getting Started
-* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/vignettes/genomeheatmap.rmd) genome heatmap vignette 
+* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/vignettes/genomeheatmap.rmd)
 
 
 # License
