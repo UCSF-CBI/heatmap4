@@ -89,8 +89,8 @@ colnames(annotation_df) <- c('C1', 'C2', 'C3')
 annotation_df <- as.data.frame(annotation_df)
 
 # Basic heatmap4 example with column annotations only
-generate_heatmap(x, col_info = annotation_df, row_anno = FALSE, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE,
-                 row_dend = FALSE, col_dend = TRUE, file_name = "Heatmap4 Example.pdf")
+generate_heatmap(x, col_info = annotation_df, col_anno = TRUE, row_lab = TRUE, col_lab = TRUE,
+                 col_dend = TRUE, file_name = "Heatmap4 Example.pdf")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
