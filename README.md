@@ -32,7 +32,6 @@ After inputting your data set and assigning variables and values as needed, you 
 ```{r}
 library("heatmap4")
 generate_heatmap(x, input_legend = FALSE)
-
 ```
 
 # Getting Started
