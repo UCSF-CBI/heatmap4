@@ -2,29 +2,29 @@
 \alias{generateheatmap}
 \title{Generate a Heat Map}
 \description{This package takes the original heatmap function and reduces the arguement complexity. A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.}
-\usage{generate_heatmap <- function(x, col_lab = c(TRUE, FALSE), row_lab = c(TRUE, FALSE), col_lab_vtr = NULL, row_lab_vtr =
-NULL, col_anno = c(TRUE, FALSE), row_anno = c(TRUE, FALSE), col_info = NULL, row_info = NULL, col_anno_var = NULL, row_anno_var
-= NULL, col_var_info = NULL, row_var_info = NULL, col_dend = c(TRUE, FALSE), row_dend = c(TRUE, FALSE), col_clust = c(TRUE,
-FALSE), row_clust = c(TRUE, FALSE), plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" =
+\usage{generate_heatmap <- function(x, col_lab = c(FALSE, TRUE), row_lab = c(FALSE, TRUE), col_lab_vtr = NULL, row_lab_vtr =
+NULL, col_anno = c(FALSE, TRUE), row_anno = c(FALSE, TRUE), col_info = NULL, row_info = NULL, col_anno_var = NULL, row_anno_var
+= NULL, col_var_info = NULL, row_var_info = NULL, col_dend = c(FALSE, TRUE), row_dend = c(FALSE, TRUE), col_clust = c(FALSE,
+TRUE), row_clust = c(FALSE, TRUE), plot_info = c("sideLabCol" = NULL, "sideLabRow" = NULL, "cexColSide" = NULL, "cexRowSide" =
 NULL), file_name = NULL, ...)}
 \arguments{
   \item{x}{numeric matrix; values to be plotted in the heatmap}
-  \item{col_lab}{boolean (T, F); to display column labels; default is TRUE}
-  \item{row_lab}{boolean (T, F); to display row labels; default is TRUE}
+  \item{col_lab}{boolean (T, F); to display column labels; default is FALSE}
+  \item{row_lab}{boolean (T, F); to display row labels; default is FALSE}
   \item{col_lab_vtr}{character vector; with column labels to use; defaults to colnames(x)}
   \item{row_lab_vtr}{character vector; with row labels to use; defaults to rownames(x)}
-  \item{col_anno}{boolean (T, F); to display column annotations; defaults to TRUE}
-  \item{row_anno}{boolean (T, F); to display row annotations; defaults to TRUE}
+  \item{col_anno}{boolean (T, F); to display column annotations; defaults to FALSE}
+  \item{row_anno}{boolean (T, F); to display row annotations; defaults to FALSE}
   \item{col_info}{data frame; data to be used in column annotations; default is NULL}
   \item{row_info}{data frame; data to be used in row annotations; default is NULL}
   \item{col_anno_var}{character vector; with specific column annotation variables to see in column annotations; defaults to colnames(col_info)}
   \item{row_anno_var}{character vector; with specific row annotation variables to see in row annotations; defaults to colnames(row_info)}
   \item{col_var_info}{nested list; of column annotation variables that need specific colors and placement; default is NULL}
   \item{row_var_info}{nested list; of row annotation variables that need specific colors and placement; default is NULL}
-  \item{col_dend}{boolean (T, F); to display column dendrogram; default in TRUE}
-  \item{row_dend}{boolean (T, F); to display row dendrogram; default in TRUE}
-  \item{col_clust}{variable of hclust or dendrogram class; to cluster by the column; default NULL when col_dend is TRUE}
-  \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is TRUE}
+  \item{col_dend}{boolean (T, F); to display column dendrogram; default in FALSE}
+  \item{row_dend}{boolean (T, F); to display row dendrogram; default in FALSE}
+  \item{col_clust}{variable of hclust or dendrogram class; to cluster by the column; default NULL when col_dend is FALSE}
+  \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is FALSE}
   \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size (in that order); default is list("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'cex': heatmap labels and 'cexSide': annotation labels}
   \item{file_name}{string; denotes the name of the file, must contain one of the following file types: .pdf, .jpeg, .png, .tiff; default is NULL}
   \item{h_title}{string; gives the heatmap output a title; default is NULL}
