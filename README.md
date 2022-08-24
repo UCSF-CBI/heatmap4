@@ -1,6 +1,6 @@
 # heatmap4
-This package takes the original heatmap function and reduces the argument complexity.
-A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
+This package takes the original heatmap function and reduces the argument complexity. 
+A heatmap is a false color image (image(t(x))) with a dendrogram added to the top and left side. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
 # Installing the heatmap4 package
 This section covers installing the heatmap4 package from this UCSF-CBI repository. Installing this package will give you access to examples and help files for running the function “generate_heatmap” that you can use in R.
 
