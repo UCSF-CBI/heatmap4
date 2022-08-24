@@ -36,7 +36,7 @@ generate_heatmap(x, input_legend = FALSE)
 ```
 
 # Getting Started
-* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/vignettes/genomeheatmap.rmd)
+* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/Heatmap4Vignettte.pdf)
 
 
 # License
