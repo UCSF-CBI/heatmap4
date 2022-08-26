@@ -25,7 +25,7 @@ NULL), file_name = NULL, ...)}
   \item{row_dend}{boolean (T, F); to display row dendrogram; default in FALSE}
   \item{col_clust}{variable of hclust or dendrogram class; to cluster by the column; default NULL when col_dend is FALSE}
   \item{row_clust}{variable of hclust or dendrogram class; to cluster by the row; default NULL when row_dend is FALSE}
-  \item{plot_info}{list; of 4 variables to control heatmap and annotation column/row label size (in that order); default is list("cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL); 'cex': heatmap labels and 'cexSide': annotation labels}
+  \item{plot_info}{list; of 8 variables to control heatmap and annotation column/row label size (in that order); default is list( margins=c(0.5,0.5), "cexCol" = NULL, "cexRow" = NULL, "cexColSide" = NULL, "cexRowSide" = NULL, colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL); 'cex': heatmap labels and 'cexSide': annotation labels}
   \item{file_name}{string; denotes the name of the file, must contain one of the following file types: .pdf, .jpeg, .png, .tiff; default is NULL}
   \item{h_title}{string; gives the heatmap output a title; default is NULL}
   \item{input_legend}{boolean (T, F); to display annotations legend; row, column or both will be added if selected; default is FALSE}
@@ -66,7 +66,7 @@ heatmap() uses layout and draws the image in the lower right corner of a 2x2 lay
 Original heatmap function and authors.
 }
 \author{
-Rohan Bhanot and Ritu Roy.
+Rohan Bhanot, Ritu Roy, and Anishka Dhar.
 }
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
