@@ -1046,7 +1046,10 @@ cutCluster=function(clustObj,ann,nClust=2,rev=F) {
 ```
 
 ```{r, include=FALSE}
-##Generate_heatmap.R
+## 7. Ritu 04/13/22 - Fix continuous row color bar
+## 8. Ritu 05/13/22 - row_var not col_var for row color bar
+## 9. Ritu 06/09/22 - Set no. of axis labels to 5 (k=5) in heatmapColorBar
+
 ## Wrapped heatmap function
 generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE), col_lab_vtr = NULL,
                              row_lab_vtr = NULL, col_anno = c(FALSE, TRUE), row_anno = c(FALSE,TRUE), col_info = NULL,
@@ -1055,8 +1058,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                              col_anno_name=NULL, row_anno_name=NULL,
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
-                             plot_info = list(margins=c(5,5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
-                             file_name = NULL, h_title = NULL,input_legend = c(TRUE, FALSE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
+                             plot_info = list(margins=c(0.5,0.5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
+                             file_name = NULL, h_title = NULL,input_legend = c(FALSE, TRUE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
 {
 
   #--------------------------------------------------------------------------------------------
@@ -1573,6 +1576,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   invisible(clusterObj)
 
 }
+
 
 
 ##  2. Ritu 03/28/06 If ColSideColors==NULL, one doesn''t have to specify phenotype color labels
@@ -2307,7 +2311,6 @@ We will use the data sets genomDat, phen, and anno to map and generate column an
 
 The data set genomDat is 2x2 matrix with gene expression data (subjects, genes). The phen (phenotype) data set displays the clinical information of the subject. The anno data set consists of gene mapping information.
 
-
 ```{r}
 # Load the rda file from the package to access the data sets
 setwd("~/Downloads/heatmap4")
@@ -2323,17 +2326,17 @@ genomDat <- as.matrix(genomDat[1:20,1:20])
 col<- select(phen, age_year, sex)
 col_rows <- ncol(col)
 col_columns <- 2
-column_df <- as.data.frame(col)
-colnames(column_df) <- c("age","sex")
+phen <- as.data.frame(col)
+colnames(phen) <- c("age","sex")
 
 
 # Row annotation df
 row<-as.matrix(table(anno$Chrom))
 row_rows <- nrow(table(anno$Chrom))
 row_columns <- 1
-row_df <- matrix(data = row)
-row_df <- as.data.frame(row_df)
-colnames(row_df)<- c("chrom")
+anno <- matrix(data = row)
+anno <- as.data.frame(anno)
+colnames(anno)<- c("chrom")
 
 ```
 
@@ -2342,10 +2345,10 @@ colnames(row_df)<- c("chrom")
 print(genomDat[1:9,1:6])
 
 # Sample portion of phen (heatmap examples will use [1:39]) 
-print(phen[1:9,1:6])
+print(phen[1:2,1:2])
 
 # Sample portion of anno (heatmap examples will use [1:22])
-print(anno[1:2,1:2])
+print(anno[1:1,1:1])
 
 ```
 
@@ -2354,54 +2357,49 @@ print(anno[1:2,1:2])
 
 ```{r}
 # Default heatmap 
-generate_heatmap(genomDat, input_legend = FALSE)
+generate_heatmap(genomDat)
 ```
 
 ```{r}
 # Heatmap with column dendrogram
-generate_heatmap(genomDat, col_info = column_df, col_dend = TRUE, input_legend = FALSE)
+generate_heatmap(genomDat, col_dend = TRUE)
 ```
 
 ```{r}
 # Heatmap with column dendrogram, column annotations    
-generate_heatmap(genomDat, col_info = column_df, col_dend = TRUE, col_anno = TRUE, 
-input_legend = FALSE )
+generate_heatmap(genomDat, col_info = phen, col_dend = TRUE, col_anno = TRUE)
 ```
-
 
 ```{r}
 # Heatmap with column dendrogram, column annotations, column label   
-generate_heatmap(genomDat, col_lab = TRUE, col_info = column_df, 
-col_anno = TRUE, col_dend = TRUE, input_legend = FALSE)
+generate_heatmap(genomDat, col_lab = TRUE, col_info = phen, 
+col_anno = TRUE, col_dend = TRUE, plot_info = list(margins = c(2,2)))
 ```
 
 ```{r}
 # Heatmap with all annotations
 generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
-row_anno = TRUE, col_info = column_df, row_info = row_df, col_dend = TRUE, 
-row_dend = TRUE, input_legend = FALSE)
+row_anno = TRUE, col_info = phen, row_info = anno, col_dend = TRUE, 
+row_dend = TRUE, plot_info = list(margins = c(5,5)))
 ```
 
 ## 5. More
 ```{r}
 # Add a title 
 generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, 
-row_anno = TRUE, col_info = column_df, row_info = row_df, col_dend = TRUE, 
-row_dend = TRUE, input_legend = FALSE, h_title = "Genome Heatmap")
+row_anno = TRUE, col_info = phen, row_info = anno, col_dend = TRUE, 
+row_dend = TRUE, h_title = "Genome Heatmap", plot_info = list(margins = c(5,5)))
 ```
 
-
-
 ```{r}
-# Change annotation colors and font size  
-main_plot = list("cexCol" = 1.25, "cexRow" = 1.5, "cexRowSide" = 1, "cexColSide" = 1)
+# Change plot and annotation colors and font size  
+main_plot = list("cexCol" = 1.25, "cexRow" = 1.5, "cexRowSide" = 1, "cexColSide" = 1 )
 cate_color = list(age = list(color = c("light blue", "blue")), chrom = list(color = c("pink",
 "purple")))
 
 generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, row_anno = TRUE,
-col_info = column_df, row_info = row_df, col_dend = TRUE, row_dend = TRUE, input_legend = 
-FALSE, col_anno_var = c("age","sex"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
-plot_info = main_plot, col_var_info = cate_color, row_var_info = cate_color)
+col_info = phen, row_info = anno, col_dend = TRUE, row_dend = TRUE, 
+col_anno_var = c("age","sex"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
+plot_info = main_plot, heatmap_color =c("light blue","purple","pink"), col_var_info = cate_color, row_var_info = cate_color)
 ```
-
 
