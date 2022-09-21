@@ -2400,6 +2400,7 @@ cate_color = list(age = list(color = c("light blue", "blue")), chrom = list(colo
 generate_heatmap(genomDat, col_lab = TRUE, row_lab = TRUE, col_anno = TRUE, row_anno = TRUE,
 col_info = phen, row_info = anno, col_dend = TRUE, row_dend = TRUE, 
 col_anno_var = c("age","sex"), row_anno_var = c("chrom"), h_title = "Genome Heatmap", 
-plot_info = main_plot, heatmap_color =c("light blue","purple","pink"), col_var_info = cate_color, row_var_info = cate_color)
+plot_info = main_plot, heatmap_color =c("light blue","purple","pink"), col_var_info = cate_color, 
+row_var_info = cate_color)
 ```
 
