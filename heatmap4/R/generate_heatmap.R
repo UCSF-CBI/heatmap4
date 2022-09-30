@@ -103,7 +103,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         }
 
         grpUniq <- lim[1]:lim[2]
-        rowColUniq <- maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
+        rowColUniq <- marray::maPalette(high=color_vec[2], low=color_vec[1], k=length(grpUniq))
 
         ## 7. Ritu
         #row_color[v, ] <- rowColUniq[varib]
@@ -232,7 +232,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         }
 
         grpUniq=lim[1]:lim[2]
-        colColUniq=maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
+        colColUniq=marray::maPalette(high=color_vec[2],low=color_vec[1],k=length(grpUniq))
 
         j=match(varib,grpUniq);j1=which(!is.na(j)); j2=j[j1]
         col_color[v,j1] <- colColUniq[j2]
@@ -353,10 +353,10 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   ## Legend
   heatmapColorBar.my <- function(zlm=c(-.5,.5),cols=c("green","red","black"),main=NULL) {
       if (length(cols)==3) {
-          try <- maPalette(high=cols[1], low=cols[2], mid=cols[3])
+          try <- marray::maPalette(high=cols[1], low=cols[2], mid=cols[3])
       } else {
           ## 5. Ritu
-          try <- maPalette(high=cols[1], low=cols[2])
+          try <- marray::maPalette(high=cols[1], low=cols[2])
       }
       maColorBar(try, scale=zlm,main=main)
   }
