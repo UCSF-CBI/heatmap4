@@ -20,6 +20,4 @@ Collate:
   'Annotations.R'
   'generate_heatmap.R'
   'heatmap4Related.R'
-  'heatmap_example.R'
-  'hello.R'
-  'temp_code.R'
+
