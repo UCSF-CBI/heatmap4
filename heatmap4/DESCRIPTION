@@ -1,0 +1,30 @@
+Package: heatmap4
+Type: Package
+Title: Simple Heatmap Function
+Version: 0.1.0
+Author: Rohan Bhanot <rohan.bhanot@ucsf.edu>, Ritu Roy <ritu.roy@ucsf.edu>, Adam Olshen <adam.olshen@ucsf.edu>, Anishka Dhar <anishka.dhar@ucsf.edu> 
+Maintainer: Ritu Roy <ritu.roy@ucsf.edu>
+Description: This package takes the original heatmap function and reduces the arguement complexity.
+License: UCSF
+URL: https://github.com/UCSF-CBI/heatmap4 
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+LazyData: true
+Depends: 
+    R (>= 2.10)
+Suggests: 
+  knitr,
+  rmarkdown,
+  stat,
+  marray,
+  RColorBrewer,
+  psy
+VignetteBuilder: knitr
+BuildVignettes: false
+Collate:
+  'generate_heatmap.R'
+  'heatmap4.R'
+  'heatmapRelated.R'
+  'data.R'
+
