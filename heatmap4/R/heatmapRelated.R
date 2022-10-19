@@ -1,3 +1,42 @@
+#' Calibration bar for color images.
+#'
+#' This function produces a color image (color bar)
+#'
+#' @param x .
+#' @param horizontal .
+#' @param col .
+#' @param scale .
+#' @param k .
+#' @param cexAxis .
+#' @param ... additional arguments.
+#' @return A color vector.
+colorBar=function (x, horizontal = TRUE, col = heat.colors(50), scale = 1:length(x),k = 10, cexAxis=1, ...) {
+    if (is.numeric(x)) {
+        x <- x
+        colmap <- col
+    }
+    else {
+        colmap <- x
+        low <- range(scale)[1]
+        high <- range(scale)[2]
+        x <- seq(low, high, length = length(x))
+    }
+    if (length(x) > k) {
+        x.small <- seq(x[1], x[length(x)], length = k)
+    } else {x.small <- x}
+    if (horizontal) {
+        image(x, 1, matrix(x, length(x), 1), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
+        axis(1, at = rev(x.small), labels = signif(rev(x.small),2), srt = 270,cex.axis=cexAxis)
+    }
+    if (!horizontal) {
+        image(1, x, matrix(x, 1, length(x)), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
+        par(las = 1)
+        axis(4, at = rev(x.small), labels = signif(rev(x.small),2),cex.axis=cexAxis)
+        par(las = 0)
+    }
+    #box()
+}
+
 #' Returns a color bar.
 #'
 #' This function produces a color image (color bar) which can be used for the legend to another color image obtained from heatmap4.
@@ -5,18 +44,27 @@
 #' @param limit .
 #' @param cols .
 #' @param main .
+#' @param marginHMCBar .
+#' @param cexAxisHMCBar .
 #' @param ... additional arguments.
 #' @return A color vector.
-heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,...) {
+heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,marginHMCBar=NULL,cexAxisHMCBar=1,...) {
+    if (!is.null(marginHMCBar)) {
+        parOrig=graphics::par("mar")
+        graphics::par(mar=c(marginHMCBar[1], 4, marginHMCBar[2], 2) + 0.1)
+    }
     if (length(cols)==3) {
         try <- marray::maPalette(high=cols[1], low=cols[2], mid=cols[3])
     } else {
         ## 5. Ritu
         try <- marray::maPalette(high=cols[1], low=cols[2])
     }
-    marray::maColorBar(try, scale=limit,main=main,...)
+    #marray::maColorBar(try, scale=limit,main=main,...)
+    colorBar(try, scale=limit,main=main,cex.lab=2,cexAxis=cexAxisHMCBar,...)
+    if (!is.null(marginHMCBar)) {
+        graphics::par(mar=parOrig)
+    }
 }
-
 #' Returns a legend.
 #'
 #' This function can be used to add legends to row and column color bars.

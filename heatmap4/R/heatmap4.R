@@ -22,7 +22,7 @@
 #' @param fontCol positive number, used as font.axis in for the column axis labeling. The default is 1.
 #' @param labRow character vector with row labels to use; defaults to rownames(x).
 #' @param labCol character vector with column labels to use; these defaults to colnames(x).
-#' @param lineRow (optional) positive number vector, used to draw horiontallines. The default is NULL.
+#' @param lineRow (optional) positive number vector, used to draw horiontal lines. The default is NULL.
 #' @param lineCol (optional) positive number vector, used to draw vertical lines. The default is NULL.
 #' @param lineColor (optional) Color of lines drawn with lineRow and lineCol.
 #' @param totalR .
