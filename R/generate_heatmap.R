@@ -41,7 +41,6 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                              plot_info = list(margins=c(0.5,0.5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
                              file_name = NULL, h_title = NULL,input_legend = c(FALSE, TRUE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
 {
-
   #--------------------------------------------------------------------------------------------
   ## Annotations
   input_legend <- input_legend[1]
@@ -140,7 +139,16 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 
       } else {
         dat <- row_info[ ,row_var[v]]
-        datUniq <- sort(unique(dat))
+        if ("level" %in% names(row_var_info[[row_var[v]]])) {
+            ## 1. Ritu
+            if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level)) {
+                datUniq <- sort(unique(dat))
+            } else {
+                datUniq <- row_var_info[[row_var[v]]]$level
+            }
+        } else {
+            datUniq <- sort(unique(dat))
+        }
         if (length(datUniq) > length(color_vec)) {
           color_vec <- grDevices::rainbow(length(datUniq))
           ## 8. Ritu
@@ -266,7 +274,16 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         col_color[v,j1] <- colColUniq[j2]
       } else {
         dat <- col_info[ ,col_var[v]]
-        datUniq <- sort(unique(dat))
+        if ("level" %in% names(col_var_info[[col_var[v]]])) {
+            ## 1. Ritu
+            if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level)) {
+                datUniq <- sort(unique(dat))
+            } else {
+                datUniq <- col_var_info[[col_var[v]]]$level
+            }
+        } else {
+            datUniq <- sort(unique(dat))
+        }
         if (length(datUniq) > length(color_vec)) {
           color_vec <- grDevices::rainbow(length(datUniq))
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
@@ -297,27 +314,18 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   nr <- nrow(x)
 
   margins=c(5,5)
-  cexColSide <-  1
-  cexRowSide <-  1
-  cexCol <- 0.2 + 1 / log10(nc)
-  cexRow <- 0.2 + 1 / log10(nr)
+  cexColSide <-  1; cexRowSide <-  1
+  cexCol <- 0.2 + 1 / log10(nc); cexRow <- 0.2 + 1 / log10(nr)
+  marginHMCBar=NULL; cexAxisHMCBar=1
 
   if (!(is.null(plot_info))) {
-    if ("margins" %in% names(plot_info)){
-      margins <- plot_info$margins
-    }
-    if ("cexRowSide" %in% names(plot_info)) {
-      cexRowSide <- plot_info$cexRowSide
-    }
-    if ("cexColSide" %in% names(plot_info)) {
-      cexColSide <- plot_info$cexColSide
-    }
-    if ("cexCol" %in% names(plot_info)) {
-      cexCol <- plot_info$cexCol
-    }
-    if ("cexRow" %in% names(plot_info)){
-      cexRow <- plot_info$cexRow
-    }
+    if ("margins" %in% names(plot_info)) margins <- plot_info$margins
+    if ("cexRowSide" %in% names(plot_info)) cexRowSide <- plot_info$cexRowSide
+    if ("cexColSide" %in% names(plot_info)) cexColSide <- plot_info$cexColSide
+    if ("cexCol" %in% names(plot_info)) cexCol <- plot_info$cexCol
+    if ("cexRow" %in% names(plot_info)) cexRow <- plot_info$cexRow
+    if ("marginHMCBar" %in% names(plot_info)) marginHMCBar <- plot_info$marginHMCBar
+    if ("cexAxisHMCBar" %in% names(plot_info)) cexAxisHMCBar <- plot_info$cexAxisHMCBar
   }
 
   #--------------------------------------------------------------------------------------------
@@ -377,67 +385,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   else {
     Colv <- NA
   }
-  #--------------------------------------------------------------------------------------------
-  ## Legend
-  heatmapColorBar.my <- function(zlm=c(-.5,.5),cols=c("green","red","black"),main=NULL) {
-      if (length(cols)==3) {
-          try <- marray::maPalette(high=cols[1], low=cols[2], mid=cols[3])
-      } else {
-          ## 5. Ritu
-          try <- marray::maPalette(high=cols[1], low=cols[2])
-      }
-      marray::maColorBar(try, scale=zlm,main=main)
-  }
-  sampleColorLegend.my <- function(tls,col=NULL,lty=NULL,legendTitle=NULL,cex=NULL,density=NULL) {
-    nTypes <- length(tls)
-    if (is.null(col)) {
-      cl <- RColorBrewer::brewer.pal(8, "Accent")
-      cl <- cl[1:min(nTypes,length(cl))]
-      if (length(cl)<nTypes) {
-        cl=c(RColorBrewer::brewer.pal(nTypes,"Set3"),RColorBrewer::brewer.pal(nTypes,"Set2"))[1:nTypes]
-        cl[1] <- "#1F78B4"
-        if (length(cl)>8) {
-          cl[9] <- "#999999"
-        }
-      }
-      cl <- cl[1:nTypes]
-      cl[cl=="#FFFF99"]="#FFFF60"
-    } else {
-      cl <- col
-    }
-    fill=col=NULL
-    if (is.null(lty)) {
-      fill=cl
-    } else {
-      col=cl
-    }
-    n <- length(tls)
-    if (n!=0) {
-        ii <- 1:length(tls)
-        if (is.null(cex)) {
-          cex=ifelse(max(nchar(tls))>13,1.5,3)
-          if (nTypes>6) {cex=1.5}
-        }
-        plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
-        if (is.null(lty)) {
-          if (is.null(density)) {
-              graphics::legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
-          } else {
-            ## 6. Ritu
-            graphics::legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
-            if (F) {
-              graphics::text(1,k-1,legendTitle)
-              for (k in 1:length(tls)) {
-                graphics::rect(0,k-0.5,1,k+0.5,col=fill[k],density=density)
-                graphics::text(2,k,tls[k])
-              }
-            }
-          }
-        } else {
-          graphics::legend(0,length(tls),tls,col=col,lty=lty,cex=cex,title=legendTitle)
-        }
-    }
-  }
+
   #--------------------------------------------------------------------------------------------
   ## Output Files
   if (!is.null(file_name)){
@@ -462,7 +410,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   }
   #--------------------------------------------------------------------------------------------
   cols <- heatmap_color
-  
+
   ## Heatmap Output
   clusterObj=heatmap4(x = x, Rowv = Rowv, Colv = Colv, symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
@@ -473,14 +421,19 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   if (input_legend) {
       #cat("Legends not yet implemented ....")
       if (T) {
-          cat("zlm:",exists("zlm"),"\n")
-          if (!exists("zlm")) zlm=c(-.5,.5)
-          ## 9. Ritu
-          #heatmapColorBar(cols=cols,limit=zlm)
-          heatmapColorBar(cols=cols,limit=zlm,k=5)
-          if (input_legend & row_anno) {
-              for (vId in 1:length(row_var))
-            sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+          if (length(cols[1])==1) {
+              cat("zlm:",exists("zlm"),"\n")
+              if (!exists("zlm")) zlm=c(-.5,.5)
+              ## 9. Ritu
+              #heatmapColorBar(cols=cols,limit=zlm)
+              heatmapColorBar(cols=cols,limit=zlm,k=5,marginHMCBar=marginHMCBar,cexAxisHMCBar=cexAxisHMCBar)
+          }
+
+          if (F) {
+              if (input_legend & row_anno) {
+                  for (vId in 1:length(row_var))
+                sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
+              }
           }
           if (input_legend & row_anno) {
             cat("Legends ....")
@@ -507,7 +460,11 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                 nm=sub("^ +","",sub(" +$","",rownames(col_color)[vId]))
                 if (is.numeric(col_info[ ,col_var[vId]]) & length(unique(col_info[ ,col_var[vId]])) > 5) {
                     varib <- col_info[ ,col_var[vId]]
-                    color_vec <- color_vec_cont_default
+                    if ("color" %in% names(col_var_info[[col_var[vId]]])) {
+                      color_vec <-  col_var_info[[col_var[vId]]]$color
+                    } else {
+                        color_vec <- color_vec_cont_default
+                    }
                     if ("limit" %in% names(col_var_info[[col_var[vId]]])){
                         lim <-  col_var_info[[col_var[vId]]]$limit
                         varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
@@ -519,8 +476,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                         lim <- round(range(col_info[ ,col_var[vId]],na.rm=T),2)
                     }
                     color_vec=rev(color_vec)
-                    heatmapColorBar(cols=color_vec,limit=lim)
-
+                    heatmapColorBar(cols=color_vec,limit=lim,main=nm,marginHMCBar=marginHMCBar,cexAxisHMCBar=cexAxisHMCBar)
                 } else {
                     x=sort(unique(col_info[,col_var[vId]]))
                     color_vec <- color_vec_cat_default
