@@ -10,7 +10,7 @@
 #' @param cexAxis .
 #' @param ... additional arguments.
 #' @return A color vector.
-colorBar=function (x, horizontal = TRUE, col = heat.colors(50), scale = 1:length(x),k = 10, cexAxis=1, ...) {
+colorBar=function (x, horizontal = TRUE, col = grDevices::heat.colors(50), scale = 1:length(x),k = 10, cexAxis=1, ...) {
     if (is.numeric(x)) {
         x <- x
         colmap <- col
@@ -25,14 +25,14 @@ colorBar=function (x, horizontal = TRUE, col = heat.colors(50), scale = 1:length
         x.small <- seq(x[1], x[length(x)], length = k)
     } else {x.small <- x}
     if (horizontal) {
-        image(x, 1, matrix(x, length(x), 1), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
-        axis(1, at = rev(x.small), labels = signif(rev(x.small),2), srt = 270,cex.axis=cexAxis)
+        graphics::image(x, 1, matrix(x, length(x), 1), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
+        graphics::axis(1, at = rev(x.small), labels = signif(rev(x.small),2), srt = 270,cex.axis=cexAxis)
     }
     if (!horizontal) {
-        image(1, x, matrix(x, 1, length(x)), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
-        par(las = 1)
-        axis(4, at = rev(x.small), labels = signif(rev(x.small),2),cex.axis=cexAxis)
-        par(las = 0)
+        graphics::image(1, x, matrix(x, 1, length(x)), axes = FALSE, xlab = "",ylab = "", col = colmap, ...)
+        graphics::par(las = 1)
+        graphics::axis(4, at = rev(x.small), labels = signif(rev(x.small),2),cex.axis=cexAxis)
+        graphics::par(las = 0)
     }
     #box()
 }
