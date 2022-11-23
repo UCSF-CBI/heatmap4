@@ -33,6 +33,7 @@ if (F) {
 ```{r, include=FALSE}
 library(RColorBrewer)
 library(marray)
+library(dplyr)
 ```
 
 ```{r}
