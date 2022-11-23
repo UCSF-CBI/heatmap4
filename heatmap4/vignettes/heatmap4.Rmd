@@ -2311,7 +2311,7 @@ The data set genomDat is 2x2 matrix with gene expression data (subjects, genes).
 
 ```{r}
 # Load the rda file from the package to access the data sets
-setwd("~/Downloads/heatmap4")
+setwd("~/Desktop/heatmap4-master-#7/data")
 load(file = 'data_gen.RData') 
 ```
 
