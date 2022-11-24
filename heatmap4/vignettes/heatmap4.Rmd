@@ -25,7 +25,7 @@ if (F) {
     install.packages("BiocManager")
 
   BiocManager::install("marray")
-  load("./data.rda")
+  load("data_gen.rda")
 }
 ```
 ## 2. Loading Libraries
@@ -33,6 +33,7 @@ if (F) {
 ```{r, include=FALSE}
 library(RColorBrewer)
 library(marray)
+library(dplyr)
 ```
 
 ```{r}
@@ -2311,8 +2312,7 @@ The data set genomDat is 2x2 matrix with gene expression data (subjects, genes).
 
 ```{r}
 # Load the rda file from the package to access the data sets
-setwd("~/Downloads/heatmap4")
-load(file = 'data_gen.RData') 
+load(file = 'data_gen.rda') 
 ```
 
 ```{r, include = FALSE}
