@@ -47,6 +47,7 @@ colorBar=function (x, horizontal = TRUE, col = grDevices::heat.colors(50), scale
 #' @param marginHMCBar .
 #' @param cexAxisHMCBar .
 #' @param ... additional arguments.
+#' @export
 #' @return A color vector.
 heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,marginHMCBar=NULL,cexAxisHMCBar=1,...) {
     if (!is.null(marginHMCBar)) {
@@ -79,6 +80,7 @@ heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,margin
 #' @param cex .
 #' @param density .
 #' @param ... additional arguments.
+#' @export
 sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NULL,legendTitle=NULL,cex=NULL,density=NULL,...) {
 	nTypes <- length(tls)
 	if (is.null(col)) {
@@ -245,6 +247,7 @@ getCluster=function(dat,distMethod,linkMethod,absolute=F) {
 #' @param ann a data.frame containing annotation for each observation.
 #' @param nClust number of groups desired.
 #' @param rev reverse the order of observations.
+#' @export
 #' @return a data.frame.
 cutCluster=function(clustObj,ann,nClust=2,rev=F) {
     if (is.na(nClust)) {

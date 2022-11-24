@@ -44,6 +44,7 @@
 #' @param cexAmp (optional) size of addAmp
 #' @param addText (optional) character matrix of the same size as x to be added to the heatmap
 #' @param cexText (optional) color of addText
+#' @param lwdRect .
 #' @param lwidHeatmap .
 #' @param lheiHeatmap .
 #' @param lwidRowSide .
@@ -64,7 +65,7 @@ scale = "none", na.rm = TRUE, margins = c(5,5), ColSideColors, RowSideColors,
 cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, labRow = NULL, labCol = NULL, lineRow = NULL, lineCol = NULL, lineColor="black",
 totalR=nr, totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),
 methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",
-addAmp=NULL, colAmp=NULL, cexAmp=.25, addText=NULL, cexText=1,
+addAmp=NULL, colAmp=NULL, cexAmp=.25, addText=NULL, cexText=1, lwdRect=graphics::par("lwd"),
 lwidHeatmap=4, lheiHeatmap=4, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"), ...)
 {
     if (!is.matrix(x)) {
@@ -466,7 +467,7 @@ if (!is.null(addAmp)) {
         if (exists("hcr") & !is.na(ncr)) {
             ## 18. Ritu
             #if (inherits(hcc,"hclust")) rect.hclust(hcr,k=ncr) else stop("Must be of class hclust to delineate clusters")
-            if (inherits(hcr,"hclust")) rect.hclust.my(hcr,k=ncr,horiz=TRUE) else stop("Must be of class hclust to delineate clusters")
+            if (inherits(hcr,"hclust")) rect.hclust.my(hcr,k=ncr,horiz=TRUE,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
         }
     } else {
         graphics::frame()
@@ -487,7 +488,7 @@ if (!is.null(addAmp)) {
         if (exists("hcc") & !is.na(ncc)) {
             ## 18. Ritu
             #if (inherits(hcc,"hclust")) rect.hclust(hcc,k=ncc) else stop("Must be of class hclust to delineate clusters")
-            if (inherits(hcc,"hclust")) rect.hclust.my(hcc,k=ncc) else stop("Must be of class hclust to delineate clusters")
+            if (inherits(hcc,"hclust")) rect.hclust.my(hcc,k=ncc,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
         }
     } else if (!is.null(main)) {
         graphics::frame()
@@ -554,8 +555,9 @@ if (!is.null(addAmp)) {
 #' @param border Vector with border colors for the rectangles.
 #' @param cluster Optional vector with cluster memberships as returned by stats::cutree(hclust.obj, k = k), can be specified for efficiency if already computed.
 #' @param horiz Horizontal or vertical.
+#' @param lwd Line width of the rectangles.
 #' @return (Invisibly) returns a list where each element contains a vector of data points contained in the respective cluster.
-rect.hclust.my=function (tree, k = NULL, which = NULL, x = NULL, h = NULL, border = 2, cluster = NULL, horiz = FALSE) {
+rect.hclust.my=function (tree, k = NULL, which = NULL, x = NULL, h = NULL, border = 2, cluster = NULL, horiz = FALSE, lwd = graphics::par("lwd")) {
     if (length(h) > 1L | length(k) > 1L) stop("'k' and 'h' must be a scalar")
     if (!is.null(h)) {
         if (!is.null(k))
@@ -586,9 +588,9 @@ rect.hclust.my=function (tree, k = NULL, which = NULL, x = NULL, h = NULL, borde
     for (n in seq_along(which)) {
         if (horiz) {
             ## 18. Ritu
-            graphics::rect(mean(rev(tree$height)[(k - 1):k]), m[which[n]] + 0.66, graphics::par("usr")[2L], m[which[n] + 1] + 0.33, border = border[n])
+            graphics::rect(mean(rev(tree$height)[(k - 1):k]), m[which[n]] + 0.66, graphics::par("usr")[2L], m[which[n] + 1] + 0.33, border = border[n], lwd=lwd)
         } else {
-            graphics::rect(m[which[n]] + 0.66, graphics::par("usr")[3L], m[which[n] + 1] + 0.33, mean(rev(tree$height)[(k - 1):k]), border = border[n])
+            graphics::rect(m[which[n]] + 0.66, graphics::par("usr")[3L], m[which[n] + 1] + 0.33, mean(rev(tree$height)[(k - 1):k]), border = border[n], lwd=lwd)
         }
 #        graphics::rect(xleft, ybottom, xright, ytop, density = NULL, angle = 45,col = NA, border = NULL, lty = graphics::par("lty"), lwd = graphics::par("lwd"),
         retval[[n]] <- which(cluster == as.integer(names(clustab)[which[n]]))
