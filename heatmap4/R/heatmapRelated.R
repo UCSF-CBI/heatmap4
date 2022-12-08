@@ -57,7 +57,6 @@ heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,margin
     if (length(cols)==3) {
         try <- marray::maPalette(high=cols[1], low=cols[2], mid=cols[3])
     } else {
-        ## 5. Ritu
         try <- marray::maPalette(high=cols[1], low=cols[2])
     }
     #marray::maColorBar(try, scale=limit,main=main,...)
@@ -104,7 +103,6 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 	} else {
 		col=cl
 	}
-    ## 10. Ritu
     if (is.null(border)) border=fill
 	n <- length(tls)
 	ii <- 1:length(tls)
@@ -115,17 +113,8 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 	plot(0:length(tls),0:length(tls),type="n",axes=F,xlab="",ylab="")
 	if (is.null(lty)) {
         if (is.null(density)) {
-            ## 10. Ritu
-            ### 7. Ritu
-            ##graphics::legend(0,length(tls),tls,fill=fill,col=col,lty=lty,cex=cex,title=legendTitle)
-            #graphics::legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=fill,cex=cex,title=legendTitle)
             graphics::legend(0,length(tls),tls,fill=fill,col=col,lty=lty,border=border,cex=cex,title=legendTitle,...)
         } else {
-            ## 10. Ritu
-            ### 7. Ritu
-            #### 6. Ritu
-            ##graphics::legend(0,length(tls),tls,col=fill,lty=lty,cex=cex,density=density,title=legendTitle)
-            #graphics::legend(0,length(tls),tls,col=fill,lty=lty,border=fill,cex=cex,density=density,title=legendTitle)
             graphics::legend(0,length(tls),tls,col=fill,lty=lty,border=border,cex=cex,density=density,title=legendTitle,...)
             if (F) {
                 graphics::text(1,k-1,legendTitle)
@@ -136,8 +125,6 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
             }
         }
 	} else {
-        ## 10. Ritu
-        #graphics::legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle)
         graphics::legend(0,length(tls),tls,col=col,lty=lty,pch=pch,lwd=lwd,cex=cex,title=legendTitle,...)
 	}
 }
@@ -152,9 +139,6 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 #' @return an object of class "dist".
 getDist <- function(dat,method="pearson",absolute=FALSE) {
 	if (method%in%c("pearson","spearman","kendall")) {
-		#print(method)
-		## 2. Ritu
-		#stats::as.dist(1 - stats::cor(t(dat),use="complete.obs"))
 		y=stats::cor(t(dat),use="complete.obs")
 		if (absolute) y=abs(y)
 		stats::as.dist(1-y)
@@ -197,8 +181,6 @@ getCosineDist=function(x) {
     res=matrix(nrow=ncol(x),ncol=ncol(x),dimnames=list(colnames(x),colnames(x)))
     n <- nrow(x)
     cmb <- expand.grid(i=1:n, j=1:n)
-    ## 4. Ritu
-    #res <- matrix(apply(cmb,1,cos.sim),n,n)
     res <- matrix(apply(cmb,1,cos.sim),n,n,dimnames=list(rownames(x),rownames(x)))
     stats::as.dist(1-res)
 }
@@ -264,8 +246,6 @@ cutCluster=function(clustObj,ann,nClust=2,rev=F) {
             clustId=stats::cutree(clustObj,k=kk+1)[clustObj$order]
             k1=which(!duplicated(clustId))
             for (k in 1:length(k1)) {
-                ## 8. Ritu
-                #clustId[which(clustId==clustId[k1[k]])]=paste("cluster",k,sep="")
                 if (rev) kThis=length(k1)-k+1 else kThis=k
                 clustId[which(clustId==clustId[k1[k]])]=paste("cluster",kThis,sep="")
             }
