@@ -38,7 +38,7 @@ generate_heatmap(x, input_legend = FALSE)
 * [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/heatmap4vignette.pdf)
 
 # Building heatmap4
-in terminal 
+In terminal 
 ```{r}
 R 
 build_vignettes("heatmap4") 
