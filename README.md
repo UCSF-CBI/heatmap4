@@ -38,11 +38,19 @@ generate_heatmap(x, input_legend = FALSE)
 * [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/heatmap4vignette.pdf)
 
 # Building heatmap4
-In terminal 
+In terminal: 
+Use "cd" to change your directory to wherever the heatmap4 package is saved. 
+
+First enter "R" in order to use the R command build_vignettes. 
 ```{r}
 R 
 build_vignettes("heatmap4") 
-build("heatmap4")
+```
+
+After building vignettes you can check the package for errors and then build the package with the following commands. 
+```{r}
+check("heatmap4")
+build("heatmap4") 
 ```
 
 # License
