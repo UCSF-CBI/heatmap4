@@ -35,7 +35,7 @@ generate_heatmap(x, input_legend = FALSE)
 ```
 
 # Getting Started
-* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/heatmap4vignette.pdf)
+* [Using generate_heatmap](https://github.com/UCSF-CBI/heatmap4/blob/master/heatmap4/inst/doc/heatmap4_vignette.pdf)
 
 # Building heatmap4
 In terminal: 
