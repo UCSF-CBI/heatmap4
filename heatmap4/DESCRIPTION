@@ -16,12 +16,11 @@ Depends:
 Suggests: 
   knitr,
   rmarkdown,
-  stat,
+  stats,
   marray,
   RColorBrewer,
   psy
 VignetteBuilder: knitr
-BuildVignettes: false
 Collate:
   'generate_heatmap.R'
   'heatmap4.R'
