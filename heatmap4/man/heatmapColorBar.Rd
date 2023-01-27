@@ -4,7 +4,14 @@
 \alias{heatmapColorBar}
 \title{Returns a color bar.}
 \usage{
-heatmapColorBar(limit, cols = c("green", "red", "black"), main = NULL, ...)
+heatmapColorBar(
+  limit,
+  cols = c("green", "red", "black"),
+  main = NULL,
+  marginHMCBar = NULL,
+  cexAxisHMCBar = 1,
+  ...
+)
 }
 \arguments{
 \item{limit}{.}
@@ -12,6 +19,10 @@ heatmapColorBar(limit, cols = c("green", "red", "black"), main = NULL, ...)
 \item{cols}{.}
 
 \item{main}{.}
+
+\item{marginHMCBar}{.}
+
+\item{cexAxisHMCBar}{.}
 
 \item{...}{additional arguments.}
 }

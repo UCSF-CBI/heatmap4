@@ -9,8 +9,8 @@ heatmap4(
   imp = TRUE,
   Rowv = NA,
   Colv = NULL,
-  distfun = stat::dist,
-  hclustfun = stat::hclust,
+  distfun = stats::dist,
+  hclustfun = stats::hclust,
   add.expr,
   symm = FALSE,
   revC = identical(Colv, "Rowv"),
@@ -47,6 +47,7 @@ heatmap4(
   cexAmp = 0.25,
   addText = NULL,
   cexText = 1,
+  lwdRect = graphics::par("lwd"),
   lwidHeatmap = 4,
   lheiHeatmap = 4,
   lwidRowSide = 0.2,
@@ -103,7 +104,7 @@ heatmap4(
 
 \item{labCol}{character vector with column labels to use; these defaults to colnames(x).}
 
-\item{lineRow}{(optional) positive number vector, used to draw horiontallines. The default is NULL.}
+\item{lineRow}{(optional) positive number vector, used to draw horiontal lines. The default is NULL.}
 
 \item{lineCol}{(optional) positive number vector, used to draw vertical lines. The default is NULL.}
 
@@ -146,6 +147,8 @@ heatmap4(
 \item{addText}{(optional) character matrix of the same size as x to be added to the heatmap}
 
 \item{cexText}{(optional) color of addText}
+
+\item{lwdRect}{.}
 
 \item{lwidHeatmap}{.}
 

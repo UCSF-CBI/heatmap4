@@ -12,7 +12,8 @@ rect.hclust.my(
   h = NULL,
   border = 2,
   cluster = NULL,
-  horiz = FALSE
+  horiz = FALSE,
+  lwd = graphics::par("lwd")
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ rect.hclust.my(
 \item{cluster}{Optional vector with cluster memberships as returned by stats::cutree(hclust.obj, k = k), can be specified for efficiency if already computed.}
 
 \item{horiz}{Horizontal or vertical.}
+
+\item{lwd}{Line width of the rectangles.}
 }
 \value{
 (Invisibly) returns a list where each element contains a vector of data points contained in the respective cluster.
