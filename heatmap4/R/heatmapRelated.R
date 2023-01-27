@@ -136,6 +136,7 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 #' @param dat a numeric matrix passed to function cor.
 #' @param method a character string indicating which correlation coefficient is to be computed. One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param absolute a logical value. TRUE means absolute value of correlation is to be returned.
+#' @export
 #' @return an object of class "dist".
 getDist <- function(dat,method="pearson",absolute=FALSE) {
 	if (method%in%c("pearson","spearman","kendall")) {
@@ -154,6 +155,7 @@ getDist <- function(dat,method="pearson",absolute=FALSE) {
 #' @param x a numeric matrix passed to function cor.
 #' @param type a character string indicating which correlation coefficient (or covariance) is to be computed. One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
 #' @param absolute a logical value. TRUE means absolute value of correlation is to be returned.
+#' @export
 #' @return an object of class "dist".
 getKappaDist=function(x,type="Cohen",absolute=FALSE) {
 	res=matrix(nrow=ncol(x),ncol=ncol(x),dimnames=list(colnames(x),colnames(x)))
@@ -171,6 +173,7 @@ getKappaDist=function(x,type="Cohen",absolute=FALSE) {
 #' This function computes cosine distances and returns them as a distance matrix.
 #'
 #' @param x a numeric matrix.
+#' @export
 #' @return an object of class "dist".
 getCosineDist=function(x) {
     cos.sim <- function(ix) {
@@ -193,6 +196,7 @@ getCosineDist=function(x) {
 #' @param distMethod distance function.
 #' @param linkMethod agglomeration method.
 #' @param absolute a logical value. TRUE means absolute value of correlation is to be returned.
+#' @export
 #' @return an object of class "hclust".
 getCluster=function(dat,distMethod,linkMethod,absolute=F) {
     switch(distMethod,
