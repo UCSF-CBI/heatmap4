@@ -101,8 +101,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
       }
       if (!is.null(row_var_info)) {
         if (row_var[v] %in% names(row_var_info)) {
-          if ("color" %in% names(row_var_info[[row_var[v]]])){
-            color_vec <-  row_var_info[[row_var[v]]]$color
+          if ("color" %in% names(row_var_info[[row_var[v]]])) {
+              row_var_info[[row_var[v]]]$color=row_var_info[[row_var[v]]]$color[!is.na(row_var_info[[row_var[v]]]$color)]
+            color_vec <- row_var_info[[row_var[v]]]$color
           }
         }
       }
@@ -111,7 +112,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
 
         varib <- row_info[ ,row_var[v]]
         if ("limit" %in% names(row_var_info[[row_var[v]]])){
-            lim <-  row_var_info[[row_var[v]]]$limit
+            lim <- row_var_info[[row_var[v]]]$limit
             varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
             ## 7. Ritu
             lim=lim+lim[2]+1
@@ -141,8 +142,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         dat <- row_info[ ,row_var[v]]
         if ("level" %in% names(row_var_info[[row_var[v]]])) {
             ## 1. Ritu
-            if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level)) {
-                datUniq <- sort(unique(dat))
+            datUniq <- sort(unique(dat))
+            if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
+                row_var_info[[row_var[v]]]$level <- datUniq
             } else {
                 datUniq <- row_var_info[[row_var[v]]]$level
             }
@@ -151,12 +153,13 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         }
         if (length(datUniq) > length(color_vec)) {
           color_vec <- grDevices::rainbow(length(datUniq))
+          row_var_info[[row_var[v]]]$color <- color_vec
           ## 8. Ritu
           #cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
           cat("Not enough colors for ,",row_var[v],"; They have been assigned random colors in the meantime.\n")
         }
         for (v2 in 1:length(datUniq)) {
-          j <-  which(dat == datUniq[v2])
+          j <- which(dat == datUniq[v2])
           row_color[v, j] <- color_vec[v2]
 
         }
@@ -236,7 +239,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
       if (!is.null(col_var_info)) {
         if (col_var[v] %in% names(col_var_info)) {
           if ("color" %in% names(col_var_info[[col_var[v]]])) {
-            color_vec <-  col_var_info[[col_var[v]]]$color
+              col_var_info[[col_var[v]]]$color=col_var_info[[col_var[v]]]$color[!is.na(col_var_info[[col_var[v]]]$color)]
+            color_vec <- col_var_info[[col_var[v]]]$color
           }
         }
       }
@@ -248,9 +252,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             if (F) {
                 x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
                 varib=((varib-min(varib,na.rm=T))/x1)+1
-                lim <-  col_var_info[[col_var[v]]]$limit+1
+                lim <- col_var_info[[col_var[v]]]$limit+1
             } else {
-                lim <-  col_var_info[[col_var[v]]]$limit
+                lim <- col_var_info[[col_var[v]]]$limit
                 varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
                 lim=lim+lim[2]+1
             }
@@ -276,8 +280,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         dat <- col_info[ ,col_var[v]]
         if ("level" %in% names(col_var_info[[col_var[v]]])) {
             ## 1. Ritu
-            if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level)) {
-                datUniq <- sort(unique(dat))
+            datUniq <- sort(unique(dat))
+            if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
+                col_var_info[[col_var[v]]]$level <- datUniq
             } else {
                 datUniq <- col_var_info[[col_var[v]]]$level
             }
@@ -286,10 +291,11 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         }
         if (length(datUniq) > length(color_vec)) {
           color_vec <- grDevices::rainbow(length(datUniq))
+          col_var_info[[col_var[v]]]$color <- color_vec
           cat("Not enough colors for ,",col_var[v],"; They have been assigned random colors in the meantime.\n")
         }
         for (v2 in 1:length(datUniq)) {
-          j <-  which(dat == datUniq[v2])
+          j <- which(dat == datUniq[v2])
           col_color[v,j] <- color_vec[v2]
         }
       }
@@ -314,7 +320,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   nr <- nrow(x)
 
   margins=c(5,5)
-  cexColSide <-  1; cexRowSide <-  1
+  cexColSide <- 1; cexRowSide <- 1
   cexCol <- 0.2 + 1 / log10(nc); cexRow <- 0.2 + 1 / log10(nr)
   marginHMCBar=NULL; cexAxisHMCBar=1
 
@@ -428,13 +434,6 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
               #heatmapColorBar(cols=cols,limit=zlm)
               heatmapColorBar(cols=cols,limit=zlm,k=5,marginHMCBar=marginHMCBar,cexAxisHMCBar=cexAxisHMCBar)
           }
-
-          if (F) {
-              if (input_legend & row_anno) {
-                  for (vId in 1:length(row_var))
-                sampleColorLegend(tls = row_var, col = row_color, lty = NULL, legendTitle = legend_title, cex = NULL)
-              }
-          }
           if (input_legend & row_anno) {
             cat("Legends ....")
             for (vId in 1:length(row_var)) {
@@ -444,12 +443,15 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                 if (!is.null(row_var_info)) {
                   if (row_var[vId] %in% names(row_var_info)) {
                     if ("color" %in% names(row_var_info[[row_var[vId]]])) {
-                      color_vec <-  row_var_info[[row_var[vId]]]$color
+                      color_vec <- row_var_info[[row_var[vId]]]$color
                     }
-                  if ("level" %in% names(row_var_info[[row_var[vId]]])) {
-                    x <-  row_var_info[[row_var[vId]]]$level
+                    if ("level" %in% names(row_var_info[[row_var[vId]]])) {
+                        x <- row_var_info[[row_var[vId]]]$level
+                    }
                   }
-                  }
+                }
+                if (length(x) > length(color_vec)) {
+                  color_vec <- grDevices::rainbow(length(x))
                 }
                 sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
             }
@@ -461,12 +463,12 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                 if (is.numeric(col_info[ ,col_var[vId]]) & length(unique(col_info[ ,col_var[vId]])) > 5) {
                     varib <- col_info[ ,col_var[vId]]
                     if ("color" %in% names(col_var_info[[col_var[vId]]])) {
-                      color_vec <-  col_var_info[[col_var[vId]]]$color
+                      color_vec <- col_var_info[[col_var[vId]]]$color
                     } else {
                         color_vec <- color_vec_cont_default
                     }
                     if ("limit" %in% names(col_var_info[[col_var[vId]]])){
-                        lim <-  col_var_info[[col_var[vId]]]$limit
+                        lim <- col_var_info[[col_var[vId]]]$limit
                         varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
                     } else {
                         x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
@@ -483,12 +485,15 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                     if (!is.null(col_var_info)) {
                       if (col_var[vId] %in% names(col_var_info)) {
                         if ("color" %in% names(col_var_info[[col_var[vId]]])) {
-                          color_vec <-  col_var_info[[col_var[vId]]]$color
+                          color_vec <- col_var_info[[col_var[vId]]]$color
                         }
-                      if ("level" %in% names(col_var_info[[col_var[vId]]])) {
-                        x <-  col_var_info[[col_var[vId]]]$level
+                        if ("level" %in% names(col_var_info[[col_var[vId]]])) {
+                            x <- col_var_info[[col_var[vId]]]$level
+                        }
                       }
-                      }
+                    }
+                    if (length(x) > length(color_vec)) {
+                      color_vec <- grDevices::rainbow(length(x))
                     }
                     sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
                 }
