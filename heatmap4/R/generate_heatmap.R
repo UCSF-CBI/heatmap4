@@ -145,6 +145,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             datUniq <- sort(unique(dat))
             if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
                 row_var_info[[row_var[v]]]$level <- datUniq
+                color_vec <- color_vec_cat_default[1:length(datUniq)]
+                cat("Mismatched column levels and colors for ",row_var[v],".\n")
             } else {
                 datUniq <- row_var_info[[row_var[v]]]$level
             }
@@ -283,6 +285,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             datUniq <- sort(unique(dat))
             if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
                 col_var_info[[col_var[v]]]$level <- datUniq
+                color_vec <- color_vec_cat_default[1:length(datUniq)]
+                cat("Mismatched column levels and colors for ",col_var[v],".\n")
             } else {
                 datUniq <- col_var_info[[col_var[v]]]$level
             }
