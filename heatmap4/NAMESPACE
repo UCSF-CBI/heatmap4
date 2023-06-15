@@ -2,5 +2,9 @@
 
 export(cutCluster)
 export(generate_heatmap)
+export(getCluster)
+export(getCosineDist)
+export(getDist)
+export(getKappaDist)
 export(heatmapColorBar)
 export(sampleColorLegend)

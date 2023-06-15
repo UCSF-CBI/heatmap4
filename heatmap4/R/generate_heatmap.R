@@ -146,7 +146,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
                 row_var_info[[row_var[v]]]$level <- datUniq
                 color_vec <- color_vec_cat_default[1:length(datUniq)]
-                cat("Mismatched column levels and colors for ",row_var[v],".\n")
+                cat(row_var[v],": Mismatched row levels and colors.\n",sep="")
             } else {
                 datUniq <- row_var_info[[row_var[v]]]$level
             }
@@ -286,7 +286,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
                 col_var_info[[col_var[v]]]$level <- datUniq
                 color_vec <- color_vec_cat_default[1:length(datUniq)]
-                cat("Mismatched column levels and colors for ",col_var[v],".\n")
+                cat(col_var[v],": Mismatched column levels and colors.\n",sep="")
             } else {
                 datUniq <- col_var_info[[col_var[v]]]$level
             }
@@ -442,23 +442,44 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             cat("Legends ....")
             for (vId in 1:length(row_var)) {
                 nm=sub("^ +","",sub(" +$","",rownames(row_color)[vId]))
-                x=sort(unique(row_info[,row_var[vId]]))
-                color_vec <- color_vec_cat_default
-                if (!is.null(row_var_info)) {
-                  if (row_var[vId] %in% names(row_var_info)) {
+                if (is.numeric(row_info[ ,row_var[vId]]) & length(unique(row_info[ ,row_var[vId]])) > 5) {
+                    varib <- row_info[ ,row_var[vId]]
                     if ("color" %in% names(row_var_info[[row_var[vId]]])) {
                       color_vec <- row_var_info[[row_var[vId]]]$color
+                    } else {
+                        color_vec <- color_vec_cont_default
                     }
-                    if ("level" %in% names(row_var_info[[row_var[vId]]])) {
-                        x <- row_var_info[[row_var[vId]]]$level
+                    if ("limit" %in% names(row_var_info[[row_var[vId]]])){
+                        lim <- row_var_info[[row_var[vId]]]$limit
+                        varib=round(varib); varib[varib<lim[1]]=lim[1]; varib[varib>lim[2]]=lim[2]; varib=varib+lim[2]+1
+                    } else {
+                        x1=max(abs(varib-min(varib,na.rm=T)),na.rm=T)
+                        varib=(100*(varib-min(varib,na.rm=T))/x1)+1
+                        varib <- round(varib)
+                        lim <- range(varib,na.rm=T)
+                        lim <- round(range(row_info[ ,row_var[vId]],na.rm=T),2)
                     }
-                  }
+                    color_vec=rev(color_vec)
+                    heatmapColorBar(cols=color_vec,limit=lim,main=nm,marginHMCBar=marginHMCBar,cexAxisHMCBar=cexAxisHMCBar)
+                } else {
+                    x=sort(unique(row_info[,row_var[vId]]))
+                    color_vec <- color_vec_cat_default
+                    if (!is.null(row_var_info)) {
+                      if (row_var[vId] %in% names(row_var_info)) {
+                        if ("color" %in% names(row_var_info[[row_var[vId]]])) {
+                          color_vec <- row_var_info[[row_var[vId]]]$color
+                        }
+                        if ("level" %in% names(row_var_info[[row_var[vId]]])) {
+                            x <- row_var_info[[row_var[vId]]]$level
+                        }
+                      }
+                    }
+                    if (length(x) > length(color_vec)) {
+                      color_vec <- grDevices::rainbow(length(x))
+                    }
+                    sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
                 }
-                if (length(x) > length(color_vec)) {
-                  color_vec <- grDevices::rainbow(length(x))
-                }
-                sampleColorLegend(tls=x,col=color_vec,lty=NULL,legendTitle=nm,cex=NULL)
-            }
+          }
           }
           if (input_legend & col_anno) {
             cat("Legends ....")
