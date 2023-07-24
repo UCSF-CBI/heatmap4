@@ -143,7 +143,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         if ("level" %in% names(row_var_info[[row_var[v]]])) {
             ## 1. Ritu
             datUniq <- sort(unique(dat))
-            if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
+            #if (sum(!duplicated(dat))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
+            if (sum(!duplicated(dat[!is.na(dat)]))>length(row_var_info[[row_var[v]]]$level) | any(!datUniq%in%row_var_info[[row_var[v]]]$level) | any(!row_var_info[[row_var[v]]]$level%in%datUniq)) {
                 row_var_info[[row_var[v]]]$level <- datUniq
                 color_vec <- color_vec_cat_default[1:length(datUniq)]
                 cat(row_var[v],": Mismatched row levels and colors.\n",sep="")
@@ -283,7 +284,8 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         if ("level" %in% names(col_var_info[[col_var[v]]])) {
             ## 1. Ritu
             datUniq <- sort(unique(dat))
-            if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
+            #if (sum(!duplicated(dat))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
+            if (sum(!duplicated(dat[!is.na(dat)]))>length(col_var_info[[col_var[v]]]$level) | any(!datUniq%in%col_var_info[[col_var[v]]]$level) | any(!col_var_info[[col_var[v]]]$level%in%datUniq)) {
                 col_var_info[[col_var[v]]]$level <- datUniq
                 color_vec <- color_vec_cat_default[1:length(datUniq)]
                 cat(col_var[v],": Mismatched column levels and colors.\n",sep="")
