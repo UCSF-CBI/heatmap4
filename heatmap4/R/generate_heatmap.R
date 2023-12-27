@@ -434,14 +434,14 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
       #cat("Legends not yet implemented ....")
       if (T) {
           if (length(cols[1])==1) {
-              cat("zlm:",exists("zlm"),"\n")
+              #cat("zlm:",exists("zlm"),"\n")
               if (!exists("zlm")) zlm=c(-.5,.5)
               ## 9. Ritu
               #heatmapColorBar(cols=cols,limit=zlm)
               heatmapColorBar(cols=cols,limit=zlm,k=5,marginHMCBar=marginHMCBar,cexAxisHMCBar=cexAxisHMCBar)
           }
           if (input_legend & row_anno) {
-            cat("Legends ....")
+            #cat("Legends ....")
             for (vId in 1:length(row_var)) {
                 nm=sub("^ +","",sub(" +$","",rownames(row_color)[vId]))
                 if (is.numeric(row_info[ ,row_var[vId]]) & length(unique(row_info[ ,row_var[vId]])) > 5) {
@@ -484,7 +484,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
           }
           }
           if (input_legend & col_anno) {
-            cat("Legends ....")
+            #cat("Legends ....")
             for (vId in 1:length(col_var)) {
                 nm=sub("^ +","",sub(" +$","",rownames(col_color)[vId]))
                 if (is.numeric(col_info[ ,col_var[vId]]) & length(unique(col_info[ ,col_var[vId]])) > 5) {

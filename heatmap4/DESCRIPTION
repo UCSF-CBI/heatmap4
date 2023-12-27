@@ -1,7 +1,7 @@
 Package: heatmap4
 Type: Package
 Title: Simple Heatmap Function
-Version: 0.0.1
+Version: 0.1.2
 Author: Rohan Bhanot <rohan.bhanot@ucsf.edu>, Ritu Roy <ritu.roy@ucsf.edu>, Adam Olshen <adam.olshen@ucsf.edu>, Anishka Dhar <anishka.dhar@ucsf.edu> 
 Maintainer: Ritu Roy <ritu.roy@ucsf.edu>
 Description: This package takes the original heatmap function and reduces the arguement complexity.
