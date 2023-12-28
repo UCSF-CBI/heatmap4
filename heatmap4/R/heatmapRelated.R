@@ -1,6 +1,6 @@
 #' Calibration bar for color images.
 #'
-#' This function produces a color image (color bar)
+#' Produces a color image (color bar)
 #'
 #' @param x .
 #' @param horizontal .
@@ -39,7 +39,7 @@ colorBar=function (x, horizontal = TRUE, col = grDevices::heat.colors(50), scale
 
 #' Returns a color bar.
 #'
-#' This function produces a color image (color bar) which can be used for the legend to another color image obtained from heatmap4.
+#' Produces a color image (color bar) which can be used for the legend to another color image obtained from heatmap4.
 #'
 #' @param limit .
 #' @param cols .
@@ -67,7 +67,7 @@ heatmapColorBar <- function(limit,cols=c("green","red","black"),main=NULL,margin
 }
 #' Returns a legend.
 #'
-#' This function can be used to add legends to row and column color bars.
+#' Adds legends to row and column color bars.
 #'
 #' @param tls .
 #' @param col .
@@ -131,7 +131,7 @@ sampleColorLegend <- function(tls,col=NULL,lty=NULL,border=NULL,pch=NULL,lwd=NUL
 
 #' Returns a distance matrix.
 #'
-#' This function computes correlation coefficients and returns them as a distance matrix.
+#' Computes correlation coefficients and returns them as a distance matrix.
 #'
 #' @param dat a numeric matrix passed to function cor.
 #' @param method a character string indicating which correlation coefficient is to be computed. One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
@@ -150,7 +150,7 @@ getDist <- function(dat,method="pearson",absolute=FALSE) {
 
 #' Cohen's kappa coefficient based distance matrix.
 #'
-#' This function computes Cohen's kappa coefficients and returns them as a distance matrix.
+#' Computes Cohen's kappa coefficients and returns them as a distance matrix.
 #'
 #' @param x a numeric matrix passed to function cor.
 #' @param type a character string indicating which correlation coefficient (or covariance) is to be computed. One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
@@ -170,7 +170,7 @@ getKappaDist=function(x,type="Cohen",absolute=FALSE) {
 
 #' Cosine distance based distance matrix.
 #'
-#' This function computes cosine distances and returns them as a distance matrix.
+#' Computes cosine distances and returns them as a distance matrix.
 #'
 #' @param x a numeric matrix.
 #' @export
@@ -190,7 +190,7 @@ getCosineDist=function(x) {
 
 #' Hierarchical cluster analysis based on various distance methods.
 #'
-#' This function computes distance matrix and then performs hierarchical clustering.
+#' Computes distance matrix and then performs hierarchical clustering.
 #'
 #' @param dat a numeric matrix.
 #' @param distMethod distance function.
@@ -227,7 +227,7 @@ getCluster=function(dat,distMethod,linkMethod,absolute=F) {
 
 #' Cluster designation.
 #'
-#' This function cuts the tree into desired number of groups.
+#' Cuts the tree into desired number of groups.
 #'
 #' @param clustObj a hclust object.
 #' @param ann a data.frame containing annotation for each observation.

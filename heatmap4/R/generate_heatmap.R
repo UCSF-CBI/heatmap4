@@ -1,6 +1,6 @@
 #' Generate a Heat Map.
 #'
-#' A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out. This package takes the original heatmap function and reduces the arguement complexity.
+#' A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out. This package takes the original heatmap function and reduces the argument complexity.
 #'
 #' @param x numeric matrix; values to be plotted in the heatmap.
 #' @param col_lab boolean (T, F); to display column labels; default is FALSE.
