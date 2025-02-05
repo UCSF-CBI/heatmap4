@@ -39,11 +39,11 @@
 #' @param high color for high values.
 #' @param low color for low values.
 #' @param mid color for middle values.
-#' @param addAmp (optional) matrix 0s and 1s of the same size as x to be added to the heatmap
-#' @param colAmp (optional) color of addAmp
-#' @param cexAmp (optional) size of addAmp
-#' @param addText (optional) character matrix of the same size as x to be added to the heatmap
-#' @param cexText (optional) color of addText
+#' @param addAmp (optional) matrix 0s and 1s of the same size as x to be added to the heatmap.
+#' @param colAmp (optional) color of addAmp.
+#' @param cexAmp (optional) size of addAmp.
+#' @param addText (optional) character matrix of the same size as x to be added to the heatmap.
+#' @param cexText (optional) color of addText.
 #' @param lwdRect .
 #' @param lwidHeatmap .
 #' @param lheiHeatmap .
@@ -57,7 +57,9 @@
 #' @param layoutRespect .
 #' @param sideColSide .
 #' @param sideRowSide .
+#' @param plotHeatmap logical indicating if heatmap will be plotted; defaults to TRUE.
 #' @param ... additional arguments passed on to image, e.g., col specifying the colors.
+#' @export
 #' @return A List.
 heatmap4 <- function (x, imp = TRUE, Rowv = NA, Colv = NULL, distfun = stats::dist,
 hclustfun = stats::hclust, add.expr, symm = FALSE, revC = identical(Colv, "Rowv"),
@@ -66,7 +68,8 @@ cexRow = 0.2 + 1/log10(nr), cexCol = 0.2 + 1/log10(nc), fontRow=1, fontCol=1, la
 totalR=nr, totalC=nc, ncr=NA, ncc=NA, main = NULL, xlab = NULL, ylab = NULL, verbose = getOption("verbose"),
 methodR = "ward.D", methodC = "ward.D", zlm = c(-0.5, 0.5), high="green", low="red", mid="black",
 addAmp=NULL, colAmp=NULL, cexAmp=.25, addText=NULL, cexText=1, lwdRect=graphics::par("lwd"),
-lwidHeatmap=4, lheiHeatmap=4, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"), ...)
+lwidHeatmap=4, lheiHeatmap=4, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cexColSide=1, densColor=NULL, sideLabRow=4, sideLabCol=1, layoutRespect=T, sideColSide=c("left","right"), sideRowSide=c("bottom","top"),
+plotHeatmap=TRUE, ...)
 {
     if (!is.matrix(x)) {
         x <- matrix(x,ncol=1)
@@ -278,236 +281,242 @@ lwidHeatmap=4, lheiHeatmap=4, lwidRowSide=0.2, lheiColSide=0.2, cexRowSide=1,cex
     }
 
 ###################################
-    op <- graphics::par(no.readonly = TRUE)
-    on.exit(graphics::par(op))
-    if (verbose) {
-        cat("Final layout: widths = ", lwid, ", heights = ", lhei, "; lmat=\n")
-        print(lmat)
-    }
+    if (plotHeatmap) {
+        op <- graphics::par(no.readonly = TRUE)
+        on.exit(graphics::par(op))
+        if (verbose) {
+            cat("Final layout: widths = ", lwid, ", heights = ", lhei, "; lmat=\n")
+            print(lmat)
+        }
 
-    ## 26. Ritu
-    ##graphics::layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
-    #layoutThis=graphics::layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
-    layoutThis=graphics::layout(lmat, widths = lwid, heights = lhei, respect = layoutRespect)
-    #layout.show(layoutThis)
-    #layout.show(n=nfig)
+        ## 26. Ritu
+        ##graphics::layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
+        #layoutThis=graphics::layout(lmat, widths = lwid, heights = lhei, respect = TRUE)
+        layoutThis=graphics::layout(lmat, widths = lwid, heights = lhei, respect = layoutRespect)
+        #layout.show(layoutThis)
+        #layout.show(n=nfig)
 
-    ## 3. Ritu
-    if (!is.null(RowSideColors)) {
-    #if (!missing(RowSideColors)) {
-        graphics::par(mar = c(margins[1], 0, 0, 0.5))
+        ## 3. Ritu
+        if (!is.null(RowSideColors)) {
+        #if (!missing(RowSideColors)) {
+            graphics::par(mar = c(margins[1], 0, 0, 0.5))
 
-        ## 11. Ritu
-        #if (revC) {
-        #    graphics::image(rbind(1:nr), col = RowSideColors[rev(rowInd)], axes = FALSE)
-        #} else {
-        #    graphics::image(rbind(1:nr), col = RowSideColors[rowInd], axes = FALSE)
-        #}
+            ## 11. Ritu
+            #if (revC) {
+            #    graphics::image(rbind(1:nr), col = RowSideColors[rev(rowInd)], axes = FALSE)
+            #} else {
+            #    graphics::image(rbind(1:nr), col = RowSideColors[rowInd], axes = FALSE)
+            #}
+            if (revC) {
+                j=rev(rowInd)
+            } else {
+                j=rowInd
+            }
+            for (i in 1:nrow(RowSideColors)) {
+                ## 27. Ritu
+                #graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE)
+                ##graphics::image(rbind(1:nr), z=rbind(1:nr),col = RowSideColors[i,j], axes = FALSE)
+                ##graphics::image(cbind(1:nr), z=cbind(1:nr),col = RowSideColors[i,j], axes = FALSE)
+                #graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE, ylim = 0.5 + c(0, totalR))
+                graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE)
+                #graphics::image(rbind(1:nr), z=cbind(1:nr),col = RowSideColors[i,j], axes = FALSE, ylim = 0.5 + c(0, totalR))
+                
+                ## 24. Ritu
+                if (!is.null(densColor)) {
+                    if (any(is.na(RowSideColors[i,j]))) {
+                        for (jj in which(is.na(RowSideColors[i,j]))) {
+                            graphics::rect(-1,jj-0.5,1,jj+0.5,density=densColor)
+                        }
+                    }
+                }
+                ## 26. Ritu
+                ### 24. Ritu
+                ##graphics::mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=1)
+                #graphics::mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
+                graphics::mtext(side=ifelse(sideRowSide=="bottom",1,3), text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
+            }
+        }
+        ## 2. Ritu
+        if (!is.null(ColSideColors)) {
+            #if (!missing(ColSideColors)) {
+            graphics::par(mar = c(0.5, 0, 0, margins[2]))
+            for (i in 1:nrow(ColSideColors)) {
+                ## 9. Ritu
+                #graphics::image(cbind(1:nc), col = ColSideColors[i,colInd], axes = FALSE)
+                graphics::image(cbind(1:nc), z=cbind(1:nc),col = ColSideColors[i,colInd], axes = FALSE, xlim = 0.5 + c(0, totalC))
+                ## 24. Ritu
+                if (!is.null(densColor)) {
+                    if (any(is.na(ColSideColors[i,colInd]))) {
+                        for (jj in which(is.na(ColSideColors[i,colInd]))) {
+                            graphics::rect(jj-0.5,-1,jj+0.5,1,density=densColor)
+                        }
+                    }
+                }
+                ## 26. Ritu
+                ## 24. Ritu
+                #graphics::mtext(side=2, text=as.character(rownames(ColSideColors)[i]), las=1, cex=1)
+                graphics::mtext(side=ifelse(sideColSide=="left",2,4), text=as.character(rownames(ColSideColors)[i]), las=1, cex=cexColSide)
+            }
+        }
+        graphics::par(mar = c(margins[1], 0, 0, margins[2]))
+        if (!symm || scale != "none")
+            x <- t(x)
         if (revC) {
-            j=rev(rowInd)
-        } else {
-            j=rowInd
+            iy <- nr:1
+            ddr <- rev(ddr)
+            x <- x[, iy]
         }
-        for (i in 1:nrow(RowSideColors)) {
+        else iy <- 1:nr
+        x.floor <- x
+        for (i in 1:ncol(x)) {
+            ind1 <- (1:length(x[, i]))[x[, i] >= zlm[2] & !is.na(x[,i])]
+            ind2 <- (1:length(x[, i]))[x[, i] <= zlm[1] & !is.na(x[,i])]
+            x.floor[, i][ind1] <- rep((zlm[2] - 0.01), length(ind1))
+            x.floor[, i][ind2] <- rep((zlm[1] + 0.01), length(ind2))
+        }
+        ## 5. Ritu
+        #graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, nc), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
+        if (length(high)>1) {
+            ## 20. Ritu
+            colThis=high
+        } else {
+            colThis=marray::maPalette(high = high, low = low, mid = mid)
+        }
+        if (nc==1) {
             ## 27. Ritu
-            #graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE)
-            ##graphics::image(rbind(1:nr), z=rbind(1:nr),col = RowSideColors[i,j], axes = FALSE)
-            ##graphics::image(cbind(1:nr), z=cbind(1:nr),col = RowSideColors[i,j], axes = FALSE)
-            #graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE, ylim = 0.5 + c(0, totalR))
-            graphics::image(rbind(1:nr), col = RowSideColors[i,j], axes = FALSE)
-            #graphics::image(rbind(1:nr), z=cbind(1:nr),col = RowSideColors[i,j], axes = FALSE, ylim = 0.5 + c(0, totalR))
-            
-            ## 24. Ritu
-            if (!is.null(densColor)) {
-                if (any(is.na(RowSideColors[i,j]))) {
-                    for (jj in which(is.na(RowSideColors[i,j]))) {
-                        graphics::rect(-1,jj-0.5,1,jj+0.5,density=densColor)
-                    }
-                }
-            }
-            ## 26. Ritu
-            ### 24. Ritu
-            ##graphics::mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=1)
-            #graphics::mtext(side=1, text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
-            graphics::mtext(side=ifelse(sideRowSide=="bottom",1,3), text=as.character(rownames(RowSideColors)[i]), las=3, cex=cexRowSide)
-        }
-    }
-    ## 2. Ritu
-    if (!is.null(ColSideColors)) {
-        #if (!missing(ColSideColors)) {
-        graphics::par(mar = c(0.5, 0, 0, margins[2]))
-        for (i in 1:nrow(ColSideColors)) {
-            ## 9. Ritu
-            #graphics::image(cbind(1:nc), col = ColSideColors[i,colInd], axes = FALSE)
-            graphics::image(cbind(1:nc), z=cbind(1:nc),col = ColSideColors[i,colInd], axes = FALSE, xlim = 0.5 + c(0, totalC))
-            ## 24. Ritu
-            if (!is.null(densColor)) {
-                if (any(is.na(ColSideColors[i,colInd]))) {
-                    for (jj in which(is.na(ColSideColors[i,colInd]))) {
-                        graphics::rect(jj-0.5,-1,jj+0.5,1,density=densColor)
-                    }
-                }
-            }
-            ## 26. Ritu
-            ## 24. Ritu
-            #graphics::mtext(side=2, text=as.character(rownames(ColSideColors)[i]), las=1, cex=1)
-            graphics::mtext(side=ifelse(sideColSide=="left",2,4), text=as.character(rownames(ColSideColors)[i]), las=1, cex=cexColSide)
-        }
-    }
-    graphics::par(mar = c(margins[1], 0, 0, margins[2]))
-    if (!symm || scale != "none")
-        x <- t(x)
-    if (revC) {
-        iy <- nr:1
-        ddr <- rev(ddr)
-        x <- x[, iy]
-    }
-    else iy <- 1:nr
-    x.floor <- x
-    for (i in 1:ncol(x)) {
-        ind1 <- (1:length(x[, i]))[x[, i] >= zlm[2] & !is.na(x[,i])]
-        ind2 <- (1:length(x[, i]))[x[, i] <= zlm[1] & !is.na(x[,i])]
-        x.floor[, i][ind1] <- rep((zlm[2] - 0.01), length(ind1))
-        x.floor[, i][ind2] <- rep((zlm[1] + 0.01), length(ind2))
-    }
-    ## 5. Ritu
-    #graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, nc), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
-    if (length(high)>1) {
-        ## 20. Ritu
-        colThis=high
-    } else {
-        colThis=marray::maPalette(high = high, low = low, mid = mid)
-    }
-    if (nc==1) {
-        ## 27. Ritu
-        ### 20. Ritu
-        ##graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
-        #graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
-        graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, totalR), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
-    } else {
-        ## 27. Ritu
-        ### 20. Ritu
-        ##graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
-        #graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
-        graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, totalR), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
-    }
-    ## 15. Ritu
-    if (!is.null(lineCol)) {
-        ## 22. Ritu
-        #graphics::abline(v=lineCol)
-        graphics::abline(v=lineCol,col=lineColor)
-    }
-    ## 15. Ritu
-    if (!is.null(lineRow)) {
-        ## 27. Ritu
-        ### 22. Ritu
-        ##graphics::abline(h=lineRow)
-        #graphics::abline(h=lineRow,col=lineColor)
-        for (i in lineRow) graphics::lines(x=c(1-0.5,nc+0.5),y=rep(i,2), col=lineColor)
-    }
-
-##################
-
-## 19. Ritu
-if (!is.null(addText)) {
-    addText=addText[rowInd, colInd]
-    if (!is.matrix(addText)) {
-        addText <- matrix(addText,ncol=1)
-    }
-    for (i in 1:ncol(addText)) {
-        j=which(!is.na(addText[,i]))
-        ## 23. Ritu
-        #graphics::points(rep(i, length(j)), j, pch=addText[j,i])
-        if (length(j)!=0) graphics::text(i, j, labels=addText[j,i], cex=cexText)
-    }
-}
-
-if (!is.null(addAmp)) {
-    addAmp=addAmp[rowInd, colInd]
-    ## 4. Ritu
-    if (!is.matrix(addAmp)) {
-        addAmp <- matrix(addAmp,ncol=1)
-    }
-    for (i in 1:ncol(addAmp)) {
-        amp=which(addAmp[,i]>0)
-        ## 12. Ritu
-        ### 8. Ritu
-        ##graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=.75, pch=20)
-        #graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=.25, pch=20)
-        graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=cexAmp, pch=20)
-    }
- }
-    
-################
-
-    ## 25. Ritu
-    ### 17. Ritu
-    ##graphics::axis(1, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol)
-    #graphics::axis(1, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol, font.axis=fontCol)
-    graphics::axis(sideLabCol, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol, font.axis=fontCol)
-    if (!is.null(xlab))
-        graphics::mtext(xlab, side = 1, line = margins[1] - 1.25)
-    ## 25. Ritu
-    ### 17. Ritu
-    ##graphics::axis(4, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow)
-    #graphics::axis(4, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow, font.axis=fontRow)
-    graphics::axis(sideLabRow, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow, font.axis=fontRow)
-    if (!is.null(ylab))
-        graphics::mtext(ylab, side = 4, line = margins[2] - 1.25)
-    if (!missing(add.expr))
-        eval(substitute(add.expr))
-    ## 27. Ritu
-    #graphics::par(mar = c(margins[1], 0, 0, 0))
-    xr=ifelse(totalR==nr,margins[1],2*(totalR-nr)+1+margins[1])
-    xc=0
-    graphics::par(mar = c(xr, 0, 0, xc))
-    if (doRdend) {
-        plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none")
-        ## 16. Ritu
-        if (exists("hcr") & !is.na(ncr)) {
-            ## 18. Ritu
-            #if (inherits(hcc,"hclust")) rect.hclust(hcr,k=ncr) else stop("Must be of class hclust to delineate clusters")
-            if (inherits(hcr,"hclust")) rect.hclust.my(hcr,k=ncr,horiz=TRUE,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
-        }
-    } else {
-        graphics::frame()
-    }
-    ## 27. Ritu
-    ## 9. Ritu
-    #if (totalC==nc) {
-    #    graphics::par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2]))
-    #} else {
-    #    graphics::par(mar = c(0, 0, if (!is.null(main)) 1 else 0, 2*(totalC-nc)+1+margins[2]))
-    #}
-    xr=0
-    xc=ifelse(totalC==nc,margins[2],2*(totalC-nc)+1+margins[2])
-    graphics::par(mar = c(xr, 0, if (!is.null(main)) 1 else 0, xc))
-    if (doCdend) {
-        plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none")
-        ## 16. Ritu
-        if (exists("hcc") & !is.na(ncc)) {
-            ## 18. Ritu
-            #if (inherits(hcc,"hclust")) rect.hclust(hcc,k=ncc) else stop("Must be of class hclust to delineate clusters")
-            if (inherits(hcc,"hclust")) rect.hclust.my(hcc,k=ncc,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
-        }
-    } else if (!is.null(main)) {
-        graphics::frame()
-    }
-    if (!is.null(main)) {
-        ## 27. Ritu
-        if (doCdend) {
-            graphics::title(main, cex.main=0.8 * op[["cex.main"]])
-            #graphics::text(x=20,y=5,main,cex=1 * op[["cex.main"]],font=2)
+            ### 20. Ritu
+            ##graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
+            #graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
+            graphics::image(1:(2*nc), 1:nr, rbind(x.floor,x.floor), xlim = 0.5 + c(0, 2*totalC), ylim = 0.5 + c(0, totalR), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
         } else {
-            graphics::text(x=0.5,y=0.5,main,cex=1.5 * op[["cex.main"]],font=2)
+            ## 27. Ritu
+            ### 20. Ritu
+            ##graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = maPalette(high = high, low = low, mid = mid), zlim = zlm, ...)
+            #graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, nr), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
+            graphics::image(1:nc, 1:nr, x.floor, xlim = 0.5 + c(0, totalC), ylim = 0.5 + c(0, totalR), axes = FALSE, xlab = "", ylab = "", col = colThis, zlim = zlm, ...)
         }
-        #graphics::title(main, cex.main = 1.5 * op[["cex.main"]])
-        #graphics::title(main, cex.main = 1.5 * op[["cex.main"]],line = margins[1] - 1.25)
-        #plot(1,type="n",xaxt="n",yaxt="n",xlab="",ylab="");
-        #graphics::text(x=10+margins[1] - 1.25,y=1,"test",cex=1.5 * op[["cex.main"]],)
-        #graphics::text(x=1,y=1,c("test","ok"),cex=1.5 * op[["cex.main"]])
-        #graphics::text(x=0.5,y=1,c("tex"),cex=1.5 * op[["cex.main"]])
-        #graphics::points(rep(0,10),1:10)
+        ## 15. Ritu
+        if (!is.null(lineCol)) {
+            ## 22. Ritu
+            #graphics::abline(v=lineCol)
+            graphics::abline(v=lineCol,col=lineColor)
+        }
+        ## 15. Ritu
+        if (!is.null(lineRow)) {
+            ## 27. Ritu
+            ### 22. Ritu
+            ##graphics::abline(h=lineRow)
+            #graphics::abline(h=lineRow,col=lineColor)
+            for (i in lineRow) graphics::lines(x=c(1-0.5,nc+0.5),y=rep(i,2), col=lineColor)
+        }
+
+    ##################
+
+    ## 19. Ritu
+    if (!is.null(addText)) {
+        addText=addText[rowInd, colInd]
+        if (!is.matrix(addText)) {
+            addText <- matrix(addText,ncol=1)
+        }
+        for (i in 1:ncol(addText)) {
+            j=which(!is.na(addText[,i]))
+            ## 23. Ritu
+            #graphics::points(rep(i, length(j)), j, pch=addText[j,i])
+            if (length(j)!=0) graphics::text(i, j, labels=addText[j,i], cex=cexText)
+        }
+    }
+
+    if (!is.null(addAmp)) {
+        addAmp=addAmp[rowInd, colInd]
+        ## 4. Ritu
+        if (!is.matrix(addAmp)) {
+            addAmp <- matrix(addAmp,ncol=1)
+        }
+        for (i in 1:ncol(addAmp)) {
+            amp=which(addAmp[,i]>0)
+            ## 12. Ritu
+            ### 8. Ritu
+            ##graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=.75, pch=20)
+            #graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=.25, pch=20)
+            graphics::points(rep(i, length(amp)), amp, col=colAmp, cex=cexAmp, pch=20)
+        }
+     }
+        
+    ################
+
+        ## 25. Ritu
+        ### 17. Ritu
+        ##graphics::axis(1, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol)
+        #graphics::axis(1, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol, font.axis=fontCol)
+        graphics::axis(sideLabCol, 1:nc, labels = labCol[colInd], las = 2, line = -0.5, tick = 0, cex.axis = cexCol, font.axis=fontCol)
+        if (!is.null(xlab)) {
+            #graphics::mtext(xlab, side = 1, line = margins[1] - 1.25)
+            graphics::mtext(xlab, side = 1, line = margins[1] - 1.25, cex = op[["cex.lab"]])
+        }
+        ## 25. Ritu
+        ### 17. Ritu
+        ##graphics::axis(4, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow)
+        #graphics::axis(4, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow, font.axis=fontRow)
+        graphics::axis(sideLabRow, iy, labels = labRow[rowInd], las = 2, line = -0.5, tick = 0, cex.axis = cexRow, font.axis=fontRow)
+        if (!is.null(ylab)) {
+            #graphics::mtext(ylab, side = 4, line = margins[2] - 1.25)
+            graphics::mtext(ylab, side = 4, line = margins[2] - 1.25, cex = op[["cex.lab"]])
+        }
+        if (!missing(add.expr))
+            eval(substitute(add.expr))
+        ## 27. Ritu
+        #graphics::par(mar = c(margins[1], 0, 0, 0))
+        xr=ifelse(totalR==nr,margins[1],2*(totalR-nr)+1+margins[1])
+        xc=0
+        graphics::par(mar = c(xr, 0, 0, xc))
+        if (doRdend) {
+            plot(ddr, horiz = TRUE, axes = FALSE, yaxs = "i", leaflab = "none")
+            ## 16. Ritu
+            if (exists("hcr") & !is.na(ncr)) {
+                ## 18. Ritu
+                #if (inherits(hcc,"hclust")) rect.hclust(hcr,k=ncr) else stop("Must be of class hclust to delineate clusters")
+                if (inherits(hcr,"hclust")) rect.hclust.my(hcr,k=ncr,horiz=TRUE,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
+            }
+        } else {
+            graphics::frame()
+        }
+        ## 27. Ritu
+        ## 9. Ritu
+        #if (totalC==nc) {
+        #    graphics::par(mar = c(0, 0, if (!is.null(main)) 1 else 0, margins[2]))
+        #} else {
+        #    graphics::par(mar = c(0, 0, if (!is.null(main)) 1 else 0, 2*(totalC-nc)+1+margins[2]))
+        #}
+        xr=0
+        xc=ifelse(totalC==nc,margins[2],2*(totalC-nc)+1+margins[2])
+        graphics::par(mar = c(xr, 0, if (!is.null(main)) 1 else 0, xc))
+        if (doCdend) {
+            plot(ddc, axes = FALSE, xaxs = "i", leaflab = "none")
+            ## 16. Ritu
+            if (exists("hcc") & !is.na(ncc)) {
+                ## 18. Ritu
+                #if (inherits(hcc,"hclust")) rect.hclust(hcc,k=ncc) else stop("Must be of class hclust to delineate clusters")
+                if (inherits(hcc,"hclust")) rect.hclust.my(hcc,k=ncc,lwd=lwdRect) else stop("Must be of class hclust to delineate clusters")
+            }
+        } else if (!is.null(main)) {
+            graphics::frame()
+        }
+        if (!is.null(main)) {
+            ## 27. Ritu
+            if (doCdend) {
+                graphics::title(main, cex.main=0.8 * op[["cex.main"]])
+                #graphics::text(x=20,y=5,main,cex=1 * op[["cex.main"]],font=2)
+            } else {
+                graphics::text(x=0.5,y=0.5,main,cex=1.5 * op[["cex.main"]],font=2)
+            }
+            #graphics::title(main, cex.main = 1.5 * op[["cex.main"]])
+            #graphics::title(main, cex.main = 1.5 * op[["cex.main"]],line = margins[1] - 1.25)
+            #plot(1,type="n",xaxt="n",yaxt="n",xlab="",ylab="");
+            #graphics::text(x=10+margins[1] - 1.25,y=1,"test",cex=1.5 * op[["cex.main"]],)
+            #graphics::text(x=1,y=1,c("test","ok"),cex=1.5 * op[["cex.main"]])
+            #graphics::text(x=0.5,y=1,c("tex"),cex=1.5 * op[["cex.main"]])
+            #graphics::points(rep(0,10),1:10)
+        }
     }
 
     ## 13. Ritu

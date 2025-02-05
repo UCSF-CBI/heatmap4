@@ -13,5 +13,5 @@ getCosineDist(x)
 an object of class "dist".
 }
 \description{
-This function computes cosine distances and returns them as a distance matrix.
+Computes cosine distances and returns them as a distance matrix.
 }

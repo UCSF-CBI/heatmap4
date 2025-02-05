@@ -17,5 +17,5 @@ getDist(dat, method = "pearson", absolute = FALSE)
 an object of class "dist".
 }
 \description{
-This function computes correlation coefficients and returns them as a distance matrix.
+Computes correlation coefficients and returns them as a distance matrix.
 }

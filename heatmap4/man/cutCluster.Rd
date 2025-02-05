@@ -19,5 +19,5 @@ cutCluster(clustObj, ann, nClust = 2, rev = F)
 a data.frame.
 }
 \description{
-This function cuts the tree into desired number of groups.
+Cuts the tree into desired number of groups.
 }

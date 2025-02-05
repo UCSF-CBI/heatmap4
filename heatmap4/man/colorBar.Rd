@@ -33,5 +33,5 @@ colorBar(
 A color vector.
 }
 \description{
-This function produces a color image (color bar)
+Produces a color image (color bar)
 }

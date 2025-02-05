@@ -31,6 +31,7 @@ generate_heatmap(
   h_title = NULL,
   input_legend = c(FALSE, TRUE),
   legend_title = NULL,
+  plotHeatmap = TRUE,
   heatmap_color = c("red", "blue", "grey"),
   zlm = c(-0.5, 0.5),
   ...
@@ -59,9 +60,9 @@ generate_heatmap(
 
 \item{row_anno_var}{character vector; with specific row annotation variables to see in row annotations; defaults to colnames(row_info).}
 
-\item{col_var_info}{nested list; of column annotation variables that need specific colors and placement; default is NULL.}
+\item{col_var_info}{nested list; of column annotation variables that need specific colors and placement; options are "color", "level" for characters, "limit" for numerics and "mode"=c("character","numeric"); default is NULL.}
 
-\item{row_var_info}{nested list; of row annotation variables that need specific colors and placement; default is NULL.}
+\item{row_var_info}{nested list; of row annotation variables that need specific colors and placement; options are "color", "level" for characters, "limit" for numerics and "mode"=c("character","numeric"); default is NULL.}
 
 \item{col_dend}{boolean (T, F); to display column dendrogram; default is FALSE.}
 
@@ -85,6 +86,8 @@ generate_heatmap(
 
 \item{legend_title}{string; denotes the title of the legend; default is NULL.}
 
+\item{plotHeatmap}{logical indicating if heatmap will be plotted; defaults to TRUE.}
+
 \item{heatmap_color}{character vector of length 3; colors for high, low and middle values respectively; default is c("red","blue","grey").}
 
 \item{zlm}{numeric vector of length 2; the minimum and maximum x values for which colors should be plotted; default is c(-0.5, 0.5).}
@@ -95,5 +98,5 @@ generate_heatmap(
 A list.
 }
 \description{
-This package takes the original heatmap function and reduces the arguement complexity. A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out.
+A heat map is a false color image (basically image(t(x))) with a dendrogram added to the left side and to the top. Typically, reordering of the rows and columns according to some set of values (row or column means) within the restrictions imposed by the dendrogram is carried out. This package takes the original heatmap function and reduces the argument complexity.
 }

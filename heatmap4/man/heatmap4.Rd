@@ -60,6 +60,7 @@ heatmap4(
   layoutRespect = T,
   sideColSide = c("left", "right"),
   sideRowSide = c("bottom", "top"),
+  plotHeatmap = TRUE,
   ...
 )
 }
@@ -138,15 +139,15 @@ heatmap4(
 
 \item{mid}{color for middle values.}
 
-\item{addAmp}{(optional) matrix 0s and 1s of the same size as x to be added to the heatmap}
+\item{addAmp}{(optional) matrix 0s and 1s of the same size as x to be added to the heatmap.}
 
-\item{colAmp}{(optional) color of addAmp}
+\item{colAmp}{(optional) color of addAmp.}
 
-\item{cexAmp}{(optional) size of addAmp}
+\item{cexAmp}{(optional) size of addAmp.}
 
-\item{addText}{(optional) character matrix of the same size as x to be added to the heatmap}
+\item{addText}{(optional) character matrix of the same size as x to be added to the heatmap.}
 
-\item{cexText}{(optional) color of addText}
+\item{cexText}{(optional) color of addText.}
 
 \item{lwdRect}{.}
 
@@ -173,6 +174,8 @@ heatmap4(
 \item{sideColSide}{.}
 
 \item{sideRowSide}{.}
+
+\item{plotHeatmap}{logical indicating if heatmap will be plotted; defaults to TRUE.}
 
 \item{...}{additional arguments passed on to image, e.g., col specifying the colors.}
 }

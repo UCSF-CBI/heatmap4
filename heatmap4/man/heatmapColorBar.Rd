@@ -30,5 +30,5 @@ heatmapColorBar(
 A color vector.
 }
 \description{
-This function produces a color image (color bar) which can be used for the legend to another color image obtained from heatmap4.
+Produces a color image (color bar) which can be used for the legend to another color image obtained from heatmap4.
 }

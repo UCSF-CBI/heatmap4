@@ -19,5 +19,5 @@ getCluster(dat, distMethod, linkMethod, absolute = F)
 an object of class "hclust".
 }
 \description{
-This function computes distance matrix and then performs hierarchical clustering.
+Computes distance matrix and then performs hierarchical clustering.
 }

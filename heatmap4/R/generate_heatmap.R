@@ -13,8 +13,8 @@
 #' @param row_info data frame; data to be used in row annotations; default is NULL.
 #' @param col_anno_var character vector; with specific column annotation variables to see in column annotations; defaults to colnames(col_info).
 #' @param row_anno_var character vector; with specific row annotation variables to see in row annotations; defaults to colnames(row_info).
-#' @param col_var_info nested list; of column annotation variables that need specific colors and placement; default is NULL.
-#' @param row_var_info nested list; of row annotation variables that need specific colors and placement; default is NULL.
+#' @param col_var_info nested list; of column annotation variables that need specific colors and placement; options are "color""level" for characters, "name" for level names, "limit" for numerics and "mode"=c("character","numeric"); default is NULL.
+#' @param row_var_info nested list; of row annotation variables that need specific colors and placement; options are "color", "level" for characters, "name" for level names, "limit" for numerics and "mode"=c("character","numeric"); default is NULL.
 #' @param col_dend boolean (T, F); to display column dendrogram; default is FALSE.
 #' @param row_dend boolean (T, F); to display row dendrogram; default is FALSE.
 #' @param col_anno_name character vector; to name column color bars; default is NULL.
@@ -26,6 +26,7 @@
 #' @param h_title string; gives the heatmap output a title; default is NULL.
 #' @param input_legend boolean (T, F); to display annotations legend; row, column or both will be added if selected; default is FALSE.
 #' @param legend_title string; denotes the title of the legend; default is NULL.
+#' @param plotHeatmap logical indicating if heatmap will be plotted; defaults to TRUE.
 #' @param heatmap_color character vector of length 3; colors for high, low and middle values respectively; default is c("red","blue","grey").
 #' @param zlm numeric vector of length 2; the minimum and maximum x values for which colors should be plotted; default is c(-0.5, 0.5).
 #' @param ... additional arguments.
@@ -39,7 +40,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                              # review col/row_clust and _dend
                              col_clust = NULL, row_clust = NULL,
                              plot_info = list(margins=c(0.5,0.5),cexCol=NULL,cexRow=NULL,cexColSide=NULL,cexRowSide=NULL,colorCatCol=NULL,colorCatRow=NULL,colorContCol=NULL,colorContRow=NULL),
-                             file_name = NULL, h_title = NULL,input_legend = c(FALSE, TRUE), legend_title = NULL, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
+                             file_name = NULL, h_title = NULL,input_legend = c(FALSE, TRUE), legend_title = NULL, plotHeatmap=TRUE, heatmap_color=c("red", "blue", "grey"), zlm=c(-0.5, 0.5), ...)
 {
   #--------------------------------------------------------------------------------------------
   ## Annotations
@@ -93,9 +94,30 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
      rownames(row_color) <- row_anno_name[k]
     }
     
+    if (is.null(row_var_info)) row_var_info=list()
     for (v in 1:length(row_var)) {
-      if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5){
-        color_vec <- color_vec_cont_default
+        row_mode=NULL
+        if (!is.null(row_var_info)) {
+          if (row_var[v] %in% names(row_var_info)) {
+            if (!"mode" %in% names(row_var_info[[row_var[v]]])) {
+                if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[!is.na(row_info[ ,row_var[v]]),row_var[v]])) > 5){
+                    row_mode <- "numeric"
+                } else {
+                    row_mode <- "character"
+                }
+            }
+          }
+        }
+        if (is.null(row_mode)) {
+            if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[!is.na(row_info[ ,row_var[v]]),row_var[v]])) > 5){
+                row_mode <- "numeric"
+            } else {
+                row_mode <- "character"
+            }
+        }
+        row_var_info[[row_var[v]]]$mode=row_mode
+      if (row_mode=="numeric") {
+          color_vec <- color_vec_cont_default
       } else {
           color_vec <- color_vec_cat_default
       }
@@ -103,13 +125,12 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         if (row_var[v] %in% names(row_var_info)) {
           if ("color" %in% names(row_var_info[[row_var[v]]])) {
               row_var_info[[row_var[v]]]$color=row_var_info[[row_var[v]]]$color[!is.na(row_var_info[[row_var[v]]]$color)]
-            color_vec <- row_var_info[[row_var[v]]]$color
+              color_vec <- row_var_info[[row_var[v]]]$color
           }
         }
       }
 
-    if (is.numeric(row_info[ ,row_var[v]]) & length(unique(row_info[ ,row_var[v]])) > 5) {
-
+      if (row_mode=="numeric") {
         varib <- row_info[ ,row_var[v]]
         if ("limit" %in% names(row_var_info[[row_var[v]]])){
             lim <- row_var_info[[row_var[v]]]$limit
@@ -233,9 +254,32 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         rownames(col_color) <- col_anno_name[k]
     }
     
+    if (is.null(col_var_info)) col_var_info=list()
     for (v in 1:length(col_var)) {
-      if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
-        color_vec <- color_vec_cont_default
+        col_mode=NULL
+        if (!is.null(col_var_info)) {
+          if (col_var[v] %in% names(col_var_info)) {
+            if (!"mode" %in% names(col_var_info[[col_var[v]]])) {
+                if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[!is.na(col_info[ ,col_var[v]]),col_var[v]])) > 5) {
+                    col_mode="numeric"
+                } else {
+                    col_mode="character"
+                }
+            } else {
+                col_mode=col_var_info[[col_var[v]]]$mode
+            }
+          }
+        }
+        if (is.null(col_mode)) {
+            if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[!is.na(col_info[ ,col_var[v]]),col_var[v]])) > 5) {
+                col_mode="numeric"
+            } else {
+                col_mode="character"
+            }
+        }
+        col_var_info[[col_var[v]]]$mode=col_mode
+      if (col_mode=="numeric") {
+          color_vec <- color_vec_cont_default
       } else {
           color_vec <- color_vec_cat_default
       }
@@ -243,12 +287,12 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
         if (col_var[v] %in% names(col_var_info)) {
           if ("color" %in% names(col_var_info[[col_var[v]]])) {
               col_var_info[[col_var[v]]]$color=col_var_info[[col_var[v]]]$color[!is.na(col_var_info[[col_var[v]]]$color)]
-            color_vec <- col_var_info[[col_var[v]]]$color
+              color_vec <- col_var_info[[col_var[v]]]$color
           }
         }
       }
 
-      if (is.numeric(col_info[ ,col_var[v]]) & length(unique(col_info[ ,col_var[v]])) > 5) {
+      if (col_mode=="numeric") {
 
         varib <- col_info[ ,col_var[v]]
         if ("limit" %in% names(col_var_info[[col_var[v]]])){
@@ -426,9 +470,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
   ## Heatmap Output
   clusterObj=heatmap4(x = x, Rowv = Rowv, Colv = Colv, symm = FALSE,
            ColSideColors = ColSideColors, RowSideColors = RowSideColors, labCol = labCol, labRow = labRow,
-           scale = "none", na.rm = FALSE, margins = margins, main = h_title, xlab = NULL, ylab = NULL,
+           scale = "none", na.rm = FALSE, margins = margins, main = h_title,
            high = cols[1], low = cols[2], mid = cols[3], cexRowSide = cexRowSide, cexColSide = cexColSide, cexRow = cexRow,
-           cexCol = cexCol, zlm=zlm, ...)
+           cexCol = cexCol, zlm=zlm, plotHeatmap=plotHeatmap, ...)
   ## Legend Output
   if (input_legend) {
       #cat("Legends not yet implemented ....")
@@ -444,7 +488,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             #cat("Legends ....")
             for (vId in 1:length(row_var)) {
                 nm=sub("^ +","",sub(" +$","",rownames(row_color)[vId]))
-                if (is.numeric(row_info[ ,row_var[vId]]) & length(unique(row_info[ ,row_var[vId]])) > 5) {
+                if (row_var_info[[row_var[vId]]]$mode=="numeric") {
                     varib <- row_info[ ,row_var[vId]]
                     if ("color" %in% names(row_var_info[[row_var[vId]]])) {
                       color_vec <- row_var_info[[row_var[vId]]]$color
@@ -471,7 +515,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                         if ("color" %in% names(row_var_info[[row_var[vId]]])) {
                           color_vec <- row_var_info[[row_var[vId]]]$color
                         }
-                        if ("level" %in% names(row_var_info[[row_var[vId]]])) {
+                        if ("name" %in% names(row_var_info[[row_var[vId]]])) {
+                            x <- row_var_info[[row_var[vId]]]$name
+                        } else if ("level" %in% names(row_var_info[[row_var[vId]]])) {
                             x <- row_var_info[[row_var[vId]]]$level
                         }
                       }
@@ -487,7 +533,7 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
             #cat("Legends ....")
             for (vId in 1:length(col_var)) {
                 nm=sub("^ +","",sub(" +$","",rownames(col_color)[vId]))
-                if (is.numeric(col_info[ ,col_var[vId]]) & length(unique(col_info[ ,col_var[vId]])) > 5) {
+                if (col_var_info[[col_var[vId]]]$mode=="numeric") {
                     varib <- col_info[ ,col_var[vId]]
                     if ("color" %in% names(col_var_info[[col_var[vId]]])) {
                       color_vec <- col_var_info[[col_var[vId]]]$color
@@ -514,7 +560,9 @@ generate_heatmap <- function(x, col_lab = c(FALSE,TRUE), row_lab = c(FALSE,TRUE)
                         if ("color" %in% names(col_var_info[[col_var[vId]]])) {
                           color_vec <- col_var_info[[col_var[vId]]]$color
                         }
-                        if ("level" %in% names(col_var_info[[col_var[vId]]])) {
+                        if ("name" %in% names(col_var_info[[col_var[vId]]])) {
+                            x <- col_var_info[[col_var[vId]]]$name
+                        } else if ("level" %in% names(col_var_info[[col_var[vId]]])) {
                             x <- col_var_info[[col_var[vId]]]$level
                         }
                       }

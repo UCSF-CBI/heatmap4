@@ -39,5 +39,5 @@ sampleColorLegend(
 \item{...}{additional arguments.}
 }
 \description{
-This function can be used to add legends to row and column color bars.
+Adds legends to row and column color bars.
 }

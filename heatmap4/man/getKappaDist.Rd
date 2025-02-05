@@ -17,5 +17,5 @@ getKappaDist(x, type = "Cohen", absolute = FALSE)
 an object of class "dist".
 }
 \description{
-This function computes Cohen's kappa coefficients and returns them as a distance matrix.
+Computes Cohen's kappa coefficients and returns them as a distance matrix.
 }
